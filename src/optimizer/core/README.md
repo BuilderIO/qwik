@@ -1,6 +1,6 @@
 # qwik-core
 
-## 1. Install rust
+## 1. Install Rust
 
 https://www.rust-lang.org/tools/install
 

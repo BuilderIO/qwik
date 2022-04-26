@@ -8,6 +8,7 @@ license = "MIT"
 description = "Qwik optimizer compiler"
 keywords = ["qwik", "swc", "javascript", "optimizer", "compiler"]
 categories = ["development-tools", "development-tools::cargo-plugins"]
+rust-version = "1.59"
 
 [lib]
 crate-type = ["rlib"]

@@ -122,6 +122,10 @@ jobs:
     name: Build WASM
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        rust_version: ['1.59.0', '1.60.0', 'stable']
+
     needs: changes
 
     steps:
@@ -141,7 +145,7 @@ jobs:
         with:
           profile: minimal
           override: true
-          toolchain: 1.59.0
+          toolchain: ${{ matrix.rust_version }}
           target: wasm32-unknown-unknown
 
       - name: Checkout
@@ -194,6 +198,7 @@ jobs:
   build-bindings:
     strategy:
       matrix:
+        rust_version: ['1.59.0', '1.60.0', 'stable']
         settings:
           - host: macos-latest
             target: x86_64-apple-darwin
@@ -210,7 +215,7 @@ jobs:
             target: x86_64-pc-windows-msvc
             build: yarn build.platform
 
-    name: Build ${{ matrix.settings.target }}
+    name: Build ${{ matrix.settings.target }} (${{ matrix.rust_version }})
     runs-on: ${{ matrix.settings.host }}
 
     needs: changes
@@ -237,7 +242,7 @@ jobs:
         with:
           profile: minimal
           override: true
-          toolchain: 1.59.0
+          toolchain: ${{ matrix.rust_version }}
           target: ${{ matrix.settings.target }}
 
       - name: Cache NPM Dependencies
@@ -296,6 +301,10 @@ jobs:
   build-distribution:
     name: Build Distribution
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        rust_version: ['1.59.0', '1.60.0', 'stable']
 
     needs:
       - build-package
@@ -538,7 +547,7 @@ jobs:
         if: ${{ needs.changes.outputs.fullbuild == 'true' }}
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: 1.59.0
+          toolchain: ${{ matrix.rust_version }}
           profile: default
           override: true
 
