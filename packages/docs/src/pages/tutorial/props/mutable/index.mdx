@@ -3,26 +3,28 @@ title: Mutable Props
 layout: tutorial
 ---
 
-Look at the example on the right. It is a simple counter. The unique part about this counter is that the displaying of the count was broken out into a separate component called `<Display>`.
+The example on the right is a simple counter. In this instance, the `<Display>` component is only responsible for showing the count value.
 
-When the user clicks on the `+1` button the `store.count` increments. This causes the `<App>` component to re-render which in turn causes the `<Display>` component to re-render.
+When you click on the `+1` button the `store.count` increments, but nothing happens. This action should cause the `<App>` and `<Display>` components to re-render, but they don't with the current implementation.
 
-But it does not work, because by default Qwik assumes that all property bindings are static. There is no way for Qwik runtime to tell if a property is static or it can change during the application lifetime. Qwik runtime assumes that all properties are static unless they are marked `mutable()`.
+By default Qwik assumes all property bindings are static. At the moment, there is no way for the runtime to tell if a property is static or if it changes during the application lifetime.
 
-## Why assume that properties are static
+All properties are assumed to be static unless they are marked as `mutable()`.
 
-Imagine for a second that the `<Display>` is bound to a static value like so:
+## Why assume all properties are static?
+
+Imagine that the `<Counter>` component is bound to a static value like `123`:
 
 ```jsx
-<Display count={123} />
+<Counter value={123} />
 ```
 
-Looking at this code we can tell that `<Display>` will never need to be re-render from the outside. But when Qwik is serializing `<Display>` it does not know if the properties are static or dynamic (such information is not available at runtime). If it assumes that they are dynamic then it has to serialize the props all the time. If it assumes they are static then it only needs to serialize the props if the child component itself has its own behavior. 
+From this example, `<Counter>` never re-renders because the value `123` never changes. As Qwik is serializing `<Counter>`, the runtime doesn't know if the component properties are static or dynamic.
 
-Because Qwik wants to minimize the amount of HTML sent to the client, it is better to assume that the properties are static. But this presents a problem. How do we tell Qwik, that in this case, they are actually dynamic? We do this by wrapping the mutable binding in `mutable()` function call which provides the necessary runtime information to Qwik.
+If Qwik assumes the properties are dynamic by default, then runtime must serialize component props at all times. However, Qwik's priority is to minimize the amount of HTML sent to the client. If the runtime assumes props are static, then Qwik only needs to serialize the props as data changes.
 
-You can fix the code example by changing `store.count` to `mutable(store.count)`.
+So if the runtime defaults to viewing all props as static, how do you mark some data as dynamic? Props with changing data are wrapped with the `mutable()` binding function to provide the necessary runtime information to Qwik.
 
-## Its better to not use `mutable()`
+> **Your task**: First, import the `mutable` function, then change `<Display count={ store.count } />` to `<Display count={mutable(store.count)} />`.
 
-See the next step in the tutorial on how we can avoid using `mutable()`.
+While this approach works, **it's better to not use `mutable()`**. The next step explains why and shows you how to avoid using the `mutable()` binding function.
