@@ -1030,7 +1030,7 @@ const createKeyToOldIdx = (children: Node[], beginIdx: number, endIdx: number): 
 
 const KEY_SYMBOL = Symbol('vnode key');
 
-const getKey = (el: Element): string | null => {
+export const getKey = (el: Element): string | null => {
   let key = (el as any)[KEY_SYMBOL];
   if (key === undefined) {
     key = (el as any)[KEY_SYMBOL] = directGetAttribute(el, 'q:key');
