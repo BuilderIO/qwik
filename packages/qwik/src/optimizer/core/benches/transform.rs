@@ -7,7 +7,7 @@ use test::Bencher;
 
 #[bench]
 fn transform_todo_app(b: &mut Bencher) {
-    b.iter(|| {
+  b.iter(|| {
       let code = r#"
       import {
           Fragment,
@@ -192,7 +192,8 @@ fn transform_todo_app(b: &mut Bencher) {
           source_maps: false,
           explicit_extensions: false,
           minify: MinifyMode::Simplify,
-          transpile: true,
+          transpile_ts: true,
+          transpile_jsx: JSXMode::Vdom,
           entry_strategy: EntryStrategy::Single,
           dev: true,
           scope: None,

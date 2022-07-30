@@ -1,0 +1,93 @@
+---
+source: packages/qwik/src/optimizer/core/src/test.rs
+assertion_line: 1095
+expression: output
+---
+==INPUT==
+
+
+const identifier = 'somevalue';
+const cond = true;
+const prevText = "Previous article";
+
+async function Cmp({prop}) {
+    return <cmp>{prop}</cmp>
+}
+
+const stuff = (
+    <div prop="23" nu={12} value={identifier}>
+        hola
+        <span>thing</span>
+        <Cmp prop="text"/>
+        <div class="flex-1">
+            {cond ? (
+                <a class="px-3 py-1 prev">
+                    {prevText}
+                </a>
+            ) : null}
+        </div>
+    </div>
+);
+
+const static = (<div class='static prop'>
+    hola
+    <span>s</span>
+    <article>1</article>
+    <article>2</article>
+    <article>3</article>
+    <article>4</article>
+    <article>5</article>
+    <article>
+    6
+    <div class='static prop'>
+    hola
+    <span>s</span>
+    <article>1</article>
+    <article>2</article>
+    <article>3</article>
+    <article>4</article>
+    <article>5</article>
+    <article>
+    6
+    </article>
+</div>
+    </article>
+</div>
+    );
+console.log(stuff, static);
+
+============================= test.js ==
+
+const identifier = 'somevalue';
+const cond = true;
+const prevText = "Previous article";
+async function Cmp({ prop  }) {
+    return qwik.createElement([
+        "<cmp>",
+        prop,
+        "</cmp>"
+    ]);
+}
+const stuff = qwik.createElement([
+    '<div prop="23" nu="12"',
+    qwik.createProp("value", identifier),
+    ">hola<span>thing</span>",
+    qwik.createVirtual(Cmp, {
+        prop: "text"
+    }),
+    '<div class="flex-1">',
+    cond ? qwik.createElement([
+        '<a class="px-3 py-1 prev">',
+        prevText,
+        "</a>"
+    ]) : null,
+    "</div></div>"
+]);
+const static = qwik.createElement([
+    '<div class="static prop">hola<span>s</span><article>1</article><article>2</article><article>3</article><article>4</article><article>5</article><article>6<div class="static prop">hola<span>s</span><article>1</article><article>2</article><article>3</article><article>4</article><article>5</article><article>6</article></div></article></div>'
+]);
+console.log(stuff, static);
+
+== DIAGNOSTICS ==
+
+[]
