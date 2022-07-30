@@ -5,6 +5,7 @@
   "scripts": {
     "build": "tsm scripts/index.ts --tsc --build --qwikcity --api --platform-binding-wasm-copy",
     "build.full": "tsm scripts/index.ts --tsc --build --api --eslint --qwikcity --qwikreact --platform-binding --wasm",
+    "build.full.docker": "docker compose run qwik yarn build.full",
     "build.qwik-city": "tsm scripts/index.ts --tsc --qwikcity",
     "build.platform": "tsm scripts/index.ts --platform-binding",
     "build.platform.copy": "tsm scripts/index.ts --platform-binding-wasm-copy",
@@ -24,6 +25,7 @@
     "start": "concurrently \"npm:build.watch\" \"npm:test.watch\" \"npm:tsc.watch\" -n build,test,tsc -c green,magenta,cyan",
     "release.prepare": "yarn lint && yarn test.unit && tsm scripts/index.ts --tsc --build --api --eslint --platform-binding --wasm --prepare-release",
     "test": "yarn build.full && yarn test.unit && yarn test.e2e",
+    "test.docker": "docker compose run qwik yarn test",
     "test.unit": "tsm node_modules/uvu/bin.js packages unit.ts --tsmconfig tsm.cjs",
     "test.unit.debug": "tsm --inspect-brk node_modules/uvu/bin.js packages unit.ts --tsmconfig tsm.cjs",
     "test.watch": "watchlist packages unit.ts -- yarn test.unit",

@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  qwik:
+    build: .
+    volumes:
+      - '.:/opt/qwik'
+      - '/opt/qwik/node_modules'
+      - '/opt/qwik/packages/qwik/node_modules'
+      - '/opt/qwik/packages/qwik/dist'
+      - '/opt/qwik/packages/qwik-city/node_modules'
+      - '/opt/qwik/packages/qwik-react/node_modules'
+      - '/opt/qwik/packages/docs/node_modules'
+      - '/opt/qwik/dist-dev'

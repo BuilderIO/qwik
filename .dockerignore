@@ -3,6 +3,8 @@
 dist
 dist-dev
 node_modules
+**/node_modules
+**/dist
 tsc-out
 external
 *.
