@@ -16,8 +16,6 @@ export interface QwikDocument extends Document {}
 export interface SerializeDocumentOptions {
   manifest?: QwikManifest;
   symbolMapper?: SymbolMapperFn;
-  url?: URL | string;
-  html?: string;
   debug?: boolean;
 }
 
@@ -158,8 +156,6 @@ export type RenderToStream = (opts: RenderToStreamOptions) => Promise<RenderToSt
  * @public
  */
 export type Render = RenderToString | RenderToStream;
-
-export interface RenderDocument extends Document {}
 
 export interface RenderDocumentUserContext {
   _qwikUserCtx?: Record<string, any>;

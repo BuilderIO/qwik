@@ -229,7 +229,6 @@ async function ssrApp(req: Request, appName: string, appDir: string, manifest: Q
       },
     },
     manifest,
-    url: new URL(`${req.protocol}://${req.hostname}${req.url}`),
     debug: true,
     base,
   };

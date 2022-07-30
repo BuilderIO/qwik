@@ -2,7 +2,7 @@ import {
   $,
   component$,
   Host,
-  useScopedStyles$,
+  useStyles$,
   useStore,
   useClientEffect$,
   useStyles$,
@@ -20,7 +20,7 @@ import {
 
 const Playground = component$(() => {
   useStyles$(`html,body { margin: 0; height: 100%; overflow: hidden; }`);
-  useScopedStyles$(styles);
+  useStyles$(styles);
   useHeadMeta({ title: `Qwik Playground` });
 
   const store = useStore<PlaygroundStore>(() => {

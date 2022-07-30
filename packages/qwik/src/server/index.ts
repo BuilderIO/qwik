@@ -21,4 +21,3 @@ export { renderToString, renderToStream } from './render';
 export { createTimer, versions } from './utils';
 export { getQwikLoaderScript } from './scripts';
 export { setServerPlatform } from './platform';
-export { _createDocument } from './document';

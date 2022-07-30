@@ -1,8 +1,8 @@
-import { component$, Host, Slot, useScopedStyles$ } from '@builder.io/qwik';
+import { component$, Host, Slot, useStyles$ } from '@builder.io/qwik';
 import styles from './_layout.css?inline';
 
 export default component$(() => {
-  useScopedStyles$(styles);
+  useStyles$(styles);
 
   return (
     <Host class="auth" data-test-layout="auth">

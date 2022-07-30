@@ -51,7 +51,6 @@ export async function requestHandler<T = any>(
       return response(userResponse.status, userResponse.headers, async (stream) => {
         const result = await render({
           stream,
-          url: url.href,
           userContext: getQwikCityUserContext(userResponse),
           ...opts,
         });

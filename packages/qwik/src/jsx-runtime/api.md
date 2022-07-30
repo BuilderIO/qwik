@@ -49,7 +49,7 @@ export interface JSXNode<T = any> {
     // (undocumented)
     key: string | number | null;
     // (undocumented)
-    props: Record<string, any> | null;
+    props: Record<string, any>;
     // (undocumented)
     type: T;
 }

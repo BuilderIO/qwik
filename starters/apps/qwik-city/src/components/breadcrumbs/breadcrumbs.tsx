@@ -1,10 +1,10 @@
-import { component$, Host, useScopedStyles$ } from '@builder.io/qwik';
+import { component$, Host, useStyles$ } from '@builder.io/qwik';
 import { useContent, useLocation, ContentMenu } from '@builder.io/qwik-city';
 import styles from './breadcrumbs.css?inline';
 
 export const Breadcrumbs = component$(
   () => {
-    useScopedStyles$(styles);
+    useStyles$(styles);
 
     const { menu } = useContent();
     const loc = useLocation();

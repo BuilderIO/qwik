@@ -29,6 +29,7 @@ export interface InvokeContext {
   $props$?: Props;
   $subscriber$?: Subscriber | null;
   $renderCtx$?: RenderContext;
+  $scopeId$?: string;
 }
 
 export type RenderInvokeContext = Required<InvokeContext>;

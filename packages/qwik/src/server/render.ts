@@ -1,27 +1,26 @@
 import { createTimer, getBuildBase } from './utils';
-import { pauseContainer, render } from '@builder.io/qwik';
+import { JSXNode, renderSSR } from '@builder.io/qwik';
 import type { SnapshotResult } from '@builder.io/qwik';
 import { setServerPlatform } from './platform';
-import { serializeDocument } from './serialize';
 import type {
   QwikManifest,
-  RenderDocument,
   RenderToStreamOptions,
   RenderToStreamResult,
   RenderToStringOptions,
   RenderToStringResult,
   StreamWriter,
+  PrefetchResource,
 } from './types';
-import { getElement } from '../core/render/render.public';
 import { getQwikLoaderScript } from './scripts';
 import { applyPrefetchImplementation } from './prefetch-implementation';
 import { getPrefetchResources } from './prefetch-strategy';
-import { _createDocument } from './document';
+import { createSimpleDocument } from './document';
 import type { SymbolMapper } from '../optimizer/src/types';
 import { getSymbolHash } from '../core/import/qrl-class';
 import { logWarn } from '../core/util/log';
-import { directSetAttribute } from '../core/render/fast-calls';
-import { QContainerAttr } from '../core/util/markers';
+import { Fragment, jsx } from '../core/render/jsx/jsx-runtime';
+import { escapeText, pauseFromContexts } from '../core/object/store';
+import { qDev } from '../core/util/qdev';
 
 const DOCTYPE = '<!DOCTYPE html>';
 
@@ -34,13 +33,9 @@ export async function renderToStream(
   rootNode: any,
   opts: RenderToStreamOptions
 ): Promise<RenderToStreamResult> {
-  const write = opts.stream.write.bind(opts.stream);
+  const stream = opts.stream;
+  const doc = createSimpleDocument() as Document;
 
-  const createDocTimer = createTimer();
-  const doc = _createDocument(opts) as RenderDocument;
-  const createDocTime = createDocTimer();
-
-  let root: Element | Document = doc;
   if (typeof opts.fragmentTagName === 'string') {
     if (opts.qwikLoader) {
       if (opts.qwikLoader.include === undefined) {
@@ -54,77 +49,67 @@ export async function renderToStream(
         include: 'never',
       };
     }
-
-    root = doc.createElement(opts.fragmentTagName);
-    doc.body.appendChild(root);
   } else {
-    write(DOCTYPE);
+    stream.write(DOCTYPE);
   }
+
   if (!opts.manifest) {
     logWarn('Missing client manifest, loading symbols in the client might 404');
   }
 
-  const containerEl = getElement(root);
   const buildBase = getBuildBase(opts);
   const mapper = computeSymbolMapper(opts.manifest);
   await setServerPlatform(doc, opts, mapper);
 
   // Render
-  const renderDocTimer = createTimer();
-  await render(root, rootNode, {
-    allowRerender: false,
-    userContext: opts.userContext,
-  });
-
-  // Serialize
-  directSetAttribute(containerEl, QContainerAttr, 'paused');
-  directSetAttribute(containerEl, 'q:base', buildBase);
-  const [before, after] = serializeDocument(doc, opts);
-  directSetAttribute(containerEl, QContainerAttr, 'resumed');
-  write(before);
-  const renderDocTime = renderDocTimer();
-
-  const restDiv = doc.createElement('div');
-
+  let prefetchResources: PrefetchResource[] = [];
   let snapshotResult: SnapshotResult | null = null;
-  const snapshotTimer = createTimer();
 
-  if (opts.snapshot !== false) {
-    snapshotResult = await pauseContainer(root, restDiv);
-  }
-
-  const snapshotTime = snapshotTimer();
-  const prefetchResources = getPrefetchResources(snapshotResult, opts, mapper);
-  if (prefetchResources.length > 0) {
-    applyPrefetchImplementation(doc, restDiv, opts, prefetchResources);
-  }
-
-  const needLoader = !snapshotResult || snapshotResult.mode !== 'static';
-  const includeMode = opts.qwikLoader?.include ?? 'auto';
-  const includeLoader = includeMode === 'always' || (includeMode === 'auto' && needLoader);
-  if (includeLoader) {
-    const qwikLoaderScript = getQwikLoaderScript({
-      events: opts.qwikLoader?.events,
-      debug: opts.debug,
-    });
-    const scriptElm = doc.createElement('script') as HTMLScriptElement;
-    scriptElm.setAttribute('id', 'qwikloader');
-    scriptElm.textContent = qwikLoaderScript;
-    restDiv.appendChild(scriptElm);
-  }
-
-  write(restDiv.innerHTML);
-
-  if (snapshotResult?.pendingContent) {
-    await Promise.allSettled(
-      snapshotResult.pendingContent.map((promise) => {
-        return promise.then((resolved) => {
-          write(`<script type="qwik/chunk">${resolved}</script>`);
+  await renderSSR(doc, rootNode, {
+    stream,
+    root: opts.fragmentTagName,
+    base: buildBase,
+    beforeClose: async (containerState) => {
+      snapshotResult = await pauseFromContexts(containerState.$contexts$, containerState);
+      prefetchResources = getPrefetchResources(snapshotResult, opts, mapper);
+      const children: (JSXNode | null)[] = [
+        jsx('script', {
+          type: 'qwik/json',
+          children: escapeText(
+            JSON.stringify(snapshotResult.state, undefined, qDev ? '  ' : undefined)
+          ),
+        }),
+      ];
+      if (prefetchResources.length > 0) {
+        children.push(applyPrefetchImplementation(opts, prefetchResources));
+      }
+      const needLoader = !snapshotResult || snapshotResult.mode !== 'static';
+      const includeMode = opts.qwikLoader?.include ?? 'auto';
+      const includeLoader = includeMode === 'always' || (includeMode === 'auto' && needLoader);
+      if (includeLoader) {
+        const qwikLoaderScript = getQwikLoaderScript({
+          events: opts.qwikLoader?.events,
+          debug: opts.debug,
         });
-      })
-    );
-  }
-  write(after);
+        children.push(
+          jsx('script', {
+            id: 'qwikloader',
+            children: qwikLoaderScript,
+          })
+        );
+      }
+      // if (snapshotResult?.pendingContent) {
+      //   await Promise.allSettled(
+      //     snapshotResult.pendingContent.map((promise) => {
+      //       return promise.then((resolved) => {
+      //         stream.write(`<script type="qwik/chunk">${resolved}</script>`);
+      //       });
+      //     })
+      //   );
+      // }
+      return jsx(Fragment, { children });
+    },
+  });
 
   const docToStringTimer = createTimer();
 
@@ -132,13 +117,12 @@ export async function renderToStream(
     prefetchResources,
     snapshotResult,
     timing: {
-      createDocument: createDocTime,
-      render: renderDocTime,
-      snapshot: snapshotTime,
+      createDocument: 0,
+      render: 0,
+      snapshot: 0,
       toString: docToStringTimer(),
     },
   };
-
   return result;
 }
 

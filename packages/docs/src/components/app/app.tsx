@@ -1,11 +1,11 @@
-import { component$, Host, useStore, useContextProvider, useScopedStyles$ } from '@builder.io/qwik';
+import { component$, Host, useStore, useContextProvider, useStyles$ } from '@builder.io/qwik';
 import styles from './global.css';
 import { Page } from '../page/page';
 import { GlobalStore, SiteStore } from '../../utils/context';
 import { useQwikCity } from '@builder.io/qwik-city';
 
 export const App = component$(() => {
-  useScopedStyles$(styles);
+  useStyles$(styles);
 
   const store = useStore<SiteStore>({
     headerMenuOpen: false,

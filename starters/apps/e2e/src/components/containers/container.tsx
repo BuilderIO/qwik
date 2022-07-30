@@ -1,4 +1,4 @@
-import { component$, Host, useScopedStyles$, useStore, useWatch$ } from '@builder.io/qwik';
+import { component$, Host, useStyles$, useStore, useWatch$ } from '@builder.io/qwik';
 
 interface ContainerProps {
   url: string;
@@ -16,7 +16,7 @@ export const Containers = component$(() => {
 });
 
 export const Container = component$((props: ContainerProps) => {
-  useScopedStyles$(`
+  useStyles$(`
     .container {
       margin: 20px;
       padding: 5px;

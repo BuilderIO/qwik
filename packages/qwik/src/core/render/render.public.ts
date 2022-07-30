@@ -60,7 +60,7 @@ export const render = async (
   const renderCtx = await containerState.$renderPromise$;
   const allowRerender = opts?.allowRerender ?? true;
   if (allowRerender) {
-    await postRendering(containerEl, containerState, renderCtx);
+    await postRendering(containerState, renderCtx);
   } else {
     containerState.$hostsRendering$ = undefined;
     containerState.$renderPromise$ = undefined;
@@ -83,7 +83,7 @@ const renderRoot = async (
   containerState: ContainerState,
   containerEl: Element
 ) => {
-  const ctx = createRenderContext(doc, containerState, containerEl);
+  const ctx = createRenderContext(doc, containerState);
   ctx.$roots$.push(parent as Element);
 
   const processedNodes = await processData(jsxNode);

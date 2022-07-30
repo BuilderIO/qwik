@@ -1,5 +1,5 @@
 import { usePage } from '@builder.io/qwik-city';
-import { component$, Host, useScopedStyles$ } from '@builder.io/qwik';
+import { component$, Host, useStyles$ } from '@builder.io/qwik';
 import { ChatIcon } from '../svgs/chat-icon';
 import { EditIcon } from '../svgs/edit-icon';
 import { GithubLogo } from '../svgs/github-logo';
@@ -8,7 +8,7 @@ import styles from './on-this-page.css?inline';
 
 export const OnThisPage = component$(
   () => {
-    useScopedStyles$(styles);
+    useStyles$(styles);
     const page = usePage();
     if (!page) {
       return null;

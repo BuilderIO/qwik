@@ -13,6 +13,9 @@ import {
   QError_runtimeQrlNoElement,
   QError_unknownTypeArgument,
 } from '../error/error';
+import { qTest } from '../util/qdev';
+import { getPlatform } from '../platform/platform';
+import type { QContext } from '../props/props';
 
 let runtimeSymbolId = 0;
 const RUNTIME_QRL = '/runtimeQRL';
@@ -137,6 +140,9 @@ export const stringifyQRL = (qrl: QRLInternal, opts: QRLSerializeOptions = {}) =
   }
   const parts: string[] = [chunk];
   if (symbol && symbol !== 'default') {
+    if (chunk === RUNTIME_QRL && qTest) {
+      symbol = '_';
+    }
     parts.push('#', symbol);
   }
   const capture = qrl.$capture$;
@@ -155,6 +161,14 @@ export const stringifyQRL = (qrl: QRLInternal, opts: QRLSerializeOptions = {}) =
     qrls.add(qrl);
   }
   return qrlString;
+};
+
+export const serializeQRLs = (existingQRLs: QRLInternal<any>[], ctx: QContext): string => {
+  const opts: QRLSerializeOptions = {
+    $platform$: getPlatform(ctx.$element$),
+    $element$: ctx.$element$,
+  };
+  return existingQRLs.map((qrl) => stringifyQRL(qrl, opts)).join(' ');
 };
 
 export const qrlToUrl = (element: Element, qrl: QRLInternal): URL => {

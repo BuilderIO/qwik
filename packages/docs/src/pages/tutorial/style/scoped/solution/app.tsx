@@ -1,4 +1,4 @@
-import { component$, Host, useScopedStyles$ } from '@builder.io/qwik';
+import { component$, Host, useStyles$ } from '@builder.io/qwik';
 
 export const App = component$(() => {
   return (
@@ -10,7 +10,7 @@ export const App = component$(() => {
 });
 
 export const ComponentA = component$(() => {
-  useScopedStyles$(`
+  useStyles$(`
     .component .⭐️� {
       background-color: red;
     }`);
@@ -22,7 +22,7 @@ export const ComponentA = component$(() => {
 });
 
 export const ComponentB = component$(() => {
-  useScopedStyles$(`
+  useStyles$(`
     .component .⭐️� {
       background-color: green;
     }`);

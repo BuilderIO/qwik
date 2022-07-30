@@ -1,8 +1,6 @@
 import { useSequentialScope } from './use-store.public';
-import { setAttribute } from '../render/cursor';
 import { fromCamelToKebabCase } from '../util/case';
 import { getContext } from '../props/props';
-import { QCtxAttr } from '../util/markers';
 import { qError, QError_notFoundContext } from '../error/error';
 import { verifySerializable } from '../object/q-object';
 import { qDev } from '../util/qdev';
@@ -191,7 +189,6 @@ export const useContextProvider = <STATE extends object>(
     return;
   }
   const hostElement = ctx.$hostElement$!;
-  const renderCtx = ctx.$renderCtx$!;
   const hostCtx = getContext(hostElement);
   let contexts = hostCtx.$contexts$;
   if (!contexts) {
@@ -201,12 +198,6 @@ export const useContextProvider = <STATE extends object>(
     verifySerializable(newValue);
   }
   contexts.set(context.id, newValue);
-
-  const serializedContexts: string[] = [];
-  contexts.forEach((_, key) => {
-    serializedContexts.push(`${key}`);
-  });
-  setAttribute(renderCtx, hostElement, QCtxAttr, serializedContexts.join(' '));
   set(true);
 };
 
@@ -286,4 +277,12 @@ export const useContext = <STATE extends object>(context: Context<STATE>): STATE
     }
   }
   throw qError(QError_notFoundContext, context.id);
+};
+
+export const serializeInlineContexts = (contexts: Map<string, any>) => {
+  const serializedContexts: string[] = [];
+  contexts.forEach((_, key) => {
+    serializedContexts.push(key);
+  });
+  return serializedContexts.join(' ');
 };

@@ -1,10 +1,10 @@
-import { component$, Host, useScopedStyles$ } from '@builder.io/qwik';
+import { component$, Host, useStyles$ } from '@builder.io/qwik';
 import { useContent, Link, useLocation } from '~qwik-city-runtime';
 import styles from './menu.css?inline';
 
 export const Menu = component$(
   () => {
-    useScopedStyles$(styles);
+    useStyles$(styles);
 
     const { menu } = useContent();
     const loc = useLocation();

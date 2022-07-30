@@ -169,7 +169,7 @@ const FUNCTION_PRIORITY = [
   'useEffect$',
   'component$',
   'useStyles$',
-  'useScopedStyles$',
+  'useStyles$',
 ].map((n) => n.toLowerCase());
 
 function sortBundleNames(manifest: QwikManifest) {

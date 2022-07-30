@@ -17,20 +17,6 @@ export function createTimer() {
   };
 }
 
-export function normalizeUrl(url: string | URL | undefined | null) {
-  if (url != null) {
-    if (typeof url === 'string') {
-      return new URL(url || '/', BASE_URI);
-    }
-    if (typeof url.href === 'string') {
-      return new URL(url.href || '/', BASE_URI);
-    }
-  }
-  return new URL(BASE_URI);
-}
-
-const BASE_URI = `http://document.qwik.dev/`;
-
 export function getBuildBase(opts: RenderToStringOptions) {
   let base = opts.base;
   if (typeof base === 'string') {

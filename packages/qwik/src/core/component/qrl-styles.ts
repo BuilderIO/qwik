@@ -12,13 +12,21 @@ export const styleKey = (qStyles: QRL<string>, index: number): string => {
 /**
  * @public
  */
-export const styleHost = (styleId: string): string => {
-  return ComponentStylesPrefixHost + styleId;
+export const styleHost = (styleId: string | null): string | null => {
+  if (styleId !== null) {
+    return ComponentStylesPrefixHost + styleId;
+  } else {
+    return null;
+  }
 };
 
 /**
  * @public
  */
-export const styleContent = (styleId: string): string => {
-  return ComponentStylesPrefixContent + styleId;
+export const styleContent = (styleId: string): string | null => {
+  if (styleId !== null) {
+    return ComponentStylesPrefixContent + styleId;
+  } else {
+    return null;
+  }
 };

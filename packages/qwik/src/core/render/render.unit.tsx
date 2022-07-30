@@ -12,7 +12,7 @@ import { useCleanup$ } from '../use/use-on';
 import { Slot } from './jsx/slot.public';
 import { notifyChange } from './notify-render';
 import { render } from './render.public';
-import { useScopedStyles$ } from '../use/use-styles';
+import { useStyles$ } from '../use/use-styles';
 import { equal, ok, match } from 'uvu/assert';
 import { suite } from 'uvu';
 import { Host } from './jsx/host.public';
@@ -527,9 +527,7 @@ renderSuite('should insert a style', async () => {
   const hellWorld = fixture.host.querySelector('hello-world')!;
   const scopedStyleId = hellWorld.getAttribute(ComponentScopedStyles);
   ok(scopedStyleId);
-  const style = fixture.document.body.parentElement!.querySelector(
-    `style[q\\:style="${scopedStyleId}"]`
-  );
+  const style = fixture.document.querySelector(`style[q\\:style="${scopedStyleId}"]`);
   match(style!.textContent!, 'color: red');
   await expectRendered(
     fixture,
@@ -715,7 +713,7 @@ function getFirstNode(el: Element) {
 //////////////////////////////////////////////////////////////////////////////////////////
 export const HelloWorld = component$(
   (props: { name?: string }) => {
-    useScopedStyles$(`span.� { color: red; }`);
+    useStyles$(`span.� { color: red; }`);
     const state = useStore({ salutation: 'Hello' });
     return (
       <span>

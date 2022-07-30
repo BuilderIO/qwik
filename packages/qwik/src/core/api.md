@@ -274,7 +274,7 @@ export interface JSXNode<T = any> {
     // (undocumented)
     key: string | number | null;
     // (undocumented)
-    props: Record<string, any> | null;
+    props: Record<string, any>;
     // (undocumented)
     type: T;
 }
@@ -396,6 +396,11 @@ export interface RenderOptions {
     // (undocumented)
     userContext?: Record<string, any>;
 }
+
+// Warning: (ae-forgotten-export) The symbol "RenderSSROptions" needs to be exported by the entry point index.d.ts
+//
+// @alpha (undocumented)
+export const renderSSR: (doc: Document, node: JSXNode, opts: RenderSSROptions) => Promise<void>;
 
 // @alpha (undocumented)
 export const Resource: <T>(props: ResourceProps<T>) => JSXNode;
@@ -594,12 +599,6 @@ export const useResource$: <T>(generatorFn: ResourceFn<T>) => ResourceReturn<T>;
 //
 // @alpha (undocumented)
 export const useResourceQrl: <T>(qrl: QRL<ResourceFn<T>>, opts?: ResourceOptions) => ResourceReturn<T>;
-
-// @alpha (undocumented)
-export const useScopedStyles$: (first: string) => void;
-
-// @alpha (undocumented)
-export const useScopedStylesQrl: (styles: QRL<string>) => void;
 
 // Warning: (ae-incompatible-release-tags) The symbol "useServerMount$" is marked as @public, but its signature references "MountFn" which is marked as @alpha
 // Warning: (ae-incompatible-release-tags) The symbol "useServerMount$" is marked as @public, but its signature references "ResourceReturn" which is marked as @alpha

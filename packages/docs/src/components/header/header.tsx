@@ -1,4 +1,4 @@
-import { component$, Host, $, useScopedStyles$, useContext } from '@builder.io/qwik';
+import { component$, Host, $, useStyles$, useContext } from '@builder.io/qwik';
 import { CloseIcon } from '../svgs/close-icon';
 import { DiscordLogo } from '../svgs/discord-logo';
 import { GithubLogo } from '../svgs/github-logo';
@@ -10,7 +10,7 @@ import { GlobalStore } from '../../utils/context';
 
 export const Header = component$(
   () => {
-    useScopedStyles$(styles);
+    useStyles$(styles);
     const globalStore = useContext(GlobalStore);
 
     const toggleMenu = $(() => {

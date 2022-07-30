@@ -1,9 +1,9 @@
-import { component$, Host, Slot, useScopedStyles$ } from '@builder.io/qwik';
+import { component$, Host, Slot, useStyles$ } from '@builder.io/qwik';
 import type { DocumentHead } from '~qwik-city-runtime';
 import styles from './api.css?inline';
 
 export default component$(() => {
-  useScopedStyles$(styles);
+  useStyles$(styles);
 
   return (
     <Host data-test-layout="api" class="api">

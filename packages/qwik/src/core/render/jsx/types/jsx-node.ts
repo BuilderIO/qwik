@@ -10,7 +10,7 @@ export interface FunctionComponent<P = {}> {
  */
 export interface JSXNode<T = any> {
   type: T;
-  props: Record<string, any> | null;
+  props: Record<string, any>;
   key: string | number | null;
 }
 

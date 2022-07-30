@@ -1,7 +1,7 @@
 import { assertQrl } from '../import/qrl-class';
 import type { QRL } from '../import/qrl.public';
 import { getContext } from '../props/props';
-import { qPropWriteQRL } from '../props/props-on';
+import { addQRLListener } from '../props/props-on';
 import { implicit$FirstArg } from '../util/implicit_dollar';
 import { useInvokeContext } from './use-core';
 import { useSequentialScope } from './use-store.public';
@@ -159,5 +159,5 @@ const _useOn = (eventName: string, eventQrl: QRL<(ev: Event) => void>) => {
   const invokeCtx = useInvokeContext();
   const ctx = getContext(invokeCtx.$hostElement$);
   assertQrl(eventQrl);
-  qPropWriteQRL(invokeCtx.$renderCtx$, ctx, eventName, eventQrl);
+  addQRLListener(ctx, eventName, eventQrl);
 };

@@ -7,11 +7,7 @@ import {
   SubscriptionManager,
 } from '../object/q-object';
 import { resumeContainer } from '../object/store';
-import type { RenderContext } from '../render/cursor';
-import { newQObjectMap, QObjectMap } from './props-obj-map';
-import { qPropWriteQRL } from './props-on';
 import { QContainerAttr } from '../util/markers';
-import { $, QRL } from '../import/qrl.public';
 import type { OnRenderFn } from '../component/component.public';
 import { destroyWatch, SubscriberDescriptor } from '../use/use-watch';
 import { pauseContainer } from '../object/store';
@@ -20,9 +16,9 @@ import { qDev } from '../util/qdev';
 import { logError } from '../util/log';
 import { isQrl, QRLInternal } from '../import/qrl-class';
 import { directGetAttribute } from '../render/fast-calls';
-import { assertDefined, assertTrue } from '../assert/assert';
+import { assertDefined } from '../assert/assert';
 import { codeToText, QError_immutableJsxProps } from '../error/error';
-import { isArray } from '../util/types';
+import type { QRL } from '../import/qrl.public';
 
 const Q_CTX = '__ctx__';
 
@@ -49,43 +45,49 @@ export interface QContextEvents {
 
 export interface ComponentCtx {
   $hostElement$: Element;
-  $styleId$: string | undefined;
-  $styleClass$: string | undefined;
-  $styleHostClass$: string | undefined;
+  $styleId$: string | null;
+  $styleClass$: string | null;
+  $styleHostClass$: string | null;
   $slots$: ProcessedJSXNode[];
 }
 
 export interface QContext {
-  $cache$: Map<string, any>;
-  $refMap$: QObjectMap;
   $element$: Element;
+  $refMap$: any[];
   $dirty$: boolean;
-  $props$: Record<string, any> | undefined;
-  $renderQrl$: QRLInternal<OnRenderFn<any>> | undefined;
-  $component$: ComponentCtx | undefined;
-  $listeners$?: Map<string, QRLInternal<any>[]>;
+  $mounted$: boolean;
+  $cache$: Map<string, any> | null;
+  $props$: Record<string, any> | null;
+  $renderQrl$: QRLInternal<OnRenderFn<any>> | null;
+  $component$: ComponentCtx | null;
+  $listeners$: Map<string, QRLInternal<any>[]> | null;
   $seq$: any[];
   $watches$: SubscriberDescriptor[];
-  $contexts$?: Map<string, any>;
+  $contexts$: Map<string, any> | null;
+  $scopeId$: string | null;
 }
 
 export const tryGetContext = (element: Element): QContext | undefined => {
   return (element as any)[Q_CTX];
 };
+
 export const getContext = (element: Element): QContext => {
   let ctx = tryGetContext(element)!;
   if (!ctx) {
-    const cache = new Map();
     (element as any)[Q_CTX] = ctx = {
-      $element$: element,
-      $cache$: cache,
-      $refMap$: newQObjectMap(),
       $dirty$: false,
+      $mounted$: false,
+      $element$: element,
+      $cache$: null,
+      $refMap$: [],
       $seq$: [],
       $watches$: [],
-      $props$: undefined,
-      $renderQrl$: undefined,
-      $component$: undefined,
+      $props$: null,
+      $scopeId$: null,
+      $renderQrl$: null,
+      $component$: null,
+      $listeners$: null,
+      $contexts$: null,
     };
   }
   return ctx;
@@ -100,13 +102,16 @@ export const cleanupContext = (ctx: QContext, subsManager: SubscriptionManager) 
   if (ctx.$renderQrl$) {
     subsManager.$clearSub$(el);
   }
-  ctx.$component$ = undefined;
-  ctx.$renderQrl$ = undefined;
+  if (ctx.$cache$) {
+    ctx.$cache$.clear();
+    ctx.$cache$ = null;
+  }
+  ctx.$component$ = null;
+  ctx.$renderQrl$ = null;
   ctx.$seq$.length = 0;
   ctx.$watches$.length = 0;
-  ctx.$cache$.clear();
   ctx.$dirty$ = false;
-  ctx.$refMap$.$array$.length = 0;
+  ctx.$refMap$.length = 0;
   (el as any)[Q_CTX] = undefined;
 };
 
@@ -128,16 +133,6 @@ export const normalizeOnProp = (prop: string) => {
     prop = prop.toLowerCase();
   }
   return `${scope}:${prop}`;
-};
-
-export const setEvent = (rctx: RenderContext, ctx: QContext, prop: string, value: any) => {
-  assertTrue(prop.endsWith('$'), 'render: event property does not end with $', prop);
-  const qrl = isArray(value) ? value.map(ensureQrl) : ensureQrl(value);
-  qPropWriteQRL(rctx, ctx, normalizeOnProp(prop.slice(0, -1)), qrl);
-};
-
-const ensureQrl = (value: any) => {
-  return isQrl(value) ? value : ($(value) as QRLInternal);
 };
 
 export const createProps = (target: any, containerState: ContainerState) => {

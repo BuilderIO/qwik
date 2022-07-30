@@ -1,12 +1,9 @@
-import { getPlatform } from '../platform/platform';
-import { parseQRL, QRLSerializeOptions, stringifyQRL } from '../import/qrl';
-import { isSameQRL, QRLInternal } from '../import/qrl-class';
-import { fromCamelToKebabCase } from '../util/case';
+import { parseQRL } from '../import/qrl';
+import { isQrl, isSameQRL, QRLInternal } from '../import/qrl-class';
 import { EMPTY_ARRAY } from '../util/flyweight';
 import type { QContext } from './props';
-import { RenderContext, setAttribute } from '../render/cursor';
-import { directGetAttribute } from '../render/fast-calls';
 import { isArray } from '../util/types';
+import { $ } from '../import/qrl.public';
 
 const ON_PROP_REGEX = /^(window:|document:|)on([A-Z]|-.).*\$$/;
 
@@ -14,22 +11,23 @@ export const isOnProp = (prop: string): boolean => {
   return ON_PROP_REGEX.test(prop);
 };
 
-export const qPropWriteQRL = (
-  rctx: RenderContext,
+export const addQRLListener = (
   ctx: QContext,
   prop: string,
-  value: QRLInternal<any>[] | QRLInternal<any>
-) => {
-  if (!value) {
-    return;
+  input: any
+): QRLInternal<any>[] | undefined => {
+  if (!input) {
+    return undefined;
   }
+  const value = isArray(input) ? input.map(ensureQrl) : ensureQrl(input);
+
   if (!ctx.$listeners$) {
-    ctx.$listeners$ = getDomListeners(ctx.$element$);
+    ctx.$listeners$ = new Map();
   }
-
-  const kebabProp = fromCamelToKebabCase(prop);
-  const existingListeners = ctx.$listeners$.get(kebabProp) || [];
-
+  let existingListeners = ctx.$listeners$.get(prop);
+  if (!existingListeners) {
+    ctx.$listeners$.set(prop, (existingListeners = []));
+  }
   const newQRLs = isArray(value) ? value : [value];
   for (const value of newQRLs) {
     const cp = value.$copy$();
@@ -41,7 +39,7 @@ export const qPropWriteQRL = (
       const captureRef = cp.$captureRef$;
       cp.$capture$ =
         captureRef && captureRef.length
-          ? captureRef.map((ref) => String(ctx.$refMap$.$add$(ref)))
+          ? captureRef.map((ref) => String(addToArray(ctx.$refMap$, ref)))
           : EMPTY_ARRAY;
     }
 
@@ -55,37 +53,38 @@ export const qPropWriteQRL = (
     }
     existingListeners.push(cp);
   }
-  ctx.$listeners$.set(kebabProp, existingListeners);
-  const newValue = serializeQRLs(existingListeners, ctx);
-  if (directGetAttribute(ctx.$element$, kebabProp) !== newValue) {
-    setAttribute(rctx, ctx.$element$, kebabProp, newValue);
+  return existingListeners;
+};
+
+const addToArray = (array: any[], obj: any) => {
+  const index = array.indexOf(obj);
+  if (index === -1) {
+    array.push(obj);
+    return array.length - 1;
   }
+  return index;
+};
+
+const ensureQrl = (value: any) => {
+  return isQrl(value) ? value : ($(value) as QRLInternal);
 };
 
 export const getDomListeners = (el: Element): Map<string, QRLInternal[]> => {
   const attributes = el.attributes;
   const listeners: Map<string, QRLInternal[]> = new Map();
   for (let i = 0; i < attributes.length; i++) {
-    const attr = attributes.item(i)!;
+    const { name, value } = attributes.item(i)!;
     if (
-      attr.name.startsWith('on:') ||
-      attr.name.startsWith('on-window:') ||
-      attr.name.startsWith('on-document:')
+      name.startsWith('on:') ||
+      name.startsWith('on-window:') ||
+      name.startsWith('on-document:')
     ) {
-      let array = listeners.get(attr.name);
+      let array = listeners.get(name);
       if (!array) {
-        listeners.set(attr.name, (array = []));
+        listeners.set(name, (array = []));
       }
-      array.push(parseQRL(attr.value, el));
+      array.push(parseQRL(value, el));
     }
   }
   return listeners;
-};
-
-const serializeQRLs = (existingQRLs: QRLInternal<any>[], ctx: QContext): string => {
-  const opts: QRLSerializeOptions = {
-    $platform$: getPlatform(ctx.$element$),
-    $element$: ctx.$element$,
-  };
-  return existingQRLs.map((qrl) => stringifyQRL(qrl, opts)).join('\n');
 };

@@ -28,6 +28,9 @@ export const useDocumentHead = (): Required<ResolvedDocumentHead> =>
  */
 export const useLocation = (): RouteLocation => useContext(RouteLocationContext);
 
+/**
+ * @public
+ */
 export const useNavigate = (): RouteNavigate => useContext(RouteNavigateContext);
 
 export const useQwikCityContext = () => {

@@ -3,7 +3,7 @@ import {
   component$,
   Host,
   noSerialize,
-  useScopedStyles$,
+  useStyles$,
   useStore,
   useWatch$,
   useClientEffect$,
@@ -19,7 +19,7 @@ import { updateReplOutput } from './repl-output-update';
 import replServerUrl from '@repl-server-url';
 
 export const Repl = component$((props: ReplProps) => {
-  useScopedStyles$(styles);
+  useStyles$(styles);
 
   const input = props.input;
 

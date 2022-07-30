@@ -2,7 +2,7 @@ import {
   component$,
   Host,
   Slot,
-  useScopedStyles$,
+  useStyles$,
   useStore,
   useStyles$,
   useWatch$,
@@ -18,7 +18,7 @@ import { EditIcon } from '../../components/svgs/edit-icon';
 import { useLocation } from '../../utils/useLocation';
 
 const Tutorial = component$(() => {
-  useScopedStyles$(styles);
+  useStyles$(styles);
   useStyles$(`html,body { margin: 0; height: 100%; overflow: hidden; }`);
 
   const location = useLocation();

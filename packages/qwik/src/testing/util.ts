@@ -66,6 +66,20 @@ function isElement(value: any): value is HTMLElement {
   return isNode(value) && value.nodeType == 1 /*ELEMENT_NODE*/;
 }
 
+export function normalizeUrl(url: string | URL | undefined | null) {
+  if (url != null) {
+    if (typeof url === 'string') {
+      return new URL(url || '/', BASE_URI);
+    }
+    if (typeof url.href === 'string') {
+      return new URL(url.href || '/', BASE_URI);
+    }
+  }
+  return new URL(BASE_URI);
+}
+
+const BASE_URI = `http://document.qwik.dev/`;
+
 declare const WorkerGlobalScope: any;
 
 const __globalThis = typeof globalThis !== 'undefined' && globalThis;

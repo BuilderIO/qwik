@@ -26,7 +26,7 @@ export const SKIP_RENDER_TYPE = ':skipRender';
 export class JSXNodeImpl<T> implements JSXNode<T> {
   constructor(
     public type: T,
-    public props: Record<string, any> | null,
+    public props: Record<string, any>,
     public key: string | number | null = null
   ) {}
 }

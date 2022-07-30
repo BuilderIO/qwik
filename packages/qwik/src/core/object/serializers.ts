@@ -9,14 +9,13 @@ import {
   serializeWatch,
   SubscriberDescriptor,
 } from '../use/use-watch';
-import { getDocument } from '../util/dom';
 import { isDocument } from '../util/element';
 import type { GetObject, GetObjID } from './store';
 
 export interface Serializer<T> {
   test: (obj: any) => boolean;
   serialize?: (obj: T, getObjID: GetObjID, containerState: ContainerState) => string;
-  prepare: (data: string, containerState: ContainerState) => T;
+  prepare: (data: string, containerState: ContainerState, doc: Document) => T;
   fill?: (obj: T, getObject: GetObject, containerState: ContainerState) => void;
 }
 
@@ -46,8 +45,8 @@ const QRLSerializer: Serializer<QRLInternal> = {
 
 const DocumentSerializer: Serializer<Document> = {
   test: (v) => isDocument(v),
-  prepare: (_, containerState) => {
-    return getDocument(containerState.$containerEl$);
+  prepare: (_, _c, doc) => {
+    return doc;
   },
 };
 
@@ -142,7 +141,11 @@ export interface Parser {
   fill(obj: any): boolean;
 }
 
-export const createParser = (getObject: GetObject, containerState: ContainerState): Parser => {
+export const createParser = (
+  getObject: GetObject,
+  containerState: ContainerState,
+  doc: Document
+): Parser => {
   const map = new Map<any, Serializer<any>>();
   return {
     prepare(data: string) {
@@ -150,7 +153,7 @@ export const createParser = (getObject: GetObject, containerState: ContainerStat
         const s = serializers[i];
         const prefix = String.fromCodePoint(i);
         if (data.startsWith(prefix)) {
-          const value = s.prepare(data.slice(prefix.length), containerState);
+          const value = s.prepare(data.slice(prefix.length), containerState, doc);
           if (s.fill) {
             map.set(value, s);
           }

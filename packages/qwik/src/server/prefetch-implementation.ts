@@ -1,16 +1,10 @@
-import type {
-  PrefetchImplementation,
-  PrefetchResource,
-  QwikDocument,
-  RenderToStringOptions,
-} from './types';
+import { Fragment, jsx, JSXNode } from '@builder.io/qwik/jsx-runtime';
+import type { PrefetchImplementation, PrefetchResource, RenderToStringOptions } from './types';
 
 export function applyPrefetchImplementation(
-  doc: QwikDocument,
-  parentElm: Element,
   opts: RenderToStringOptions,
   prefetchResources: PrefetchResource[]
-) {
+): JSXNode | null {
   const prefetchStrategy = opts.prefetchStrategy;
   if (prefetchStrategy !== null) {
     const prefetchImpl = prefetchStrategy?.implementation || 'worker-fetch';
@@ -20,52 +14,50 @@ export function applyPrefetchImplementation(
       prefetchImpl === 'link-preload-html' ||
       prefetchImpl === 'link-modulepreload-html'
     ) {
-      linkHtmlImplementation(doc, parentElm, prefetchResources, prefetchImpl);
+      return linkHtmlImplementation(prefetchResources, prefetchImpl);
     } else if (
       prefetchImpl === 'link-prefetch' ||
       prefetchImpl === 'link-preload' ||
       prefetchImpl === 'link-modulepreload'
     ) {
-      linkJsImplementation(doc, parentElm, prefetchResources, prefetchImpl);
+      return linkJsImplementation(prefetchResources, prefetchImpl);
     } else if (prefetchImpl === 'worker-fetch') {
-      workerFetchImplementation(doc, parentElm, prefetchResources);
+      return workerFetchImplementation(prefetchResources);
     }
   }
+  return null;
 }
 
 function linkHtmlImplementation(
-  doc: QwikDocument,
-  parentElm: Element,
   prefetchResources: PrefetchResource[],
   prefetchImpl: PrefetchImplementation
 ) {
   const urls = flattenPrefetchResources(prefetchResources);
 
+  const links: JSXNode[] = [];
   for (const url of urls) {
-    const linkElm = doc.createElement('link');
-    linkElm.setAttribute('href', url);
-
+    const attributes: Record<string, string> = {};
+    attributes['href'] = url;
     if (prefetchImpl === 'link-modulepreload-html') {
-      linkElm.setAttribute('rel', 'modulepreload');
+      attributes['rel'] = 'modulepreload';
     } else if (prefetchImpl === 'link-preload-html') {
-      linkElm.setAttribute('rel', 'preload');
+      attributes['rel'] = 'preload';
       if (url.endsWith('.js')) {
-        linkElm.setAttribute('as', 'script');
+        attributes['as'] = 'script';
       }
     } else {
-      linkElm.setAttribute('rel', 'prefetch');
+      attributes['rel'] = 'prefetch';
       if (url.endsWith('.js')) {
-        linkElm.setAttribute('as', 'script');
+        attributes['as'] = 'script';
       }
     }
 
-    parentElm.appendChild(linkElm);
+    links.push(jsx('link', attributes, undefined));
   }
+  return jsx(Fragment, { children: links });
 }
 
 function linkJsImplementation(
-  doc: QwikDocument,
-  parentElm: Element,
   prefetchResources: PrefetchResource[],
   prefetchImpl: PrefetchImplementation
 ) {
@@ -103,10 +95,10 @@ function linkJsImplementation(
   s += workerFetchScript();
   s += `}`;
 
-  const script = doc.createElement('script');
-  script.setAttribute('type', 'module');
-  script.innerHTML = s;
-  parentElm.appendChild(script);
+  return jsx('script', {
+    type: 'module',
+    innerHTML: s,
+  });
 }
 
 function workerFetchScript() {
@@ -125,18 +117,14 @@ function workerFetchScript() {
   return s;
 }
 
-function workerFetchImplementation(
-  doc: QwikDocument,
-  parentElm: Element,
-  prefetchResources: PrefetchResource[]
-) {
+function workerFetchImplementation(prefetchResources: PrefetchResource[]) {
   let s = `const u=${JSON.stringify(flattenPrefetchResources(prefetchResources))};`;
   s += workerFetchScript();
 
-  const script = doc.createElement('script');
-  script.setAttribute('type', 'module');
-  script.innerHTML = s;
-  parentElm.appendChild(script);
+  return jsx('script', {
+    type: 'module',
+    innerHTML: s,
+  });
 }
 
 export function flattenPrefetchResources(prefetchResources: PrefetchResource[]) {

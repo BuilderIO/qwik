@@ -1,10 +1,10 @@
 import { usePage, usePageIndex, PageIndex } from '@builder.io/qwik-city';
-import { component$, Host, useScopedStyles$ } from '@builder.io/qwik';
+import { component$, Host, useStyles$ } from '@builder.io/qwik';
 import styles from './content-nav.css?inline';
 
 export const ContentNav = component$(
   () => {
-    useScopedStyles$(styles);
+    useStyles$(styles);
 
     const page = usePage();
     const pageIndex = usePageIndex()!;

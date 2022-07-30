@@ -4,17 +4,17 @@ import {
   ComponentCtx,
   getContext,
   getPropsMutator,
+  normalizeOnProp,
   QContext,
-  setEvent,
   tryGetContext,
 } from '../props/props';
-import { isOnProp } from '../props/props-on';
+import { addQRLListener, getDomListeners, isOnProp } from '../props/props-on';
 import { isArray, isString, ValueOrPromise } from '../util/types';
 import type { ProcessedJSXNode } from '../render/jsx/types/jsx-node';
 import { renderComponent } from './render-component';
 import { promiseAll, then } from '../util/promises';
 import type { ContainerState } from './notify-render';
-import { assertDefined, assertEqual } from '../assert/assert';
+import { assertDefined, assertEqual, assertTrue } from '../assert/assert';
 import { intToStr } from '../object/store';
 import { EMPTY_ARRAY } from '../util/flyweight';
 import { logDebug, logError, logWarn } from '../util/log';
@@ -30,14 +30,14 @@ import {
 } from '../error/error';
 import { fromCamelToKebabCase } from '../util/case';
 import type { OnRenderFn } from '../component/component.public';
-import { CONTAINER, isStyleTask, StyleAppend } from '../use/use-core';
+import { CONTAINER, StyleAppend } from '../use/use-core';
 import type { Ref } from '../use/use-store.public';
 import type { SubscriptionManager } from '../object/q-object';
-import { getDocument } from '../util/dom';
 import { directGetAttribute, directSetAttribute } from './fast-calls';
 import { HOST_TYPE, SKIP_RENDER_TYPE } from './jsx/jsx-runtime';
 import { assertQrl } from '../import/qrl-class';
 import { isElement } from '../util/element';
+import { serializeQRLs } from '../import/qrl';
 
 export const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -271,7 +271,7 @@ const isChildComponent = (node: Node): boolean => {
   return isNode(node) && node.nodeName !== 'Q:TEMPLATE';
 };
 
-const splitBy = <T>(input: T[], condition: (item: T) => string): Record<string, T[]> => {
+export const splitBy = <T>(input: T[], condition: (item: T) => string): Record<string, T[]> => {
   const output: Record<string, T[]> = {};
   for (const item of input) {
     const key = condition(item);
@@ -414,19 +414,6 @@ const removeVnodes = (
   }
 };
 
-let refCount = 0;
-const RefSymbol = Symbol();
-
-const setSlotRef = (ctx: RenderContext, hostElm: Element, slotEl: Element) => {
-  let ref = (hostElm as any)[RefSymbol] ?? directGetAttribute(hostElm, 'q:sref');
-  if (ref === null) {
-    ref = intToStr(refCount++);
-    (hostElm as any)[RefSymbol] = ref;
-    setAttribute(ctx, hostElm, 'q:sref', ref);
-  }
-  directSetAttribute(slotEl, 'q:sref', ref);
-};
-
 const getSlotElement = (
   ctx: RenderContext,
   slotMaps: SlotMaps,
@@ -553,7 +540,6 @@ const createElm = (
       classlistAdd(rctx, elm, styleTag);
     }
     if (tag === QSlot || tag === 'html') {
-      setSlotRef(rctx, currentComponent.$hostElement$, elm);
       currentComponent.$slots$.push(vnode);
     }
   }
@@ -609,17 +595,17 @@ interface SlotMaps {
   templates: Record<string, Element | undefined>;
 }
 
-const getNextIndex = (ctx: RenderContext) => {
+export const getNextIndex = (ctx: RenderContext) => {
   return intToStr(ctx.$containerState$.$elementIndex$++);
 };
 
-const getSlots = (componentCtx: ComponentCtx | undefined, hostElm: Element): SlotMaps => {
+const getSlots = (componentCtx: ComponentCtx | null, hostElm: Element): SlotMaps => {
   if (hostElm.localName === 'html') {
     return { slots: { '': hostElm }, templates: {} };
   }
   const slots: Record<string, Element> = {};
   const templates: Record<string, HTMLTemplateElement> = {};
-  const slotRef = directGetAttribute(hostElm, 'q:sref');
+  const slotRef = directGetAttribute(hostElm, 'q:id');
   const existingSlots = Array.from(hostElm.querySelectorAll(`q\\:slot[q\\:sref="${slotRef}"]`));
   const newSlots = componentCtx?.$slots$ ?? EMPTY_ARRAY;
   const t = Array.from(hostElm.children).filter(isSlotTemplate);
@@ -671,7 +657,7 @@ const setInnerHTML: PropHandler = (ctx, elm, _, newValue) => {
   return true;
 };
 
-const PROP_HANDLER_MAP: Record<string, PropHandler> = {
+export const PROP_HANDLER_MAP: Record<string, PropHandler> = {
   style: handleStyle,
   class: handleClass,
   className: handleClass,
@@ -680,9 +666,9 @@ const PROP_HANDLER_MAP: Record<string, PropHandler> = {
   [dangerouslySetInnerHTML]: setInnerHTML,
 };
 
-const ALLOWS_PROPS = ['class', 'className', 'style', 'id', QSlot];
-const HOST_PREFIX = 'host:';
-const SCOPE_PREFIX = /^(host|window|document|prevent(d|D)efault):/;
+export const ALLOWS_PROPS = ['class', 'className', 'style', 'id', QSlot];
+export const HOST_PREFIX = 'host:';
+export const SCOPE_PREFIX = /^(host|window|document|prevent(d|D)efault):/;
 
 export const updateProperties = (
   rctx: RenderContext,
@@ -694,11 +680,15 @@ export const updateProperties = (
   if (!expectProps) {
     return false;
   }
+  const keys = Object.keys(expectProps);
+  if (keys.length === 0) {
+    return false;
+  }
+  let cache = ctx.$cache$;
   const elm = ctx.$element$;
   const isCmp = OnRenderProp in expectProps;
   const qwikProps = isCmp ? getPropsMutator(ctx, rctx.$containerState$) : undefined;
-
-  for (let key of Object.keys(expectProps)) {
+  for (let key of keys) {
     if (key === 'children' || key === OnRenderProp) {
       continue;
     }
@@ -710,11 +700,14 @@ export const updateProperties = (
 
     // Early exit if value didnt change
     const cacheKey = isHost ? `_host:${key}` : `_:${key}`;
-    const oldValue = ctx.$cache$.get(cacheKey);
+    if (!cache) {
+      cache = ctx.$cache$ = new Map();
+    }
+    const oldValue = cache.get(cacheKey);
     if (newValue === oldValue) {
       continue;
     }
-    ctx.$cache$.set(cacheKey, newValue);
+    cache.set(cacheKey, newValue);
 
     // Check of data- or aria-
     if (key.startsWith('data-') || key.startsWith('aria-')) {
@@ -740,7 +733,7 @@ export const updateProperties = (
     }
 
     if (isOnProp(key)) {
-      setEvent(rctx, ctx, key, newValue);
+      setEvent(ctx, key, newValue);
       continue;
     }
 
@@ -761,18 +754,22 @@ export const updateProperties = (
     // Fallback to render attribute
     setAttribute(rctx, elm, key, newValue);
   }
+  if (ctx.$listeners$) {
+    ctx.$listeners$.forEach((value, key) => {
+      setAttribute(rctx, elm, fromCamelToKebabCase(key), serializeQRLs(value, ctx));
+    });
+  }
   return ctx.$dirty$;
 };
 
 export const createRenderContext = (
   doc: Document,
-  containerState: ContainerState,
-  containerEl: Element
+  containerState: ContainerState
 ): RenderContext => {
   const ctx: RenderContext = {
     $doc$: doc,
     $containerState$: containerState,
-    $containerEl$: containerEl,
+    $containerEl$: containerState.$containerEl$,
     $hostElements$: new Set(),
     $operations$: [],
     $roots$: [],
@@ -783,6 +780,14 @@ export const createRenderContext = (
     },
   };
   return ctx;
+};
+
+const setEvent = (ctx: QContext, prop: string, value: any) => {
+  assertTrue(prop.endsWith('$'), 'render: event property does not end with $', prop);
+  if (!ctx.$listeners$) {
+    ctx.$listeners$ = getDomListeners(ctx.$element$);
+  }
+  addQRLListener(ctx, normalizeOnProp(prop.slice(0, -1)), value);
 };
 
 export const copyRenderContext = (ctx: RenderContext): RenderContext => {
@@ -883,6 +888,7 @@ export const appendStyle = (ctx: RenderContext, hostElement: Element, styleTask:
       containerEl.insertBefore(style, containerEl.firstChild);
     }
   };
+  ctx.$containerState$.$stylesIds$.add(styleTask.styleId);
   ctx.$operations$.push({
     $el$: hostElement,
     $operation$: 'append-style',
@@ -891,23 +897,8 @@ export const appendStyle = (ctx: RenderContext, hostElement: Element, styleTask:
   });
 };
 
-export const hasStyle = (ctx: RenderContext, styleId: string) => {
-  const containerEl = ctx.$containerEl$;
-  const doc = getDocument(containerEl);
-  const hasOperation = ctx.$operations$.some((op) => {
-    if (op.$operation$ === 'append-style') {
-      const s = op.$args$[0];
-      if (isStyleTask(s)) {
-        return s.styleId === styleId;
-      }
-    }
-    return false;
-  });
-  if (hasOperation) {
-    return true;
-  }
-  const stylesParent = doc.documentElement === containerEl ? doc.head ?? containerEl : containerEl;
-  return !!stylesParent.querySelector(`style[q\\:style="${styleId}"]`);
+export const hasStyle = (containerState: ContainerState, styleId: string) => {
+  return containerState.$stylesIds$.has(styleId);
 };
 
 const prepend = (ctx: RenderContext, parent: Element, newChild: Node) => {
@@ -968,11 +959,11 @@ const createTextNode = (ctx: RenderContext, text: string): Text => {
 };
 
 export const executeContextWithSlots = (ctx: RenderContext) => {
-  const before = ctx.$roots$.map((elm) => getSlots(undefined, elm));
+  const before = ctx.$roots$.map((elm) => getSlots(null, elm));
 
   executeContext(ctx);
 
-  const after = ctx.$roots$.map((elm) => getSlots(undefined, elm));
+  const after = ctx.$roots$.map((elm) => getSlots(null, elm));
   assertEqual(
     before.length,
     after.length,

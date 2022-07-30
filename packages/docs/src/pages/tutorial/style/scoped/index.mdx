@@ -9,8 +9,8 @@ THIS API IS NOT FULLY IMPLEMENTED YET. SHOWING HERE JUST TO GET THE GENERAL DIRE
 
 In previous sections, we have discussed how styles can be loaded lazily as they are needed using `useStyles$()` hook. Browser styles are global and apply to all DOM elements, for this reason, Qwik also provides a way to load styles that are specific to a specific component. This is achieved by generating a unique class for each component and then inserting that unique class id into the stylesheet.
 
-Use `useScopedStyles$()` to load and scope the style to a specific component only. 
+Use `useStyles$()` to load and scope the style to a specific component only.
 
 ## Example
 
-In this example, there are two components both of which have a class with the same name. Because of that, the two styles collide which results in undesirable behavior. Use the `useScopedStyles$()` hook to scope the styles to a specific component and fix the collision.
+In this example, there are two components both of which have a class with the same name. Because of that, the two styles collide which results in undesirable behavior. Use the `useStyles$()` hook to scope the styles to a specific component and fix the collision.
