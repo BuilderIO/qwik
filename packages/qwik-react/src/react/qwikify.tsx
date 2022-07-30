@@ -40,7 +40,7 @@ export interface QwikifyOptions {
 }
 
 export function qwikifyQrl<PROPS extends {}>(
-  reactCmpQrl: QRL<FunctionComponent<PROPS>>,
+  reactCmp$: QRL<FunctionComponent<PROPS>>,
   opts?: QwikifyOptions
 ) {
   return component$<QwikifyProps<PROPS>>(
@@ -63,7 +63,7 @@ export function qwikifyQrl<PROPS extends {}>(
             if (store.data) {
               store.data.root.render(store.data.client.Main(store.data.cmp, filterProps(props)));
             } else {
-              const [Cmp, client] = await Promise.all([reactCmpQrl.resolve(), import('./client')]);
+              const [Cmp, client] = await Promise.all([reactCmp$.resolve(), import('./client')]);
 
               let root: Root;
               if (hostElement.childElementCount > 0) {
@@ -87,12 +87,10 @@ export function qwikifyQrl<PROPS extends {}>(
       );
 
       if (isServer && !clientOnly) {
-        const jsx = Promise.all([reactCmpQrl.resolve(), import('./server')]).then(
-          ([Cmp, server]) => {
-            const html = server.render(Cmp, filterProps(props));
-            return <Host dangerouslySetInnerHTML={html}></Host>;
-          }
-        );
+        const jsx = Promise.all([reactCmp$.resolve(), import('./server')]).then(([Cmp, server]) => {
+          const html = server.render(Cmp, filterProps(props));
+          return <Host dangerouslySetInnerHTML={html}></Host>;
+        });
         return <>{jsx}</>;
       }
 

@@ -1,19 +1,17 @@
-import { component$, Host, useContext, useScopedStyles$ } from '@builder.io/qwik';
-import { usePage, usePageIndex } from '@builder.io/qwik-city';
-import { GlobalStore } from '../../utils/context';
+import { component$, Host, useContext, useStyles$ } from '@builder.io/qwik';
+import { ContentMenu, useContent, useLocation } from '@builder.io/qwik-city';
+import { GlobalStore } from '../../context';
 import { CloseIcon } from '../svgs/close-icon';
 import styles from './sidebar.css?inline';
 
 export const SideBar = component$(
   () => {
-    useScopedStyles$(styles);
-    const page = usePage();
-    const navIndex = usePageIndex();
-    const globalStore = useContext(GlobalStore);
+    useStyles$(styles);
 
-    if (!page) {
-      return null;
-    }
+    const globalStore = useContext(GlobalStore);
+    const { menu } = useContent();
+    const { pathname } = useLocation();
+    const breadcrumbs = createBreadcrumbs(menu, pathname);
 
     return (
       <Host class="sidebar">
@@ -33,11 +31,13 @@ export const SideBar = component$(
               />
             </svg>
           </button>
-          <ol>
-            {page.breadcrumbs.map((b) => (
-              <li>{b.text}</li>
-            ))}
-          </ol>
+          {breadcrumbs.length > 0 ? (
+            <ol>
+              {breadcrumbs.map((b) => (
+                <li>{b.text}</li>
+              ))}
+            </ol>
+          ) : null}
         </nav>
         <nav class="menu">
           <button
@@ -47,8 +47,8 @@ export const SideBar = component$(
           >
             <CloseIcon width={24} height={24} />
           </button>
-          {navIndex
-            ? navIndex.items?.map((item) => (
+          {menu?.items
+            ? menu.items.map((item) => (
                 <>
                   <h5>{item.text}</h5>
                   <ul>
@@ -57,8 +57,7 @@ export const SideBar = component$(
                         <a
                           href={item.href}
                           class={{
-                            'is-active':
-                              new URL(page.url, 'https://qwik.builder.io/').pathname === item.href,
+                            'is-active': pathname === item.href,
                           }}
                         >
                           {item.text}
@@ -75,3 +74,31 @@ export const SideBar = component$(
   },
   { tagName: 'aside' }
 );
+
+export function createBreadcrumbs(menu: ContentMenu | undefined, pathname: string) {
+  if (menu?.items) {
+    for (const breadcrumbA of menu.items) {
+      if (breadcrumbA.href === pathname) {
+        return [breadcrumbA];
+      }
+
+      if (breadcrumbA.items) {
+        for (const breadcrumbB of breadcrumbA.items) {
+          if (breadcrumbB.href === pathname) {
+            return [breadcrumbA, breadcrumbB];
+          }
+
+          if (breadcrumbB.items) {
+            for (const breadcrumbC of breadcrumbB.items) {
+              if (breadcrumbC.href === pathname) {
+                return [breadcrumbA, breadcrumbB, breadcrumbC];
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return [];
+}

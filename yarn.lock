@@ -87,30 +87,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@builder.io/partytown@npm:0.6.2, @builder.io/partytown@npm:^0.6.1":
-  version: 0.6.2
-  resolution: "@builder.io/partytown@npm:0.6.2"
+"@builder.io/partytown@npm:^0.6.4":
+  version: 0.6.4
+  resolution: "@builder.io/partytown@npm:0.6.4"
   bin:
     partytown: bin/partytown.cjs
-  checksum: ff3ab52f5f52f3cfa386cbef25be398727474cb519776030c48cd5e01936226f2fb804fb251476cee8e7b2932c12d15b8fc4016ecf2770b3bd134546756c6267
+  checksum: 000133b6ab1adcbe6ab9686a8d7af554449f68002ec7ff14cb069d5af674c172c44cd3fad5731939dea9fe7c817f8cd944458aa42c63e2ca954126f3e0f39403
   languageName: node
   linkType: hard
 
-"@builder.io/qwik-city@npm:0.0.13":
-  version: 0.0.13
-  resolution: "@builder.io/qwik-city@npm:0.0.13"
-  dependencies:
-    "@mdx-js/mdx": ^2.1.1
-    "@types/mdx": 2.0.2
-    front-matter: ^4.0.2
-    source-map: ^0.7.3
-  peerDependencies:
-    "@builder.io/qwik": ">=0.0.30"
-  checksum: cf42c198b79cf2985814d2b187152633463d1b4d7462815c3a5ee74737583d6d0eb82d8fe4d8c55f41e9a2b4bf891037d9b84c4e06692df2bfe8dd43db816d5e
-  languageName: node
-  linkType: hard
-
-"@builder.io/qwik-city@workspace:packages/qwik-city":
+"@builder.io/qwik-city@0.0.27, @builder.io/qwik-city@workspace:packages/qwik-city":
   version: 0.0.0-use.local
   resolution: "@builder.io/qwik-city@workspace:packages/qwik-city"
   dependencies:
@@ -178,14 +164,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@builder.io/qwik@npm:0.0.33":
-  version: 0.0.33
-  resolution: "@builder.io/qwik@npm:0.0.33"
-  checksum: 49cdef6c0926480ac23698ac6537c310fb459e7d514dd6bbe738dab9c8993e0fc6ec43fca50c3645f5e2f564a4dcca0a436a53171c911acb05d38a8413ee942a
-  languageName: node
-  linkType: hard
-
-"@builder.io/qwik@workspace:*, @builder.io/qwik@workspace:packages/qwik":
+"@builder.io/qwik@0.0.39, @builder.io/qwik@workspace:*, @builder.io/qwik@workspace:packages/qwik":
   version: 0.0.0-use.local
   resolution: "@builder.io/qwik@workspace:packages/qwik"
   languageName: unknown
@@ -568,7 +547,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdx-js/mdx@npm:2.1.2, @mdx-js/mdx@npm:^2.1.1":
+"@mdx-js/mdx@npm:2.1.2":
   version: 2.1.2
   resolution: "@mdx-js/mdx@npm:2.1.2"
   dependencies:
@@ -1511,6 +1490,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/prettier@npm:^2.6.3":
+  version: 2.6.3
+  resolution: "@types/prettier@npm:2.6.3"
+  checksum: e1836699ca189fff6d2a73dc22e028b6a6f693ed1180d5998ac29fa197caf8f85aa92cb38db642e4a370e616b451cb5722ad2395dab11c78e025a1455f37d1f0
+  languageName: node
+  linkType: hard
+
 "@types/prismjs@npm:*, @types/prismjs@npm:^1.0.0":
   version: 1.26.0
   resolution: "@types/prismjs@npm:1.26.0"
@@ -2000,19 +1986,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"argparse@npm:^1.0.7, argparse@npm:~1.0.9":
+"argparse@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "argparse@npm:2.0.1"
+  checksum: 83644b56493e89a254bae05702abf3a1101b4fa4d0ca31df1c9985275a5a5bd47b3c27b7fa0b71098d41114d8ca000e6ed90cad764b306f8a503665e4d517ced
+  languageName: node
+  linkType: hard
+
+"argparse@npm:~1.0.9":
   version: 1.0.10
   resolution: "argparse@npm:1.0.10"
   dependencies:
     sprintf-js: ~1.0.2
   checksum: 7ca6e45583a28de7258e39e13d81e925cfa25d7d4aacbf806a382d3c02fcb13403a07fb8aeef949f10a7cfe4a62da0e2e807b348a5980554cc28ee573ef95945
-  languageName: node
-  linkType: hard
-
-"argparse@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "argparse@npm:2.0.1"
-  checksum: 83644b56493e89a254bae05702abf3a1101b4fa4d0ca31df1c9985275a5a5bd47b3c27b7fa0b71098d41114d8ca000e6ed90cad764b306f8a503665e4d517ced
   languageName: node
   linkType: hard
 
@@ -3692,7 +3678,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:0.14.49, esbuild@npm:^0.14.27, esbuild@npm:^0.14.47":
+"esbuild@npm:0.14.49, esbuild@npm:^0.14.47":
   version: 0.14.49
   resolution: "esbuild@npm:0.14.49"
   dependencies:
@@ -4441,15 +4427,6 @@ __metadata:
   version: 0.5.2
   resolution: "fresh@npm:0.5.2"
   checksum: 13ea8b08f91e669a64e3ba3a20eb79d7ca5379a81f1ff7f4310d54e2320645503cc0c78daedc93dfb6191287295f6479544a649c64d8e41a1c0fb0c221552346
-  languageName: node
-  linkType: hard
-
-"front-matter@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "front-matter@npm:4.0.2"
-  dependencies:
-    js-yaml: ^3.13.1
-  checksum: a5b4c36d75a820301ebf31db0f677332d189c4561903ab6853eaa0504b43634f98557dbf87752e09043dbd2c9dcc14b4bcf9151cb319c8ad7e26edb203c0cd23
   languageName: node
   linkType: hard
 
@@ -5366,18 +5343,6 @@ __metadata:
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
   checksum: 8a95213a5a77deb6cbe94d86340e8d9ace2b93bc367790b260101d2f36a2eaf4e4e22d9fa9cf459b38af3a32fb4190e638024cf82ec95ef708680e405ea7cc78
-  languageName: node
-  linkType: hard
-
-"js-yaml@npm:^3.13.1":
-  version: 3.14.1
-  resolution: "js-yaml@npm:3.14.1"
-  dependencies:
-    argparse: ^1.0.7
-    esprima: ^4.0.0
-  bin:
-    js-yaml: bin/js-yaml.js
-  checksum: bef146085f472d44dee30ec34e5cf36bf89164f5d585435a3d3da89e52622dff0b188a580e4ad091c3341889e14cb88cac6e4deb16dc5b1e9623bb0601fc255c
   languageName: node
   linkType: hard
 
@@ -6612,6 +6577,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"monaco-editor@npm:^0.33.0":
+  version: 0.33.0
+  resolution: "monaco-editor@npm:0.33.0"
+  checksum: f88fd1c9be0d6845436aa92ee7f7bcc49f9e9bf452f73bb5efbbe52e50678d1c2aec4d612a943310f5e2282c1d9fcc41b792b65a5b9008e6054908e7e10311ea
+  languageName: node
+  linkType: hard
+
 "mri@npm:1.2.0, mri@npm:^1.1.0, mri@npm:^1.1.5":
   version: 1.2.0
   resolution: "mri@npm:1.2.0"
@@ -7242,7 +7214,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:8.4.14, postcss@npm:^8.4.13, postcss@npm:^8.4.14":
+"postcss@npm:8.4.14, postcss@npm:^8.4.14":
   version: 8.4.14
   resolution: "postcss@npm:8.4.14"
   dependencies:
@@ -7409,9 +7381,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "qwik-docs@workspace:packages/docs"
   dependencies:
-    "@builder.io/partytown": ^0.6.1
-    "@builder.io/qwik": 0.0.33
-    "@builder.io/qwik-city": 0.0.13
+    "@builder.io/partytown": ^0.6.4
+    "@builder.io/qwik": 0.0.39
+    "@builder.io/qwik-city": 0.0.27
     "@cloudflare/kv-asset-handler": 0.2.0
     autoprefixer: 10.4.7
     fflate: ^0.7.3
@@ -7420,8 +7392,9 @@ __metadata:
     prism-themes: 1.9.0
     prismjs: ^1.28.0
     tailwindcss: 3.1.6
+    typescript: 4.7.4
     uvu: 0.5.6
-    vite: 2.9.14
+    vite: 3.0.2
     wrangler: beta
   languageName: unknown
   linkType: soft
@@ -7430,7 +7403,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "qwik-monorepo@workspace:."
   dependencies:
-    "@builder.io/partytown": 0.6.2
+    "@builder.io/partytown": ^0.6.4
     "@builder.io/qwik-dom": 2.1.18
     "@microsoft/api-extractor": 7.28.5
     "@napi-rs/cli": 2.6.2
@@ -7446,6 +7419,7 @@ __metadata:
     "@types/node": latest
     "@types/node-fetch": 2.6.2
     "@types/path-browserify": 1.0.0
+    "@types/prettier": ^2.6.3
     "@types/semver": 7.3.10
     "@typescript-eslint/eslint-plugin": 5.30.7
     "@typescript-eslint/parser": 5.30.7
@@ -7462,6 +7436,7 @@ __metadata:
     execa: 6.1.0
     express: 4.18.1
     headers-polyfill: ^3.0.10
+    monaco-editor: ^0.33.0
     mri: 1.2.0
     node-fetch: 3.2.9
     path-browserify: 1.0.1
@@ -7784,7 +7759,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:^1.1.7, resolve@npm:^1.12.0, resolve@npm:^1.22.0, resolve@npm:^1.22.1":
+"resolve@npm:^1.1.7, resolve@npm:^1.12.0, resolve@npm:^1.22.1":
   version: 1.22.1
   resolution: "resolve@npm:1.22.1"
   dependencies:
@@ -7816,7 +7791,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.12.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.1#~builtin<compat/resolve>":
+"resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.12.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.1#~builtin<compat/resolve>":
   version: 1.22.1
   resolution: "resolve@patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=07638b"
   dependencies:
@@ -7933,20 +7908,6 @@ __metadata:
   bin:
     rollup: dist/bin/rollup
   checksum: 58293e1c63c11d4afcfcf619601d5c5136dd3d0c9d3bd6a0b6141fede32027edc1eb53873bbb9a9c1e95e86c67f6ad66185720031b6eadf325972174d1d8fbcb
-  languageName: node
-  linkType: hard
-
-"rollup@npm:^2.59.0":
-  version: 2.77.0
-  resolution: "rollup@npm:2.77.0"
-  dependencies:
-    fsevents: ~2.3.2
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  bin:
-    rollup: dist/bin/rollup
-  checksum: 74ccc98429709984a89af636250833e7502d87f1d9c6d96ebfe4b52030ebf94b9f6b84b8ab476670329a61d54b681d35eecdc601bac5b5396b099b1ea69970ef
   languageName: node
   linkType: hard
 
@@ -8249,13 +8210,6 @@ __metadata:
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"
   checksum: 59ce8640cf3f3124f64ac289012c2b8bd377c238e316fb323ea22fbfe83da07d81e000071d7242cad7a23cd91c7de98e4df8830ec3f133cb6133a5f6e9f67bc2
-  languageName: node
-  linkType: hard
-
-"source-map@npm:^0.7.3":
-  version: 0.7.3
-  resolution: "source-map@npm:0.7.3"
-  checksum: cd24efb3b8fa69b64bf28e3c1b1a500de77e84260c5b7f2b873f88284df17974157cc88d386ee9b6d081f08fdd8242f3fc05c953685a6ad81aad94c7393dedea
   languageName: node
   linkType: hard
 
@@ -9126,35 +9080,6 @@ __metadata:
   peerDependencies:
     vite: ">2.0.0-0"
   checksum: d6d4828fdba639445251b3baf06901f2eb46a98b2741ba5e30e3d791c8a25f8533d23df13c5422eece63cf449865750dcd57e825dbe43b5c985e5edf42b17fea
-  languageName: node
-  linkType: hard
-
-"vite@npm:2.9.14":
-  version: 2.9.14
-  resolution: "vite@npm:2.9.14"
-  dependencies:
-    esbuild: ^0.14.27
-    fsevents: ~2.3.2
-    postcss: ^8.4.13
-    resolve: ^1.22.0
-    rollup: ^2.59.0
-  peerDependencies:
-    less: "*"
-    sass: "*"
-    stylus: "*"
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  peerDependenciesMeta:
-    less:
-      optional: true
-    sass:
-      optional: true
-    stylus:
-      optional: true
-  bin:
-    vite: bin/vite.js
-  checksum: f78b54f58482ea97d385e36873ae1aa4744c5e467c1d6d4e0835bd55494d2d8f6ce763f17c241c66104be687d5ee535b8e1e96c14210c9ba0c343fe78c58f694
   languageName: node
   linkType: hard
 

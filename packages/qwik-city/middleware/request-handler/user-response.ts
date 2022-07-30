@@ -26,6 +26,9 @@ export async function loadUserResponse(
     type: 'endpoint',
   };
 
+  if (!isEndpointOnly) {
+    isEndpointOnly = request.headers.get('Accept') === 'application/json';
+  }
   const { pathname } = url;
 
   if (!isEndpointOnly) {

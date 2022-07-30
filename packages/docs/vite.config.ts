@@ -7,7 +7,7 @@ import { examplesData, playgroundData, tutorialData } from './vite.repl-apps';
 import { replServiceWorker } from './vite.repl-worker';
 
 export default defineConfig(() => {
-  const pagesDir = resolve('src', 'pages');
+  const replAppsDir = resolve('src', 'repl', 'apps');
 
   return {
     ssr: {
@@ -18,32 +18,22 @@ export default defineConfig(() => {
       noExternal: true,
     },
     plugins: [
-      qwikCity({
-        pagesDir,
-        layouts: {
-          tutorial: resolve('src', 'layouts', 'tutorial', 'tutorial.tsx'),
-          default: resolve('src', 'layouts', 'docs', 'docs.tsx'),
-        },
-      }),
-      qwikVite({
-        client: {
-          input: [
-            resolve('src', 'components', 'app', 'app.tsx'),
-            resolve('src', 'components', 'repl', 'worker', 'repl-service-worker.ts'),
-          ],
-        },
-      }),
+      qwikCity(),
+      qwikVite(),
       partytownVite({
         dest: resolve('dist', '~partytown'),
       }),
-      examplesData(pagesDir),
-      playgroundData(pagesDir),
-      tutorialData(pagesDir),
+      examplesData(replAppsDir),
+      playgroundData(replAppsDir),
+      tutorialData(replAppsDir),
       replServiceWorker(),
     ],
-    optimizeDeps: {
-      include: ['@builder.io/qwik'],
-    },
     clearScreen: false,
+    optimizeDeps: {
+      force: true,
+    },
+    server: {
+      port: 3000,
+    },
   };
 });

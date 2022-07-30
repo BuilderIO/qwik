@@ -1,9 +1,9 @@
-import { component$, Host, useScopedStyles$ } from '@builder.io/qwik';
+import { component$, Host, useStyles$ } from '@builder.io/qwik';
 import styles from './footer.css?inline';
 
 export const Footer = component$(
   () => {
-    useScopedStyles$(styles);
+    useStyles$(styles);
 
     return (
       <Host class="pt-8 pb-12 px-2 flex flex-wrap justify-center sm:justify-between text-sm">

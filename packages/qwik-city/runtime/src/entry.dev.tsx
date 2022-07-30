@@ -1,5 +1,4 @@
 import { render, RenderOptions } from '@builder.io/qwik';
-
 import Root from './root';
 
 /**

@@ -1,6 +1,7 @@
 import { dirname } from 'path';
 import { resolveMenu } from '../markdown/menu';
 import type {
+  BuildFallbackRoute,
   BuildEntry,
   BuildLayout,
   BuildRoute,
@@ -31,6 +32,11 @@ export async function resolveSourceFiles(
     .map((s) => resolveRoute(opts, layouts, s))
     .sort(sortRoutes);
 
+  const fallbackRoutes = sourceFiles
+    .filter((s) => s.type === '404' || s.type === '500')
+    .map((s) => resolveFallbackRoute(opts, layouts, s))
+    .sort(sortRoutes);
+
   const entries = sourceFiles
     .filter((s) => s.type === 'entry')
     .map((s) => resolveEntry(opts, s))
@@ -49,7 +55,7 @@ export async function resolveSourceFiles(
       return 0;
     });
 
-  return { layouts, routes, entries, menus };
+  return { layouts, routes, fallbackRoutes, entries, menus };
 }
 
 export function resolveLayout(opts: NormalizedPluginOptions, layoutSourceFile: RouteSourceFile) {
@@ -128,6 +134,19 @@ export function resolveRoute(
   };
 
   return buildRoute;
+}
+
+export function resolveFallbackRoute(
+  opts: NormalizedPluginOptions,
+  appLayouts: BuildLayout[],
+  sourceFile: RouteSourceFile
+) {
+  const buildFallbackRoute: BuildFallbackRoute = {
+    status: sourceFile.type === '500' ? '500' : '404',
+    ...resolveRoute(opts, appLayouts, sourceFile),
+  };
+
+  return buildFallbackRoute;
 }
 
 function resolveEntry(opts: NormalizedPluginOptions, sourceFile: RouteSourceFile) {

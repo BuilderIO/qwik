@@ -16,9 +16,8 @@ tsdoc-metadata.json
 *.mp4
 scripts/**/*
 *.tsbuildinfo
-packages/docs/src/pages/examples/**/*
-packages/docs/src/pages/tutorial/**/*
-packages/docs/src/routes/examples/**/*
-packages/docs/src/routes/tutorial/**/*
+packages/docs/src/repl/apps/examples/**/*
+packages/docs/src/repl/apps/tutorial/**/*
+packages/docs/src/repl/apps/examples/**/*
 starters/apps/base
 vite.config.ts

@@ -2,14 +2,14 @@ import type { Plugin } from 'vite';
 import type { TransformModuleInput } from '@builder.io/qwik/optimizer';
 import { join, basename } from 'path';
 import { existsSync, readdirSync, readFileSync, statSync } from 'fs';
-import type { ExampleSection } from './src/layouts/examples/examples-data';
-import type { PlaygroundApp } from './src/layouts/playground/playground-data';
-import type { TutorialSection } from './src/layouts/tutorial/tutorial-data';
+import type { ExampleSection } from './src/repl/apps/examples/examples-data';
+import type { PlaygroundApp } from './src/repl/apps/playground/playground-data';
+import type { TutorialSection } from './src/repl/apps/tutorial/tutorial-data';
 import type { PluginContext } from 'rollup';
-import type { ReplModuleInput } from './src/components/repl/types';
+import type { ReplModuleInput } from './src/repl/types';
 
-export function playgroundData(pagesDir: string): Plugin {
-  const playgroundAppDir = join(pagesDir, 'playground', 'app');
+export function playgroundData(replAppsDir: string): Plugin {
+  const playgroundAppDir = join(replAppsDir, 'playground');
 
   return {
     name: 'playgroundData',
@@ -21,8 +21,7 @@ export function playgroundData(pagesDir: string): Plugin {
     },
 
     async load(id) {
-      const filename = basename(id);
-      if (filename === '@playground-data') {
+      if (basename(id) === '@playground-data') {
         const playgroundApp: PlaygroundApp = {
           inputs: readdirSync(playgroundAppDir).map((fileName) => {
             const filePath = join(playgroundAppDir, fileName);
@@ -42,8 +41,8 @@ export function playgroundData(pagesDir: string): Plugin {
   };
 }
 
-export function examplesData(pagesDir: string): Plugin {
-  const dir = join(pagesDir, 'examples');
+export function examplesData(replAppsDir: string): Plugin {
+  const dir = join(replAppsDir, 'examples');
   const menuPath = join(dir, 'examples-menu.json');
   const menuSrc = readFileSync(menuPath, 'utf-8');
 
@@ -133,9 +132,7 @@ export function examplesData(pagesDir: string): Plugin {
     },
 
     async load(id) {
-      const filename = basename(id);
-
-      if (filename === '@examples-data') {
+      if (basename(id) === '@examples-data') {
         const data = loadExamplesData(this);
         return `const exampleSections = ${JSON.stringify(data)};export default exampleSections;`;
       }
@@ -144,8 +141,8 @@ export function examplesData(pagesDir: string): Plugin {
   };
 }
 
-export function tutorialData(pagesDir: string): Plugin {
-  const dir = join(pagesDir, 'tutorial');
+export function tutorialData(replAppsDir: string): Plugin {
+  const dir = join(replAppsDir, 'tutorial');
   const menuPath = join(dir, 'tutorial-menu.json');
   const menuSrc = readFileSync(menuPath, 'utf-8');
 
@@ -253,8 +250,7 @@ export function tutorialData(pagesDir: string): Plugin {
     },
 
     async load(id) {
-      const filename = basename(id);
-      if (filename === '@tutorial-data') {
+      if (basename(id) === '@tutorial-data') {
         const data = loadTutorialData(this);
         return `const tutorialSections = ${JSON.stringify(data)};export default tutorialSections;`;
       }

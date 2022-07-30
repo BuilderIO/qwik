@@ -1,0 +1,63 @@
+---
+title: Passing Closures
+layout: tutorial
+---
+
+Props must be serializable so that Qwik can resume and render each component independently from other components on the page. This possess a problem if we wish to pass a callback to a child component. Callbacks are functions and functions are not directly serializable, but they are serializable through the `$()` by converting them to QRLs first.
+
+## QRLs
+
+Function passing across serializable boundaries must be done through QRLs. QRLs are serialized forms of a function. (See [QRL](/docs/advanced/qrl) in advanced section.)
+
+Qwik has convenience APIs which end in `$` that are equivalent to calling `$()` directly. These two lines are equivalent:
+
+- inline: `useWatch$(() => {...}/>`
+- explicit: `const callbackQrl = $(() => {...}); useWatchQrl(callbackQrl)`
+
+Most of the time we use the first form as it allows us to inline our callbacks directly into the API. But at times it is necessary to use the second form so that we can separate where the function is declared and where it is used.
+
+## Declaring callback props
+
+A component can declare a callback in its props by:
+
+- Property that ends in `$` (as in `goodbye$`)
+- The type of the property is `PropFunction<T>` where `T` is the lazy reference type that the QRL points to (function signature).
+
+```typescript
+interface MyComponentProps {
+  goodbye$: PropFunction<() => void>;
+  hello$: PropFunction<() => void>;
+}
+
+export const MyComponent = component$((props: MyComponentProps) => { ... });
+```
+
+This allows the user of `<MyComponent>` to use `goodbye$` form as shown here:
+
+```jsx
+<MyComponent goodbye$={goodbyeQrl} hello$={() => {...}} />
+```
+
+## Using callback props
+
+Notice that the `<MyComponent>` component receives a callback function.
+
+Passing the `props.goodbye$` as a reference to the `<button>`
+
+```jsx
+<button onClick$={props.goodbye$}>hello</button>
+```
+
+Creating a new callback for `<button>` and internally invoking the callback QRL.
+
+```jsx
+<button
+  onClick$={async () => {
+    await props.helloQrl?.invoke('World');
+  }}
+>
+  good bye
+</button>
+```
+
+This form allows the `<button>` to invoke the callback with custom parameters. Notice that the invocation requires `async` and `await` as the QRLs are lazy-loaded.

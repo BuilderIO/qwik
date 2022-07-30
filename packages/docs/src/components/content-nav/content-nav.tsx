@@ -1,73 +1,36 @@
-import { usePage, usePageIndex, PageIndex } from '@builder.io/qwik-city';
-import { component$, Host, useScopedStyles$ } from '@builder.io/qwik';
+import { ContentMenu, useContent, useLocation } from '@builder.io/qwik-city';
+import { component$, Host, useStyles$ } from '@builder.io/qwik';
 import styles from './content-nav.css?inline';
 
 export const ContentNav = component$(
   () => {
-    useScopedStyles$(styles);
+    useStyles$(styles);
 
-    const page = usePage();
-    const pageIndex = usePageIndex()!;
+    const { menu } = useContent();
+    const { pathname } = useLocation();
 
-    let prevText: string | undefined;
-    let prevHref: string | undefined;
-    let nextText: string | undefined;
-    let nextHref: string | undefined;
-
-    if (page && pageIndex) {
-      const pageOrder: PageIndex[] = [];
-
-      const readIndex = (i: PageIndex) => {
-        pageOrder.push(i);
-        if (i.items) {
-          for (const item of i.items) {
-            readIndex(item);
-          }
-        }
-      };
-      readIndex(pageIndex);
-
-      const current = pageOrder.findIndex(
-        (p) => p.href === new URL(page.url, 'https://qwik.builder.io/').pathname
-      );
-      if (current > -1) {
-        let prev = pageOrder[current - 1];
-        if (prev && prev.href) {
-          prevText = prev.text;
-          prevHref = prev.href;
-        } else {
-          prev = pageOrder[current - 2];
-          if (prev && prev.href) {
-            prevText = prev.text;
-            prevHref = prev.href;
-          }
-        }
-
-        const next = pageOrder[current + 1];
-        if (next) {
-          nextText = next.text;
-          if (next.href) {
-            nextHref = next.href;
-          } else if (pageOrder[current + 2]?.href) {
-            nextHref = pageOrder[current + 2].href;
-          }
-        }
-      }
+    if (!menu) {
+      return null;
     }
+
+    const items = flattenMenu(menu);
+
+    const prev = getNav(items, pathname, -1);
+    const next = getNav(items, pathname, 1);
 
     return (
       <Host class="content-nav border-t border-slate-300 flex flex-wrap py-4">
         <div class="flex-1">
-          {prevText && prevHref ? (
-            <a class="px-3 py-1 prev" href={prevHref}>
-              {prevText}
+          {prev ? (
+            <a class="px-3 py-1 prev" href={prev.href}>
+              {prev.text}
             </a>
           ) : null}
         </div>
         <div class="flex-1 text-right">
-          {nextText && nextHref ? (
-            <a class="px-3 py-1 next" href={nextHref}>
-              {nextText}
+          {next ? (
+            <a class="px-3 py-1 next" href={next.href}>
+              {next.text}
             </a>
           ) : null}
         </div>
@@ -76,3 +39,31 @@ export const ContentNav = component$(
   },
   { tagName: 'nav' }
 );
+
+export const getNav = (items: ContentMenu[], currentPathname: string, direction: -1 | 1) => {
+  const currentIndex = items.findIndex((p) => p.href === currentPathname);
+  if (currentIndex > -1) {
+    let item = items[currentIndex + direction];
+    if (item && item.href) {
+      return item;
+    }
+    item = items[currentIndex + direction + direction];
+    if (item && item.href) {
+      return item;
+    }
+  }
+};
+
+export const flattenMenu = (menu: ContentMenu) => {
+  const items: ContentMenu[] = [];
+  const readMenu = (m: ContentMenu) => {
+    items.push(m);
+    if (m.items) {
+      for (const item of m.items) {
+        readMenu(item);
+      }
+    }
+  };
+  readMenu(menu);
+  return items;
+};

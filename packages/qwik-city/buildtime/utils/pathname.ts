@@ -1,7 +1,7 @@
 import { relative, dirname, join, extname } from 'path';
 import { DYNAMIC_SEGMENT } from '../routing/parse-pathname';
 import type { NormalizedPluginOptions } from '../types';
-import { getExtensionLessBasename, isMarkdownExt, normalizePath } from './fs';
+import { getExtensionLessBasename, is404Name, is500Name, isMarkdownExt, normalizePath } from './fs';
 
 export function getPathnameFromFilePath(opts: NormalizedPluginOptions, filePath: string) {
   // get relative file system path
@@ -30,7 +30,7 @@ export function getPathnameFromFilePath(opts: NormalizedPluginOptions, filePath:
     fileName = fileName.substring(0, fileName.length - 1);
   }
 
-  if (fileName === 'index') {
+  if (fileName === 'index' || is404Name(fileName) || is500Name(fileName)) {
     if (dirName === '.') {
       pathname = `/`;
     } else {

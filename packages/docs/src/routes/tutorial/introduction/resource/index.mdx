@@ -1,0 +1,56 @@
+---
+title: Basics - Qwik Tutorial
+layout: tutorial
+---
+
+For this tutorial, we would like to fetch the list of repositories for a given GitHub organization. To aid you, we have added the `getRepositories()` function to the bottom of the file. Your task is to use the `getRepositories()` function to fetch the list of repositories whenever the user updates the `org` input.
+
+Qwik provides `useResource$()` and `<Resource>` to help you fetch and display data from the server. When fetching data the application can be in one of three states:
+
+- `pending`: the data is being fetched from the server => Render `loading...` indicator.
+- `resolved`: the data has successfully been fetched from the server => Render the data.
+- `rejected`: the data could not be fetched from the server due to an error => Render the error.
+
+Use `useResource$()` function to set up how the data is fetched from the server. Use `<Resource>` to display the data.
+
+## Fetching data
+
+Use `useResource$()` to set up how the data is fetched from the server.
+
+```jsx
+  const reposResource = useResource$<string[]>(({ track, cleanup }) => {
+    // We need a way to re-run fetching data whenever the `github.org` changes.
+    // Use `track` to trigger re-running of this data fetching function.
+    track(github, 'org');
+
+    // A good practice is to use `AbortController` to abort the fetching of data if
+    // new request comes in. We create a new `AbortController` and register a `cleanup`
+    // function which is called when this function re-runs.
+    const controller = new AbortController();
+    cleanup(() => controller.abort());
+
+    // Fetch the data and return the promises.
+    return getRepositories(github.org, controller);
+  });
+```
+
+The `useResource$()` function returns a `ResourceReturn` object, which is a Promise-like object that can be serialized by Qwik. The `useResource$()` function allows you to `track` story properties so that the `useResource$()` function can be reactive on store changes. The `cleanup` function allows you to register a code that needs to be run to release resources from the previous run. Finally, the `useResource$()` function returns a promise that will resolve to the value.
+
+## Rendering data
+
+Use `<Resource>` to display the data of `useResource$()` function. The `<Resource>` allows you to render different content depending if the resource is `pending`, `resolved` or `rejected`.
+
+On the server the `<Resource>` does not render `loading` state, instead, it pauses rendering until the resource is resolved and will always render as either `resolved` or `rejected`. (On the client, the `<Resource>` renders all states including `pending`.)
+
+```jsx
+  <Resource
+     resource={resourceToRender}>
+     onPending={() => <div>Loading...</div>}
+     onError={(reason) => <div>Error: {reason}</div>}
+     onResolved={(data) => <div>{data}</div>}
+  />
+```
+
+## SSR vs Client
+
+Notice that the same code can render on both server and client (with slightly different behavior, which skips the `pending` state rendering on the server.)

@@ -1,0 +1,77 @@
+---
+title: Rendering
+fetch: https://hackmd.io/@mhevery/HJTWrnCl5
+---
+
+# Rendering
+
+Rendering is the process of updating the DOM based on 1) changes in the state of the application and 2) component templates. Qwik is unique because it knows how to render templates out-of-order and asynchronously.
+**out-of-order**: this means that Qwik does not require that the parent component or child component must also be rendered when rendering a component.
+
+- **Asynchronously**: this means that Qwik's` render` function understands that it may need to download child components, and therefore the rendering operation is asynchronous.
+
+Simple counter-example:
+
+```tsx
+const Counter = component$(() => {
+  const store = useStore({ count: 0 });
+
+  return <button onClick$={() => store.count++}>{store.count}</button>;
+});
+```
+
+Once rendered, the HTML fragment may look something like this:
+
+```html
+<div q:host>
+  <button q:obj="123" on:click="./chunk-a.js#Counter_button_click[0]">0</button>
+</div>
+```
+
+Note:
+
+- For explanation of `$` see [`$` and optimizer rules](../advanced/optimizer.mdx).
+- For explanation of `q:host` see [host element](../components/anatomy.mdx).
+- For explanation of `q:obj` see [serialization](../concepts/resumable.mdx).
+- For explanation of `on:click` see [qwikloader](../advanced/qwikloader.mdx).
+
+## JSX
+
+Qwik uses JSX to express the component's template. JSX discussion is outside of the scope of this document, but Qwik JSX should feel very familiar if you have used JSX with other frameworks. For this reason, let's focus on how Qwik JSX is different.
+
+## Rendering child components
+
+Qwik lazy loads components on an as-needed basis. To minimize the number of components to download, Qwik only descends into child components if the component's props have changed.
+
+```tsx
+const Parent = component$(() => {
+  const store = useStore({ count: 0, step: 1 });
+
+  return (
+    <>
+      <button onClick$={(store.step *= -1)}>direction</button>
+      <button onClick$={() => (store.count += store.step)}>{store.step}</button>
+      <Greeter name={'World_' + store.count} />
+    </>
+  );
+});
+
+const Greeter = component$((props: { name: string }) => {
+  return <span>Hello {props.name}</span>;
+});
+```
+
+In the above example, there are two buttons:
+
+1. Clicking the first button changes the direction of the counter (`store.step` flips between `+1` and `-1`.). Changing the `store` requires that the component OnRender function executes. The resulting JSX updates the DOM to show `+1` and `-1`. However, changing the direction will not change the props on `<Greeter name={'World_' + store.count}/>`. For this reason, Qwik will not descend into the `<Greeter>` component, and therefore the `Greeter`s template does not need to be downloaded or executed. Such aggressive pruning allows Qwik to minimize the amount of code that needs to be present to render a component.
+2. Clicking the second button increments (or decrements) `state.count`. This in turn causes the props on `<Greeter name={'World_' + store.count}/>` to change. A change in props means that Qwik will also descend and render `<Greeter>`. However, it is possible that Qwik does not have a reference to the child component. In that case, Qwik will lazy-load the component and continue the rendering once the component render function is available.
+
+## `render()` is async
+
+The above example demonstrates why the rendering process must be asynchronous. It is important that the rendering pipeline can lazy load child components. Lazy loading is an asynchronous operation; therefore, rendering needs to be asynchronous. In practice, this means that `render()` function returns a promise.
+
+Most current-generation frameworks have synchronous `render()` process. Synchronous rendering can't easily deal with asynchronous code loading, so synchronous rendering necessitates that all dependant components are eagerly present before rendering can commence.
+
+## DOM update buffering
+
+The asynchronous nature of `render()` means that users may see an intermediate rendering of the UI as components download. Seeing an intermediate state is undesirable; therefore, Qwik will buffer all DOM updates and only flush the DOM operations once all of the components have been downloaded and their JSX functions executed. The result is that the UI will update as an atomic operation, and the user will not see the intermediate steps.

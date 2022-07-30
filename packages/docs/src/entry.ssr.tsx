@@ -1,9 +1,9 @@
-import { renderToString, RenderOptions } from '@builder.io/qwik/server';
+import { renderToStream, RenderToStreamOptions } from '@builder.io/qwik/server';
 import { manifest } from '@qwik-client-manifest';
-import { Root } from './root';
+import Root from './root';
 
-export function render(opts: RenderOptions) {
-  return renderToString(<Root />, {
+export default function (opts: RenderToStreamOptions) {
+  return renderToStream(<Root />, {
     manifest,
     ...opts,
   });

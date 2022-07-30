@@ -177,6 +177,10 @@ export type RouteData =
       routeType: typeof ROUTE_TYPE_ENDPOINT
     ];
 
+export type FallbackRouteData =
+  | [pattern: RegExp, loaders: ModuleLoader[]]
+  | [pattern: RegExp, loaders: ModuleLoader[], paramNames: string[]];
+
 export type MenuData = [pathname: string, menuLoader: MenuModuleLoader];
 
 /**
@@ -184,6 +188,7 @@ export type MenuData = [pathname: string, menuLoader: MenuModuleLoader];
  */
 export interface QwikCityPlan {
   routes: RouteData[];
+  fallbackRoutes?: FallbackRouteData[];
   menus?: MenuData[];
   trailingSlash?: boolean;
   cacheModules?: boolean;

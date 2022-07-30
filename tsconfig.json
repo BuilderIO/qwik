@@ -35,13 +35,13 @@
         "packages/qwik-city/middleware/netlify-edge"
       ],
       "@builder.io/qwik-city/vite": ["packages/qwik-city/buildtime/vite/index"],
-      "@examples-data": ["packages/docs/src/layouts/examples/examples-data.ts"],
-      "@playground-data": ["packages/docs/src/layouts/playground/playground-data.ts"],
+      "@examples-data": ["packages/docs/src/repl/apps/examples/examples-data.ts"],
+      "@playground-data": ["packages/docs/src/repl/apps/playground/playground-data.ts"],
       "@qwik-client-manifest": ["packages/qwik/src/server/server-modules.d.ts"],
       "@qwik-city-plan": ["packages/qwik-city/runtime/src/library/qwik-city-plan.ts"],
-      "@tutorial-data": ["packages/docs/src/layouts/tutorial/tutorial-data.ts"],
-      "@repl-server-html": ["packages/docs/src/components/repl/worker/repl-server.ts"],
-      "@repl-server-url": ["packages/docs/src/components/repl/worker/repl-server.ts"],
+      "@tutorial-data": ["packages/docs/src/repl/apps/tutorial/tutorial-data.ts"],
+      "@repl-server-html": ["packages/docs/src/repl/worker/repl-server.ts"],
+      "@repl-server-url": ["packages/docs/src/repl/worker/repl-server.ts"],
       "create-qwik": ["packages/create-qwik/api/index.ts"]
     },
     "types": ["node", "vite/client"],
@@ -57,7 +57,7 @@
     "packages/qwik-city",
     "packages/qwik-react",
     "packages/create-qwik",
-    // "packages/docs",
+    "packages/docs",
     "scripts",
     "starters"
   ],

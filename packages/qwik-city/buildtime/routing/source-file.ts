@@ -2,6 +2,8 @@ import { extname } from 'path';
 import type { BuildContext, RouteSourceFile } from '../types';
 import { addError } from '../utils/format';
 import {
+  is404FileName,
+  is500FileName,
   isEndpointFileName,
   isEntryFileName,
   isLayoutFileName,
@@ -24,6 +26,10 @@ export function getSourceFile(
     ? 'layout'
     : isMenuFileName(fileName)
     ? 'menu'
+    : is404FileName(fileName, ext)
+    ? '404'
+    : is500FileName(fileName, ext)
+    ? '500'
     : isEntryFileName(fileName, ext)
     ? 'entry'
     : isEndpointFileName(fileName, ext)

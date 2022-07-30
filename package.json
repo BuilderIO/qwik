@@ -46,7 +46,7 @@
     "preinstall": "yarn node scripts/tools/preinstall-script.js"
   },
   "devDependencies": {
-    "@builder.io/partytown": "0.6.2",
+    "@builder.io/partytown": "^0.6.4",
     "@builder.io/qwik-dom": "2.1.18",
     "@microsoft/api-extractor": "7.28.5",
     "@napi-rs/cli": "2.6.2",
@@ -62,6 +62,7 @@
     "@types/node": "latest",
     "@types/node-fetch": "2.6.2",
     "@types/path-browserify": "1.0.0",
+    "@types/prettier": "^2.6.3",
     "@types/semver": "7.3.10",
     "@typescript-eslint/eslint-plugin": "5.30.7",
     "@typescript-eslint/parser": "5.30.7",
@@ -78,6 +79,7 @@
     "execa": "6.1.0",
     "express": "4.18.1",
     "headers-polyfill": "^3.0.10",
+    "monaco-editor": "^0.33.0",
     "mri": "1.2.0",
     "node-fetch": "3.2.9",
     "path-browserify": "1.0.1",

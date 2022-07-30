@@ -216,7 +216,7 @@ export interface SnapshotResult {
 
 // @public (undocumented)
 export type StreamWriter = {
-    write: (chunk: string) => void;
+    write: (chunk: string) => void | boolean | Promise<void> | Promise<boolean>;
 };
 
 // @public (undocumented)

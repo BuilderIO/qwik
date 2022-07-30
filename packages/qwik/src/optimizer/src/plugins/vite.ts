@@ -522,7 +522,6 @@ export function qwikVite(qwikViteOpts: QwikVitePluginOptions = {}): any {
               res.writeHead(status);
 
               const result = await render(renderOpts);
-              // const html = await server.transformIndexHtml(pathname, result.html, req.originalUrl);
               if ('html' in result) {
                 res.end((result as any).html);
               } else {

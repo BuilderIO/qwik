@@ -7,7 +7,7 @@ export const Menu = component$(
     useScopedStyles$(styles);
 
     const { menu } = useContent();
-    const loc = useLocation();
+    const { pathname } = useLocation();
 
     return (
       <Host class="menu">
@@ -22,7 +22,7 @@ export const Menu = component$(
                         data-test-menu-link={item.href}
                         href={item.href}
                         class={{
-                          'is-active': loc.pathname === item.href,
+                          'is-active': pathname === item.href,
                         }}
                       >
                         {item.text}

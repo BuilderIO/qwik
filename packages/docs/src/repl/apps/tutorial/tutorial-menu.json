@@ -1,0 +1,429 @@
+[
+  {
+    "id": "welcome",
+    "title": "Start here",
+    "apps": [
+      {
+        "id": "overview",
+        "title": "Qwik Tutorial Overview",
+        "enableHtmlOutput": true,
+        "enableClientOutput": true,
+        "enableSsrOutput": false
+      }
+    ]
+  },
+  {
+    "id": "introduction",
+    "title": "Simple Application",
+    "apps": [
+      {
+        "id": "component",
+        "title": "Basic Component",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "store",
+        "title": "State management",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "listeners",
+        "title": "Event listeners",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "resource",
+        "title": "Fetching resource on state change",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      }
+    ]
+  },
+  {
+    "id": "component",
+    "title": "Components",
+    "apps": [
+      {
+        "id": "basic",
+        "title": "Basic Component",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "binding",
+        "title": "Binding Expressions",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "composition",
+        "title": "Composing Components",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "inline",
+        "title": "Inline Components",
+        "enableHtmlOutput": true,
+        "enableClientOutput": true,
+        "enableSsrOutput": true
+      }
+    ]
+  },
+  {
+    "id": "events",
+    "title": "Events",
+    "apps": [
+      {
+        "id": "basic",
+        "title": "Listening on events",
+        "enableHtmlOutput": true,
+        "enableClientOutput": true,
+        "enableSsrOutput": true
+      },
+      {
+        "id": "document",
+        "title": "Listening on document/window",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "preventdefault",
+        "title": "Preventing default behavior",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "synchronous",
+        "title": "Synchronous Events",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "programmatic",
+        "title": "useOn() / useOnDocument() / useOnWindow() - Programmatic Listeners",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      }
+    ]
+  },
+  {
+    "id": "store",
+    "title": "Stores",
+    "apps": [
+      {
+        "id": "basic",
+        "title": "Storing State",
+        "enableHtmlOutput": true,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "recursive",
+        "title": "Recursive Store",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "serialization",
+        "title": "Serialization Graph",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "no-serialize",
+        "title": "Non-serializable Properties",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      }
+    ]
+  },
+  {
+    "id": "props",
+    "title": "Component Props",
+    "apps": [
+      {
+        "id": "basic",
+        "title": "Passing Data to Components",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "mutable",
+        "title": "Mutable Props",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "store",
+        "title": "Passing Stores",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "closures",
+        "title": "Passing Closures",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      }
+    ]
+  },
+  {
+    "id": "reactivity",
+    "title": "Reactivity",
+    "apps": [
+      {
+        "id": "template",
+        "title": "Implicit Template Updates",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "explicit",
+        "title": "useWatch$() - Explicit Reactivity",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "resource",
+        "title": "useResource$() - Explicit Reactivity",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      }
+    ]
+  },
+  {
+    "id": "context",
+    "title": "Context",
+    "apps": [
+      {
+        "id": "basic",
+        "title": "Using context",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      }
+    ]
+  },
+  {
+    "id": "hooks",
+    "title": "Lifecycle Hooks",
+    "apps": [
+      {
+        "id": "use-mount",
+        "title": "useMount$()",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "use-un-mount",
+        "title": "useUnMount$()",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "use-cleanup",
+        "title": "useCleanup$()",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "use-client-effect",
+        "title": "useClientEffect$()",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "use-watch",
+        "title": "useWatch$()",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "use-ref",
+        "title": "useRef()",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "use-document",
+        "title": "useDocument()",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "use-host-element",
+        "title": "useHostElement()",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "use-on",
+        "title": "useOn() / useOnDocument() / useOnWindow()",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      }
+    ]
+  },
+  {
+    "id": "projection",
+    "title": "Projection",
+    "apps": [
+      {
+        "id": "basic",
+        "title": "Basic Projection",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "slots",
+        "title": "Named Slots",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "fallback",
+        "title": "Fallback content",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      }
+    ]
+  },
+  {
+    "id": "host",
+    "title": "Host Element",
+    "apps": [
+      {
+        "id": "basic",
+        "title": "Host Element",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "parent",
+        "title": "Parent use of Host Element",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      }
+    ]
+  },
+  {
+    "id": "style",
+    "title": "Styling",
+    "apps": [
+      {
+        "id": "styles",
+        "title": "useStyles() - Styles",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "scoped",
+        "title": "useScopedStyles() - Scoped styles",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      }
+    ]
+  },
+  {
+    "id": "qrl",
+    "title": "$ and QRL",
+    "apps": [
+      {
+        "id": "optimizer",
+        "title": "Optimizer",
+        "enableHtmlOutput": true,
+        "enableClientOutput": true,
+        "enableSsrOutput": true
+      },
+      {
+        "id": "data",
+        "title": "Lazy Loading constants",
+        "enableHtmlOutput": true,
+        "enableClientOutput": true,
+        "enableSsrOutput": true
+      },
+      {
+        "id": "closures",
+        "title": "Lazy Loading closures",
+        "enableHtmlOutput": true,
+        "enableClientOutput": true,
+        "enableSsrOutput": true
+      }
+    ]
+  },
+  {
+    "id": "composing",
+    "title": "Composing new APIs",
+    "apps": [
+      {
+        "id": "dollar",
+        "title": "Creating APIs with $",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      },
+      {
+        "id": "use",
+        "title": "Composing use Hooks",
+        "enableHtmlOutput": false,
+        "enableClientOutput": false,
+        "enableSsrOutput": false
+      }
+    ]
+  },
+  {
+    "id": "understanding",
+    "title": "Understanding Qwik difference",
+    "apps": [
+      {
+        "id": "treeshaking",
+        "title": "Tree-shaking static components"
+      },
+      {
+        "id": "capturing",
+        "title": "Capturing lexical scope"
+      }
+    ]
+  }
+]

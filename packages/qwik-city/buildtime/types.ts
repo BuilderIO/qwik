@@ -2,6 +2,7 @@ export interface BuildContext {
   rootDir: string;
   opts: NormalizedPluginOptions;
   routes: BuildRoute[];
+  fallbackRoutes: BuildFallbackRoute[];
   layouts: BuildLayout[];
   entries: BuildEntry[];
   menus: BuildMenu[];
@@ -18,7 +19,7 @@ export interface Diagnostic {
 }
 
 export interface RouteSourceFile {
-  type: 'page' | 'endpoint' | 'layout' | 'entry' | 'menu';
+  type: 'page' | 'endpoint' | 'layout' | 'entry' | 'menu' | '404' | '500';
   dirPath: string;
   dirName: string;
   filePath: string;
@@ -43,6 +44,10 @@ export interface BuildRoute {
   pattern: RegExp;
   paramNames: string[];
   layouts: BuildLayout[];
+}
+
+export interface BuildFallbackRoute extends BuildRoute {
+  status: '404' | '500';
 }
 
 export interface ParsedLayoutId {

@@ -5,9 +5,8 @@ export const clientNavigate = (
   doc: Document,
   routeNavigate: RouteNavigate
 ) => {
-  const loc = win.location;
   const newPath = routeNavigate.path;
-  const currentPath = normalizePath(loc);
+  const currentPath = normalizePath(win.location);
 
   if (currentPath !== newPath) {
     // current browser url and route path are different
@@ -24,7 +23,7 @@ export const clientNavigate = (
 
     win.addEventListener('popstate', () => {
       // history pop event has happened
-      const currentPath = normalizePath(loc);
+      const currentPath = normalizePath(win.location);
       const previousPath = routeNavigate.path;
 
       if (currentPath !== previousPath) {
@@ -56,44 +55,46 @@ export const getClientNavigatePath = (href: string | undefined | null, loc: Loca
   return null;
 };
 
-const handleScroll = (win: Window, doc: Document, previousPath: string, newPath: string) => {
+const handleScroll = async (win: Window, doc: Document, previousPath: string, newPath: string) => {
   const loc = win.location;
   const previousUrl = clientPathToUrl(previousPath, loc);
   const newUrl = clientPathToUrl(newPath, loc);
   const newHash = newUrl.hash;
   const isSameRoute = previousUrl.pathname + previousUrl.search === newUrl.pathname + newUrl.search;
 
-  setTimeout(async () => {
-    if (isSameRoute) {
-      // same route after path change
+  if (isSameRoute) {
+    // same route after path change
 
-      if (previousUrl.hash !== newHash) {
-        // hash has changed on the same route
-        if (newHash) {
-          // hash has changed on the same route and there's a hash
-          // scroll to the element if it exists
-          scrollToHashId(doc, newHash);
-        } else {
-          // hash has changed on the same route, but now there's no hash
-          win.scrollTo(0, 0);
-        }
-      }
-    } else {
-      // different route after change
+    if (previousUrl.hash !== newHash) {
+      // hash has changed on the same route
+
+      // wait for a moment while window gets settled
+      await new Promise((resolve) => setTimeout(resolve, 9));
 
       if (newHash) {
-        // different route and there's a hash
-        // content may not have finished updating yet
-        // poll the dom for the element for a short time
-        for (let i = 0; i < 20; i++) {
-          await new Promise(requestAnimationFrame);
-          if (scrollToHashId(doc, newHash)) {
-            break;
-          }
+        // hash has changed on the same route and there's a hash
+        // scroll to the element if it exists
+        scrollToHashId(doc, newHash);
+      } else {
+        // hash has changed on the same route, but now there's no hash
+        win.scrollTo(0, 0);
+      }
+    }
+  } else {
+    // different route after change
+
+    if (newHash) {
+      // different route and there's a hash
+      // content may not have finished updating yet
+      // poll the dom for the element for a short time
+      for (let i = 0; i < 20; i++) {
+        await new Promise(requestAnimationFrame);
+        if (scrollToHashId(doc, newHash)) {
+          break;
         }
       }
     }
-  }, 9);
+  }
 };
 
 const scrollToHashId = (doc: Document, hash: string) => {

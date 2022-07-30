@@ -5,6 +5,22 @@ import { suite } from './test-suite';
 
 const test = suite();
 
+test('pathname from _404', ({ opts }) => {
+  const filePath = join(opts.routesDir, '_404.tsx');
+  const { pathname, layoutName, layoutStop } = utils.getPathnameFromFilePath(opts, filePath);
+  assert.is(pathname, '/');
+  assert.is(layoutName, '');
+  assert.is(layoutStop, false);
+});
+
+test('pathname from _500', ({ opts }) => {
+  const filePath = join(opts.routesDir, '_500.tsx');
+  const { pathname, layoutName, layoutStop } = utils.getPathnameFromFilePath(opts, filePath);
+  assert.is(pathname, '/');
+  assert.is(layoutName, '');
+  assert.is(layoutStop, false);
+});
+
 test('layoutStop pathname from index!.tsx', ({ opts }) => {
   const filePath = join(opts.routesDir, 'index!.tsx');
   const { pathname, layoutName, layoutStop } = utils.getPathnameFromFilePath(opts, filePath);

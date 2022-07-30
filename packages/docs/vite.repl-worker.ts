@@ -5,7 +5,7 @@ import esbuild from 'esbuild';
 import { createHash } from 'crypto';
 
 export function replServiceWorker(): Plugin {
-  const swPath = resolve('src', 'components', 'repl', 'worker', 'repl-service-worker.ts');
+  const swPath = resolve('src', 'repl', 'worker', 'repl-service-worker.ts');
   let isProd = true;
 
   return {
@@ -121,7 +121,7 @@ export function replServiceWorker(): Plugin {
 }
 
 async function getReplServerHtml(minify: boolean) {
-  const srcReplServerPath = resolve('src', 'components', 'repl', 'worker', 'repl-server.ts');
+  const srcReplServerPath = resolve('src', 'repl', 'worker', 'repl-server.ts');
   const serverTs = readFileSync(srcReplServerPath, 'utf-8');
 
   const result = await esbuild.transform(serverTs, {

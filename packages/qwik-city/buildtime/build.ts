@@ -16,6 +16,7 @@ export async function build(ctx: BuildContext) {
     const resolved = await resolveSourceFiles(opts, sourceFiles);
     ctx.layouts = resolved.layouts;
     ctx.routes = resolved.routes;
+    ctx.fallbackRoutes = resolved.fallbackRoutes;
     ctx.entries = resolved.entries;
     ctx.menus = resolved.menus;
 
@@ -38,6 +39,7 @@ export async function buildFromUrlPathname(
       if (match) {
         ctx.layouts = resolved.layouts;
         ctx.routes = resolved.routes;
+        ctx.fallbackRoutes = resolved.fallbackRoutes;
         ctx.entries = resolved.entries;
         ctx.menus = resolved.menus;
         return {

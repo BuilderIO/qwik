@@ -7,9 +7,9 @@ export const Breadcrumbs = component$(
     useScopedStyles$(styles);
 
     const { menu } = useContent();
-    const loc = useLocation();
+    const { pathname } = useLocation();
 
-    const breadcrumbs = createBreadcrumbs(menu, loc.pathname);
+    const breadcrumbs = createBreadcrumbs(menu, pathname);
     if (breadcrumbs.length === 0) {
       return null;
     }
@@ -27,38 +27,20 @@ export const Breadcrumbs = component$(
 
 export function createBreadcrumbs(menu: ContentMenu | undefined, pathname: string) {
   if (menu?.items) {
-    for (const indexA of menu.items) {
-      const breadcrumbA: ContentBreadcrumb = {
-        text: indexA.text,
-      };
-      if (typeof indexA.href === 'string') {
-        breadcrumbA.href = indexA.href;
-      }
-      if (indexA.href === pathname) {
+    for (const breadcrumbA of menu.items) {
+      if (breadcrumbA.href === pathname) {
         return [breadcrumbA];
       }
 
-      if (indexA.items) {
-        for (const indexB of indexA.items) {
-          const breadcrumbB: ContentBreadcrumb = {
-            text: indexB.text,
-          };
-          if (typeof indexB.href === 'string') {
-            breadcrumbB.href = indexB.href;
-          }
-          if (indexB.href === pathname) {
+      if (breadcrumbA.items) {
+        for (const breadcrumbB of breadcrumbA.items) {
+          if (breadcrumbB.href === pathname) {
             return [breadcrumbA, breadcrumbB];
           }
 
-          if (indexB.items) {
-            for (const indexC of indexB.items) {
-              const breadcrumbC: ContentBreadcrumb = {
-                text: indexC.text,
-              };
-              if (typeof indexC.href === 'string') {
-                breadcrumbC.href = indexC.href;
-              }
-              if (indexC.href === pathname) {
+          if (breadcrumbB.items) {
+            for (const breadcrumbC of breadcrumbB.items) {
+              if (breadcrumbC.href === pathname) {
                 return [breadcrumbA, breadcrumbB, breadcrumbC];
               }
             }
@@ -69,9 +51,4 @@ export function createBreadcrumbs(menu: ContentMenu | undefined, pathname: strin
   }
 
   return [];
-}
-
-interface ContentBreadcrumb {
-  text: string;
-  href?: string;
 }

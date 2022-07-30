@@ -128,6 +128,10 @@ export interface LinkProps extends AnchorAttributes {
 export interface QwikCityPlan {
     // (undocumented)
     cacheModules?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "FallbackRouteData" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    fallbackRoutes?: FallbackRouteData[];
     // Warning: (ae-forgotten-export) The symbol "MenuData" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)

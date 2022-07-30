@@ -1,9 +1,10 @@
 import { ROUTE_TYPE_ENDPOINT } from '../../runtime/src/library//constants';
-import type { BuildContext, BuildRoute } from '../types';
+import type { BuildContext, BuildFallbackRoute, BuildRoute } from '../types';
 import { getImportPath } from './utils';
 
 export function createRoutes(ctx: BuildContext, c: string[], esmImports: string[]) {
-  const includeEndpoints = ctx.target === 'ssr';
+  const isSsr = ctx.target === 'ssr';
+  const includeEndpoints = isSsr;
   const dynamicImports = ctx.target === 'client';
 
   if (ctx.layouts.length > 0) {
@@ -47,16 +48,34 @@ export function createRoutes(ctx: BuildContext, c: string[], esmImports: string[
       loaders.push(`()=>${route.id}`);
     }
 
-    const moduleLoaders = `[ ${loaders.join(', ')} ]`;
-
-    c.push(`  ${createRoute(route, moduleLoaders)},`);
+    c.push(`  ${createRoute(route, loaders)},`);
   }
 
   c.push(`];`);
+
+  if (isSsr) {
+    c.push(`\n/** Qwik City Fallback Routes (${ctx.fallbackRoutes.length}) */`);
+    c.push(`const fallbackRoutes = [`);
+
+    for (const fallbackRoute of ctx.fallbackRoutes) {
+      const loaders = [];
+      for (const layout of fallbackRoute.layouts) {
+        loaders.push(layout.id);
+      }
+      const importPath = getImportPath(fallbackRoute.filePath);
+      esmImports.push(`import * as ${fallbackRoute.id} from ${JSON.stringify(importPath)};`);
+      loaders.push(`()=>${fallbackRoute.id}`);
+
+      c.push(`  ${createFallbackRoute(fallbackRoute, loaders)},`);
+    }
+
+    c.push(`];`);
+  }
 }
 
-function createRoute(r: BuildRoute, moduleLoaders: string) {
+function createRoute(r: BuildRoute, loaders: string[]) {
   const pattern = r.pattern.toString();
+  const moduleLoaders = `[ ${loaders.join(', ')} ]`;
 
   if (r.type === 'endpoint') {
     const paramNames = JSON.stringify(r.paramNames);
@@ -69,4 +88,14 @@ function createRoute(r: BuildRoute, moduleLoaders: string) {
   }
 
   return `[ ${pattern}, ${moduleLoaders} ]`;
+}
+
+function createFallbackRoute(r: BuildFallbackRoute, loaders: string[]) {
+  const pattern = r.pattern.toString();
+  const moduleLoaders = `[ ${loaders.join(', ')} ]`;
+  const paramNames = JSON.stringify(r.paramNames);
+  const routeType = r.type === 'endpoint' ? ROUTE_TYPE_ENDPOINT : 0;
+  const status = JSON.stringify(r.status);
+
+  return `[ ${pattern}, ${moduleLoaders}, ${paramNames}, ${routeType}, ${status} ]`;
 }
