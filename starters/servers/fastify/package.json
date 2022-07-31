@@ -1,0 +1,11 @@
+{
+  "description": "Fastify server.",
+  "scripts": {
+    "build.ssr": "vite build --ssr src/entry.fastify.tsx",
+    "serve": "node server/entry.fastify.js"
+  },
+  "devDependencies": {
+    "@fastify/static": "^6.4.0",
+    "fastify": "^4.0.0"
+  }
+}
