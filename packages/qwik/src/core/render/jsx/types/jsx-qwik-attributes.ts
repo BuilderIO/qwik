@@ -16,7 +16,10 @@ export type PascalCaseEventNames =
   | 'FocusOut'
   | 'Blur'
   | 'Change'
+  | 'BeforeInput'
   | 'Input'
+  | 'Select'
+  | 'Search'
   | 'Reset'
   | 'Submit'
   | 'Invalid'
@@ -56,21 +59,26 @@ export type PascalCaseEventNames =
   | 'PointerLeave'
   | 'PointerOver'
   | 'PointerOut'
-  | 'GotPointer'
-  | 'LostPointer'
+  | 'GotPointerCapture'
+  | 'LostPointerCapture'
   | 'Scroll'
   | 'Wheel'
   | 'AnimationStart'
   | 'AnimationEnd'
   | 'AnimationIteration'
-  | 'TransitionEnd';
+  | 'TransitionEnd'
+  | 'GotPointerCapture'
+  | 'LostPointerCapture'
+  | 'GestureStart'
+  | 'GestureChange'
+  | 'GestureEnd';
 
 export type GetEvent<K extends string> = Lowercase<K> extends keyof HTMLElementEventMap
   ? HTMLElementEventMap[Lowercase<K>]
   : Event;
 
-type QwikEventMap = {
-  [K in PascalCaseEventNames as `${K}${'' | 'Capture'}`]: GetEvent<K>;
+export type QwikEventMap = {
+  [K in PascalCaseEventNames as `${K}`]: GetEvent<K>;
 };
 
 export type PreventDefault = {
