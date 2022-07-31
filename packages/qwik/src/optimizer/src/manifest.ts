@@ -1,3 +1,4 @@
+import type { QwikEventMap } from '../../core/render/jsx/types/jsx-qwik-attributes';
 import type { NormalizedQwikPluginOptions } from './plugins/plugin';
 import type {
   GeneratedOutputBundle,
@@ -96,73 +97,107 @@ function prioritorizeSymbolNames(manifest: QwikManifest) {
   });
 }
 
-// User triggered events should have priority
-const EVENT_PRIORITY = [
+type UserEvents = {
+  [K in keyof QwikEventMap as `on${K}$`]: null;
+};
+const USER_EVENTS: UserEvents = {
+  onLoad$: null,
+  onError$: null,
+
+  // Clipboard Events
+  onCopy$: null,
+  onPaste$: null,
+  onCut$: null,
+
+  // Composition Events
+  onCompositionStart$: null,
+  onCompositionUpdate$: null,
+  onCompositionEnd$: null,
+
   // Click Events
-  'onClick$',
-  'onDblClick$',
-  'onContextMenu$',
-  'onAuxClick$',
+  onClick$: null,
+  onDblClick$: null,
+  onContextMenu$: null,
+  onAuxClick$: null,
 
   // Pointer Events
-  'onPointerDown$',
-  'onPointerUp$',
-  'onPointerMove$',
-  'onPointerOver$',
-  'onPointerEnter$',
-  'onPointerLeave$',
-  'onPointerOut$',
-  'onPointerCancel$',
-  'onGotPointerCapture$',
-  'onLostPointerCapture$',
+  onPointerDown$: null,
+  onPointerUp$: null,
+  onPointerMove$: null,
+  onPointerOver$: null,
+  onPointerEnter$: null,
+  onPointerLeave$: null,
+  onPointerOut$: null,
+  onPointerCancel$: null,
+  onGotPointerCapture$: null,
+  onLostPointerCapture$: null,
 
   // Touch Events
-  'onTouchStart$',
-  'onTouchEnd$',
-  'onTouchMove$',
-  'onTouchCancel$',
+  onTouchStart$: null,
+  onTouchEnd$: null,
+  onTouchMove$: null,
+  onTouchCancel$: null,
+
+  // Drag & Drop Events
+  onDrag$: null,
+  onDragStart$: null,
+  onDragEnd$: null,
+  onDragEnter$: null,
+  onDragOver$: null,
+  onDragLeave$: null,
+  onDragExit$: null,
+  onDrop$: null,
 
   // Mouse Events
-  'onMouseDown$',
-  'onMouseUp$',
-  'onMouseMove$',
-  'onMouseEnter$',
-  'onMouseLeave$',
-  'onMouseOver$',
-  'onMouseOut$',
-  'onWheel$',
+  onMouseDown$: null,
+  onMouseUp$: null,
+  onMouseMove$: null,
+  onMouseEnter$: null,
+  onMouseLeave$: null,
+  onMouseOver$: null,
+  onMouseOut$: null,
+  onWheel$: null,
 
   // Gesture Events
-  'onGestureStart$',
-  'onGestureChange$',
-  'onGestureEnd$',
+  onGestureStart$: null,
+  onGestureChange$: null,
+  onGestureEnd$: null,
 
   // Keyboard Events
-  'onKeyDown$',
-  'onKeyUp$',
-  'onKeyPress$',
+  onKeyDown$: null,
+  onKeyUp$: null,
+  onKeyPress$: null,
 
   // Input/Change Events
-  'onInput$',
-  'onChange$',
-  'onSearch$',
-  'onInvalid$',
-  'onBeforeInput$',
-  'onSelect$',
+  onInput$: null,
+  onChange$: null,
+  onSearch$: null,
+  onInvalid$: null,
+  onBeforeInput$: null,
+  onSelect$: null,
 
   // Focus/Blur Events
-  'onFocusIn$',
-  'onFocusOut$',
-  'onFocus$',
-  'onBlur$',
+  onFocusIn$: null,
+  onFocusOut$: null,
+  onFocus$: null,
+  onBlur$: null,
 
   // Form Events
-  'onSubmit$',
-  'onReset$',
+  onSubmit$: null,
+  onReset$: null,
 
   // Scroll Events
-  'onScroll$',
-].map((n) => n.toLowerCase());
+  onScroll$: null,
+
+  // Animation Events
+  onAnimationStart$: null,
+  onAnimationIteration$: null,
+  onAnimationEnd$: null,
+  onTransitionEnd$: null,
+};
+
+// User triggered events should have priority
+const EVENT_PRIORITY = Object.keys(USER_EVENTS).map((n) => n.toLowerCase());
 
 const FUNCTION_PRIORITY = [
   'useClientEffect$',
