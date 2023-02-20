@@ -1,0 +1,117 @@
+
+
+// TODO find where to put this
+
+
+In Qwik, they are declared using the `component$` method:
+
+```tsx
+import { component$, useStore } from '@builder.io/qwik';
+
+export const MyCmp = component$((props: MyCmpProps) => {
+  // Declare local state
+  const state = useStore({
+    count: 0,
+  });
+
+  // Returns JSX
+  return (
+    <>
+      <span>
+        Hello, {props.name} {state.count}
+      </span>
+      <div>Times: {state.count}</div>
+      <button
+        onClick$={() => {
+          // This will update the local state and cause a re-render.
+          // Reactivity is at Qwik's core!
+          state.count++;
+        }}
+      >
+        Increment
+      </button>
+    </>
+  );
+});
+```
+
+> **NOTE**
+>
+> - For an explanation of `$` see [Lazy-loading](../../advanced/qrl/index.mdx) and [Optimizer](../../advanced/optimizer/index.mdx) discussion.
+> - For a detailed discussion of props, see Component/props discussion.
+
+
+
+
+
+The above example shows how the `MyApp` component can use the `Counter` component. The second example shows how one can use binding to pass values to the `Counter` component's props.
+
+
+
+## Lazy Loading
+
+The component also serves an important role when breaking parent-child relationships for bundling purposes.
+
+```tsx
+export const Child = () => <span>child</span>;
+
+const Parent = () => (
+  <section>
+    <Child />
+  </section>
+);
+```
+
+In the above example, referring to the `Parent` component implies a transitive reference to the `Child` component. When the bundler is creating a chunk, a reference to `Parent` necessitates bundling `Child` as well. (`Parent` internally refers to `Child`.) These transitive dependencies are a problem because it means that having a reference to the root component will transitively refer to the remainder of the application—something which Qwik tries to avoid explicitly.
+
+```tsx
+export const Child = component$(() => {
+  return <span>child</span>;
+});
+
+export const Parent = component$(() => {
+  return (
+    <section>
+      <Child />
+    </section>
+  );
+});
+```
+
+In the above example the Optimizer transforms the above to:
+
+```tsx
+const Child = componentQrl(qrl('./chunk-a', 'Child_onMount'));
+const Parent = componentQrl(qrl('./chunk-b', 'Parent_onMount'));
+const Parent_onMount = () => qrl('./chunk-c', 'Parent_onRender');
+const Parent_onRender = () => (
+  <section>
+    <Child />
+  </section>
+);
+```
+
+> **NOTE**
+> For simplicity, not all of the transformations are shown; all resulting symbols are kept in the same file for succinctness.
+
+Notice that after the Optimizer transforms the code, the `Parent` no longer directly references `Child`. This is important because it allows the bundler (and tree shakers) to freely move the symbols into different chunks without pulling the rest of the application with it.
+
+So what happens when the `Parent` component renders and `Child` component has not yet been downloaded? First, the `Parent` component renders its JSX like so.
+
+```html
+<div>
+  <section>
+    <div></div>
+  </section>
+</div>
+```
+
+As you can see in the above example, the `<div/>` acts as a marker where the `Child` component will be inserted once it is lazy-loaded.
+
+## Mental Model
+
+The Optimizer splits Qwik components into the host element and the behavior of the component. The host element gets bundled with the parent component's OnRender method, whereas the component's behavior is something that gets lazy-loaded on an as-needed basis.
+
+- Qwik components automatically get broken down into lazy-loaded chunks by the Optimizer. (See Optimizer discussion)
+- Are [resumable](../../concepts/resumable/index.mdx). (A component can get created on a server and continue its execution on the client.) (See resumable discussion)
+- Can render independently of other components on the page. (See rendering discussion)

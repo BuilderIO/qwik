@@ -12,6 +12,19 @@ contributors:
 
 Reactivity is a key component of Qwik. Reactivity allows Qwik to track which components are subscribed to which state. This information enables Qwik to invalidate only the relevant component on state change, which minimizes the number of components that need to be re-rendered. Without reactivity, a state change would require re-rendering from the root component, which would force the whole component tree to be eagerly downloaded.
 
+
+## Re-rendering on Reactivity
+
+Qwik components are reactive on the component level. Component props, as well as stores, are proxies. These proxies track reads as well as writes.
+
+- A proxy-read during OnRender method execution lets Qwik know that the OnRender method depends on a given property. A read creates a subscription on that property. In our [example](../../concepts/reactivity/#counter-example), OnRender reads`{store.count}`, which creates a subscription that tells Qwik that whenever the `store.count` changes, the component should be invalidated.
+- A proxy-write notifies Qwik that all associated subscriptions should be invalidated.
+
+When components get invalidated, they are added to the invalidation queue, which is flushed (rendered) on the next `requestAnimationFrame`. This acts as a form of coalescing for component rendering.
+
+For a detailed discussion of reactivity, see related discussion.
+
+
 ## Proxy
 
 Reactivity requires that the framework keeps track of the relationship between the state of the applications and the components. The framework must render the whole application at least once to build the reactivity graph. The build of reactive graph initially happens on the server and is serialized to HTML so that the browser can use the information without being forced to do a single pass through all components to rebuild the graph. (Qwik does not need to do hydration to register events or build up the reactivity graph.)
@@ -161,3 +174,4 @@ In the above example, there are two `<Child/>` components.
 - If `store.b` has been incremented, then only `<Child count={store.b}/>` will re-render.
 
 Notice that the child components only re-render when their props change. This is an important property of Qwik applications as it significantly limits the amount of re-rendering the application must do on some state change. While less re-rendering has performance benefits, the real benefit is that large portions of the applications do not get downloaded if they don't need to be re-rendered.
+

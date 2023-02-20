@@ -45,6 +45,10 @@
 - [Internationalization](advanced/i18n/index.mdx)
 - [Vite](advanced/vite/index.mdx)
 
+## API Reference
+
+- [Ref](reference/ref/index.mdx)
+
 ## Community
 
 - [GitHub](https://github.com/BuilderIO/qwik)

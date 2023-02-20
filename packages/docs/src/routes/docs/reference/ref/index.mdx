@@ -1,0 +1,33 @@
+## `Ref` - Storing a reference
+
+Qwik provides the ability to store a reference to any component. To do so, you have to create a signal and pass the signal as `ref` attribute to the component. After the component was mounted, the reference has been stored on the signal. Have a look at the example below:
+
+```tsx
+import { component$, useClientEffect$, useSignal, useStore } from '@builder.io/qwik';
+
+export default component$(() => {
+  const store = useStore({
+    width: 0,
+    height: 0,
+  });
+  const outputRef = useSignal<Element>();
+  useClientEffect$(() => {
+    if (outputRef.value) {
+      const rect = outputRef.value.getBoundingClientRect();
+      store.width = Math.round(rect.width);
+      store.height = Math.round(rect.height);
+    }
+  });
+
+  return (
+    <div>
+      <div style={{ border: '1px solid red', width: '100px' }} ref={outputRef}>
+        Change text value here to stretch the box.
+      </div>
+      <div>
+        The above red box is {store.height} pixels high and {store.width} pixels wide.
+      </div>
+    </div>
+  );
+});
+```

@@ -1,21 +1,20 @@
----
-title: Overview
-contributors:
-  - hamatoyogi
-  - shairez
-  - RATIU5
-  - leifermendez
-  - manucorporat
-  - adamdbradley
-  - fleish80
----
-
-# Components
+# `component$`
 
 Components are the basic building blocks of Qwik Applications. 
 They are created using [JSX](https://reactjs.org/docs/introducing-jsx.html) 
 and are very similar to other frameworks' components.
 
+## API
+
+### `component$<Props>(componentFn): Component<Props>`
+
+
+### Properties
+
+componentFn
+
+
+## Usage
 
 ## `component$()`
 
@@ -111,46 +110,4 @@ export const MyCmp = component$(() => {
 
 ```
 
-## API Overview
-
-### State
-
-- [`useStore(initialState)`](../state/index.mdx#usestore) - creates a reactive object that can be used to store state
-- [`useSignal(initialState)`](../state/index.mdx#usesignal) - creates a reactive value
-- [`createContextId(contextName)`](../context/index.mdx#createcontext) - creates a context reference
-- [`useContextProvider()`](../context/index.mdx#usecontextprovider) - provides a value to a given context
-- [`useContext()`](../context/index.mdx#usecontext) - reads the value of the current context
-
-### Styles
-
-- [`useStylesScoped$()`](../styles/index.mdx#usestylesscoped) - appends scoped styles to the component
-- [`useStyles$()`](../styles/index.mdx#usestyles) - appends unscoped styles to the component
-
-### Events
-
-- [`useOn()`](../events/index.mdx) - appends a listener to the current component programatically
-- [`useOnWindow()`](../events/index.mdx) - appends a listener to the window object programatically
-- [`useOnDocument()`](../events/index.mdx) - appends a listener to the document object programatically
-
-### Lifecycles
-
-- [`useTask$()`](../lifecycle/index.mdx) - defines a callback that will be called before render and/or when a watched store changes
-- [`useResource$()`](../resource/index.mdx) - creates a resource to asyncronously load data
-- [`useClientEffect$()`](../lifecycle/index.mdx#useclienteffect) - defines a callback that will be called after render in the client only (browser)
-
-### Other
-
-- [`$()`](../../advanced/qrl/index.mdx) - creates a QRL
-- `noSerialize()`
-- `useErrorBoundary()`
-
-### Components
-
-- [`<Slot>`](../projection/index.mdx) - declares a content projection slot
-- `<SSRStreamBlock>` - declares a stream block
-- `<SSRStream>` - declares a stream
-- `<Fragment>` - declares a JSX fragment
-
-## See Also
-
-- [Lite components](../lite-components/index.mdx)
+## Troubleshooting
