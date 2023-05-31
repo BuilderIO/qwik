@@ -59,7 +59,7 @@ export function qwikRollup(qwikRollupOpts: QwikRollupPluginOptions = {}): any {
         transformedModuleOutput: qwikRollupOpts.transformedModuleOutput,
       };
 
-      const opts = qwikPlugin.normalizeOptions(pluginOpts);
+      const opts = await qwikPlugin.normalizeOptions(pluginOpts);
 
       if (!inputOpts.input) {
         inputOpts.input = opts.input;

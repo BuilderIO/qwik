@@ -118,7 +118,7 @@ export function createPlugin(optimizerOptions: OptimizerOptions = {}) {
     return optimizer.sys.path;
   };
 
-  const normalizeOptions = (inputOpts?: QwikPluginOptions) => {
+  const normalizeOptions = async (inputOpts?: QwikPluginOptions) => {
     const updatedOpts: QwikPluginOptions = Object.assign({}, inputOpts);
 
     const optimizer = getOptimizer();
@@ -225,7 +225,10 @@ export function createPlugin(optimizerOptions: OptimizerOptions = {}) {
         opts.input = [path.resolve(srcDir, 'entry.ssr.tsx')];
       } else if (opts.target === 'client') {
         // client input default
-        opts.input = [path.resolve(srcDir, 'root.tsx')];
+        const rootTsxLocation = path.resolve(srcDir, 'root.tsx');
+        if (await isPathExist(rootTsxLocation)) {
+          opts.input = [rootTsxLocation];
+        }
       } else if (opts.target === 'lib') {
         // lib input default
         opts.input = [path.resolve(srcDir, 'index.ts')];
@@ -291,21 +294,19 @@ export function createPlugin(optimizerOptions: OptimizerOptions = {}) {
     if (!hasValidatedSource) {
       hasValidatedSource = true;
 
-      const sys = getSys();
-      if (sys.env === 'node') {
-        const fs: typeof import('fs') = await sys.dynamicImport('node:fs');
-        if (!fs.existsSync(opts.rootDir)) {
-          throw new Error(`Qwik rootDir "${opts.rootDir}" not found.`);
-        }
-        if (typeof opts.srcDir === 'string' && !fs.existsSync(opts.srcDir)) {
-          throw new Error(`Qwik srcDir "${opts.srcDir}" not found.`);
-        }
-        for (const alias in opts.input) {
-          const input = opts.input[alias];
-          const resolved = await resolver(input);
-          if (!resolved) {
-            throw new Error(`Qwik input "${input}" not found.`);
-          }
+      if (!(await isPathExist(opts.rootDir))) {
+        throw new Error(`Qwik rootDir "${opts.rootDir}" not found.`);
+      }
+
+      if (typeof opts.srcDir === 'string' && !(await isPathExist(opts.srcDir))) {
+        throw new Error(`Qwik srcDir "${opts.srcDir}" not found.`);
+      }
+
+      for (const alias in opts.input) {
+        const input = opts.input[alias];
+        const resolved = await resolver(input);
+        if (!resolved) {
+          throw new Error(`Qwik input "${input}" not found.`);
         }
       }
     }
@@ -789,6 +790,16 @@ export const isDev = ${JSON.stringify(isDev)};
     const manifest = isServer ? opts.manifestInput : null;
     return `// @qwik-client-manifest
 export const manifest = ${JSON.stringify(manifest)};\n`;
+  }
+
+  async function isPathExist(path: string) {
+    const sys = getSys();
+    if (sys.env === 'node') {
+      const fs: typeof import('fs') = await sys.dynamicImport('node:fs');
+
+      return fs.existsSync(path);
+    }
+    return false;
   }
 
   return {

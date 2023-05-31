@@ -10,7 +10,7 @@ const test = suite('normalizeOptions');
 
 test('defaults', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions();
+  const opts = await plugin.normalizeOptions();
   equal(opts.target, 'client');
   equal(opts.buildMode, 'development');
   equal(opts.entryStrategy, { type: 'hook' });
@@ -27,7 +27,7 @@ test('defaults', async () => {
 
 test('defaults (buildMode: production)', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({ buildMode: 'production' });
+  const opts = await plugin.normalizeOptions({ buildMode: 'production' });
   equal(opts.target, 'client');
   equal(opts.buildMode, 'production');
   equal(opts.entryStrategy, { type: 'smart' });
@@ -46,7 +46,7 @@ test('defaults (buildMode: production)', async () => {
 
 test('defaults (target: ssr)', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({ target: 'ssr' });
+  const opts = await plugin.normalizeOptions({ target: 'ssr' });
   equal(opts.target, 'ssr');
   equal(opts.buildMode, 'development');
   equal(opts.entryStrategy, { type: 'hoist' });
@@ -64,7 +64,7 @@ test('defaults (target: ssr)', async () => {
 
 test('defaults (buildMode: production, target: ssr)', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({ buildMode: 'production', target: 'ssr' });
+  const opts = await plugin.normalizeOptions({ buildMode: 'production', target: 'ssr' });
   equal(opts.target, 'ssr');
   equal(opts.buildMode, 'production');
   equal(opts.entryStrategy, { type: 'hoist' });
@@ -82,13 +82,13 @@ test('defaults (buildMode: production, target: ssr)', async () => {
 
 test('debug true', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({ debug: true });
+  const opts = await plugin.normalizeOptions({ debug: true });
   equal(opts.debug, true);
 });
 
 test('override entryStrategy', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({
+  const opts = await plugin.normalizeOptions({
     entryStrategy: { type: 'component' },
     buildMode: 'production',
   });
@@ -97,7 +97,7 @@ test('override entryStrategy', async () => {
 
 test('entryStrategy, smart', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({
+  const opts = await plugin.normalizeOptions({
     entryStrategy: { type: 'smart' },
     forceFullBuild: false,
   });
@@ -107,14 +107,14 @@ test('entryStrategy, smart', async () => {
 
 test('entryStrategy, hook no forceFullBuild', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({ entryStrategy: { type: 'hook' } });
+  const opts = await plugin.normalizeOptions({ entryStrategy: { type: 'hook' } });
   equal(opts.entryStrategy.type, 'hook');
   equal(opts.forceFullBuild, false);
 });
 
 test('entryStrategy, hook and srcInputs', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({
+  const opts = await plugin.normalizeOptions({
     entryStrategy: { type: 'hook' },
     srcInputs: [],
   });
@@ -124,39 +124,39 @@ test('entryStrategy, hook and srcInputs', async () => {
 
 test('entryStrategy, forceFullBuild false', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({ forceFullBuild: false });
+  const opts = await plugin.normalizeOptions({ forceFullBuild: false });
   equal(opts.forceFullBuild, false);
 });
 
 test('entryStrategy, forceFullBuild true', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({ forceFullBuild: true });
+  const opts = await plugin.normalizeOptions({ forceFullBuild: true });
   equal(opts.forceFullBuild, true);
 });
 
 test('rootDir, abs path', async () => {
   const plugin = await mockPlugin();
   const customRoot = normalizePath(resolve(cwd, 'abs-path'));
-  const opts = plugin.normalizeOptions({ rootDir: customRoot });
+  const opts = await plugin.normalizeOptions({ rootDir: customRoot });
   equal(opts.rootDir, customRoot);
 });
 
 test('rootDir, rel path', async () => {
   const plugin = await mockPlugin();
   const customRoot = 'rel-path';
-  const opts = plugin.normalizeOptions({ rootDir: customRoot });
+  const opts = await plugin.normalizeOptions({ rootDir: customRoot });
   equal(opts.rootDir, normalizePath(resolve(cwd, customRoot)));
 });
 
 test('input string', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({ input: 'src/cmps/main.tsx' });
+  const opts = await plugin.normalizeOptions({ input: 'src/cmps/main.tsx' });
   equal(opts.input, [normalizePath(resolve(cwd, 'src', 'cmps', 'main.tsx'))]);
 });
 
 test('input array', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({
+  const opts = await plugin.normalizeOptions({
     input: ['src/cmps/a.tsx', 'src/cmps/b.tsx'],
   });
   equal(opts.input, [
@@ -167,33 +167,33 @@ test('input array', async () => {
 
 test('outDir', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({ outDir: 'out' });
+  const opts = await plugin.normalizeOptions({ outDir: 'out' });
   equal(opts.outDir, normalizePath(resolve(cwd, 'out')));
 });
 
 test('manifestOutput', async () => {
   const plugin = await mockPlugin();
   const manifestOutput = () => {};
-  const opts = plugin.normalizeOptions({ manifestOutput });
+  const opts = await plugin.normalizeOptions({ manifestOutput });
   equal(opts.manifestOutput, manifestOutput);
 });
 
 test('manifestInput', async () => {
   const plugin = await mockPlugin();
   const manifestInput: QwikManifest = { mapping: {}, symbols: {}, bundles: {}, version: '1' };
-  const opts = plugin.normalizeOptions({ manifestInput });
+  const opts = await plugin.normalizeOptions({ manifestInput });
   equal(opts.manifestInput, manifestInput);
 });
 
 test('resolveQwikBuild true', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({ resolveQwikBuild: true });
+  const opts = await plugin.normalizeOptions({ resolveQwikBuild: true });
   equal(opts.resolveQwikBuild, true);
 });
 
 test('resolveQwikBuild false', async () => {
   const plugin = await mockPlugin();
-  const opts = plugin.normalizeOptions({ resolveQwikBuild: false });
+  const opts = await plugin.normalizeOptions({ resolveQwikBuild: false });
   equal(opts.resolveQwikBuild, false);
 });
 
