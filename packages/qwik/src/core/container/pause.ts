@@ -25,7 +25,12 @@ import {
   QError_missingObjectId,
   QError_verifySerializable,
 } from '../error/error';
-import { isArray, isObject, isSerializableObject } from '../util/types';
+import {
+  isArray,
+  isFunction,
+  isObject,
+  isSerializableObject
+} from '../util/types';
 import { directGetAttribute, directSetAttribute } from '../render/fast-calls';
 import { isNotNullable, isPromise } from '../util/promises';
 import { collectDeps, serializeValue, UNDEFINED_PREFIX } from './serializers';
@@ -892,6 +897,10 @@ export const collectValue = (obj: any, collector: Collector, leaks: boolean | Qw
               collectValue(value, collector, leaks);
             })
           );
+          return;
+        } else if (isFunction(obj)) {
+          collector.$objSet$.add(undefined);
+          collector.$noSerialize$.push(obj);
           return;
         }
 
