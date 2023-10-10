@@ -615,6 +615,31 @@ useNavigate: () => RouteNavigate;
 
 [Edit this section](https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/runtime/src/use-functions.ts)
 
+## valibot$
+
+```typescript
+valibot$: (
+  first:
+    | ValibotObjectShapeOrSchema
+    | ((ev: RequestEvent) => ValibotObjectShapeOrSchema),
+) => DataValidator<{}>;
+```
+
+[Edit this section](https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/runtime/src/server-functions.ts)
+
+## valibotQrl
+
+```typescript
+valibotQrl: (
+  qrl: QRL<
+    | ValibotObjectShapeOrSchema
+    | ((ev: RequestEvent) => ValibotObjectShapeOrSchema)
+  >,
+) => DataValidator;
+```
+
+[Edit this section](https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/runtime/src/server-functions.ts)
+
 ## validator$
 
 ```typescript

@@ -16,6 +16,14 @@ import type {
   EnvGetter,
 } from '@builder.io/qwik-city/middleware/request-handler';
 import type * as zod from 'zod';
+import type {
+  FlatErrors,
+  BaseSchema,
+  BaseSchemaAsync,
+  ObjectShape,
+  ObjectShapeAsync,
+  SafeParseResult,
+} from 'valibot';
 
 export type {
   Cookie,
@@ -822,6 +830,17 @@ export interface TypedDataValidator<T extends zod.ZodType = any> {
   validate(ev: RequestEvent, data: unknown): Promise<zod.SafeParseReturnType<T, T>>;
 }
 
+export type ValibotSchema = BaseSchema | BaseSchemaAsync;
+export type ValibotObjectShape = ObjectShape | ObjectShapeAsync;
+export type ValibotObjectShapeOrSchema = ValibotObjectShape | ValibotSchema;
+
+/**
+ * @public
+ */
+export interface TypedDataValidatorValibot<T extends BaseSchema | BaseSchemaAsync> {
+  validate(ev: RequestEvent, data: unknown): Promise<SafeParseResult<T>>;
+}
+
 export interface ValidatorConstructor {
   <T extends ValidatorReturn>(
     validator: (ev: RequestEvent, data: unknown) => ValueOrPromise<T>
@@ -858,6 +877,29 @@ export interface ZodConstructorQRL {
   <T extends zod.Schema>(
     schema: QRL<(z: typeof zod, ev: RequestEvent) => T>
   ): TypedDataValidator<T>;
+}
+
+/**
+ * @public
+ */
+export interface ValibotConstructor {
+  <T extends BaseSchema | BaseSchemaAsync>(
+    schema: (ev: RequestEvent) => T
+  ): TypedDataValidatorValibot<T>;
+  <T extends BaseSchema | BaseSchemaAsync>(schema: T): TypedDataValidatorValibot<T>;
+  <T extends BaseSchema | BaseSchemaAsync>(
+    schema: (ev: RequestEvent) => T
+  ): TypedDataValidatorValibot<T>;
+}
+
+/**
+ * @public
+ */
+export interface ValibotConstructorQRL {
+  <T extends BaseSchema | BaseSchemaAsync>(schema: QRL<T>): TypedDataValidatorValibot<T>;
+  <T extends BaseSchema | BaseSchemaAsync>(
+    schema: QRL<(ev: RequestEvent) => T>
+  ): TypedDataValidatorValibot<T>;
 }
 
 export interface ServerFunction {

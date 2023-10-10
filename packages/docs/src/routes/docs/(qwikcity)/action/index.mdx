@@ -14,7 +14,10 @@ contributors:
   - ulic75
   - CoralWombat
   - tzdesign
+  - brandonpittman
 ---
+
+import CodeSandbox from '../../../../components/code-sandbox/index.tsx';
 
 # `routeAction$()`
 
@@ -60,7 +63,6 @@ export default component$(() => {
 ```
 
 > Since actions are not executed during rendering, they can have side effects such as writing to a database, or sending an email. An action only runs when called explicitly.
-
 
 ## Using actions with `<Form/>`
 
@@ -150,41 +152,30 @@ export interface EditFormProps {
   editingIdSignal: Signal<string>;
 }
 
-const EditForm = component$(
-  ({ item, editingIdSignal }: EditFormProps) => {
-    const editAction = useEditFromListAction();
+const EditForm = component$(({ item, editingIdSignal }: EditFormProps) => {
+  const editAction = useEditFromListAction();
 
-    return (
+  return (
+    <div>
+      <Form
+        action={editAction}
+        onSubmitCompleted$={() => {
+          editingIdSignal.value = '';
+        }}
+        spaReset
+      >
+        <input type="text" value={item.text} name="text" id={`edit-${item.id}`} />
+        {/* Sends item.id with form data on submission. */}
+        <input type="hidden" name="id" value={item.id} />
+        <button type="submit">Submit</button>
+      </Form>
+
       <div>
-        <Form
-          action={editAction}
-          onSubmitCompleted$={() => {
-            editingIdSignal.value = '';
-          }}
-          spaReset
-        >
-          <input
-            type="text"
-            value={item.text}
-            name="text"
-            id={`edit-${item.id}`}
-          />
-          {/* Sends item.id with form data on submission. */}
-          <input type="hidden" name="id" value={item.id} />
-          <button type="submit">
-            Submit
-          </button>
-        </Form>
-
-        <div>
-          <button onClick$={() => (editingIdSignal.value = '')}>
-            Cancel
-          </button>
-        </div>
+        <button onClick$={() => (editingIdSignal.value = '')}>Cancel</button>
       </div>
-    );
-  }
-);
+    </div>
+  );
+});
 
 export default EditForm;
 ```
@@ -192,6 +183,8 @@ export default EditForm;
 In this example, `onSubmitCompleted$` is used to reset the editingIdSignal value to an empty string once the form submission is completed successfully. This allows the application to update its state and return to the default view.
 
 ## Validation and type safety
+
+### Simple (Zod)
 
 Qwik comes with built-in support for [Zod](https://zod.dev/), a TypeScript-first schema validation that can be used directly with actions, using the `zod$()` function.
 
@@ -231,9 +224,7 @@ export default component$(() => {
         {action.value?.failed && <p>{action.value.fieldErrors?.firstName}</p>}
         <button type="submit">Add user</button>
       </Form>
-      {action.value?.success && (
-        <p>User {action.value.userID} added successfully</p>
-      )}
+      {action.value?.success && <p>User {action.value.userID} added successfully</p>}
     </>
   );
 });
@@ -243,17 +234,89 @@ When submitting data to a `routeAction()`, the data is validated against the Zod
 
 Please refer to the [Zod documentation](https://zod.dev/) for more information on how to use Zod schemas.
 
-### Advanced event based validation
+### Simple (Valibot)
 
-The constructor of ```zod$``` can also take a function, as the first argument is zod itself, so you can use this directly to build the schema. 
+Qwik comes with built-in support for [Valibot](https://valibot.dev/), a TypeScript-first schema validation that can be used directly with actions, using the `valibot$()` function.
+
+Actions + [Valibot](https://valibot.dev/) allows to create type safe forms, where the data is validated server side before the action is executed.
+
+<CodeSandbox src="/src/routes/demo/valibot/simple/index.tsx">
+```tsx /firstName/#a /lastName/#b title="src/routes/index.tsx"
+
+import { component$, useStylesScoped$ } from '@builder.io/qwik';
+import { routeAction$, valibot$, Form } from '@builder.io/qwik-city';
+import styles from './styles.css?inline';
+import { string, minLength } from 'valibot';
+
+export const useAddUser = routeAction$(
+  async (user) => {
+    return {
+      success: true,
+      firstName: user.firstName,
+    };
+  },
+  // Valibot schema is used to validate that the FormData includes "firstName" and "lastName"
+  valibot$({
+    firstName: string([minLength(1)]),
+    lastName: string([minLength(1)]),
+  })
+);
+
+export default component$(() => {
+  const action = useAddUser();
+  useStylesScoped$(styles);
+
+  return (
+    <Form action={action}>
+      <label>
+        <span>First name:</span>
+        <input name="firstName" />
+        <p data-status="error">
+          {action.value?.failed && (
+            <span>{action.value.nested?.firstName}</span>
+          )}
+        </p>
+      </label>
+
+      <label>
+        <span>Last name:</span>
+        <input name="lastName" />
+      </label>
+      <p data-status="error">
+        {action.value?.failed && (
+          <span>{action.value.nested?.lastName}</span>
+        )}
+      </p>
+
+      <button type="submit">Add user</button>
+
+      {action.value?.success && (
+        <p data-status="success">
+          User {action.value.firstName} added successfully.
+        </p>
+      )}
+    </Form>
+  );
+});
+
+````
+</CodeSandbox>
+
+When submitting data to a `routeAction()`, the data is validated against the Valibot schema. If the data is invalid, the action will put the validation error in the `routeAction.value` property.
+
+Please refer to the [Valibot documentation](https://valibot.dev/) for more information on how to use Valibot schemas.
+
+### Advanced (Zod)
+
+The constructor of ```zod$``` can also take a function, as the first argument is zod itself, so you can use this directly to build the schema.
 The second parameter is the RequestEvent to construct an event-based zod schema.
 Especially in combination with ```refine``` and ```superDefine``` in zod, the only limit is your imagination.
 
 
-```tsx {5-5} /ev/#a  title="Advanced event based validation"
+```tsx {5-5} /ev/#a  title="Advanced event based validation with Zod"
 export const useAddUser = routeAction$(
   async (user) => {
-    // The "user" is still strongly typed, but firstname 
+    // The "user" is still strongly typed, but firstname
     // is now optional: { firstName?: string | undefined, lastName: string }
     const userID = await db.users.add({
       firstName: user.firstName,
@@ -278,7 +341,75 @@ export const useAddUser = routeAction$(
     });
   })
 );
-```
+````
+
+### Advanced (Valibot)
+
+The constructor of `valibot$` can also take a function that takes a `RequestEvent` that you can use to build your schema.
+
+<CodeSandbox src="/src/routes/demo/valibot/advanced/index.tsx">
+```tsx /requestEvent/#a  title="Advanced event based validation with Valibot"
+import { component$, useStylesScoped$ } from '@builder.io/qwik';
+import { routeAction$, valibot$, Form } from '@builder.io/qwik-city';
+import styles from './styles.css?inline';
+import { string, object, minLength } from 'valibot';
+
+export const useAddUser = routeAction$(
+  async (user) => {
+    return {
+      success: true,
+      firstName: user.firstName,
+    };
+  },
+  // Valibot schema is used to validate that the FormData includes "firstName" and "lastName"
+  valibot$((requestEvent) =>
+    object({
+      firstName: string([minLength(1)]),
+      // The last name is optional if the url contains the query parameter "lastname=optional"
+      lastName:
+        requestEvent.url.searchParams.get('lastname') === 'optional'
+          ? string()
+          : string([minLength(1)]),
+    })
+  )
+);
+
+export default component$(() => {
+  const action = useAddUser();
+  useStylesScoped$(styles);
+
+  return (
+    <Form action={action} class="flow">
+      <label>
+        <span>First name:</span>
+        <input name="firstName" />
+        <p data-status="error">
+          {action.value?.failed && (
+            <span>{action.value.nested?.firstName}</span>
+          )}
+        </p>
+      </label>
+
+      <label>
+        <span>Last name:</span>
+        <input name="lastName" />
+      </label>
+      <p data-status="error">
+        {action.value?.failed && <span>{action.value.nested?.lastName}</span>}
+      </p>
+
+      <button type="submit">Add user</button>
+
+      {action.value?.success && (
+        <p data-status="success">
+          User {action.value.firstName} added successfully.
+        </p>
+      )}
+    </Form>
+  );
+});
+````
+</CodeSandbox>
 
 ## HTTP request and response
 
@@ -300,9 +431,11 @@ export const useProductRecommendations = routeAction$(
   }
 );
 
-```
+````
 
 ## Action Failures
+
+### Zod
 
 In order to return non-success values, the action must use the `fail()` method.
 
@@ -349,7 +482,57 @@ export default component$(() => {
 
 Thanks to Typescript type discrimination, you can use the `action.value.failed` property to discriminate between success and failure.
 
+### Valibot
+
+In order to return non-success values, the action must use the `fail()` method.
+
+```tsx /fail/
+import { routeAction$, valibot$ } from '@builder.io/qwik-city';
+import { string } from 'valibot';
+
+export const useAddUser = routeAction$(
+  async (user, { fail }) => {
+    // `user` is typed { name: string }
+    const userID = await db.users.add(user);
+    if (!userID) {
+      return fail(500, {
+        message: 'User could not be added',
+      });
+    }
+    return {
+      userID,
+    };
+  },
+  valibot$({
+    name: string(),
+  })
+);
+```
+
+Failures are stored in the `action.value` property, just like the success value. However, the `action.value.failed` property is set to `true` when the action fails. Futhermore, failure messages can be found in the `nested` object according to properties defined in your Valibot schema.
+
+```tsx
+import { component$ } from '@builder.io/qwik';
+import { Form } from '@builder.io/qwik-city';
+
+export default component$(() => {
+  const action = useAddUser();
+  return (
+    <Form action={action}>
+      <input name="name" />
+      <button type="submit">Add user</button>
+      {action.value?.failed && <p>{action.value.nested?.name}</p>}
+      {action.value?.userID && <p>User added successfully</p>}
+    </Form>
+  );
+});
+```
+
+Thanks to Typescript type discrimination, you can use the `action.value.failed` property to discriminate between success and failure.
+
 ## Previous form state
+
+### Zod
 
 When an action is triggered, the previous state is stored in the `action.formData` property. This is useful to display a loading state while the action is running.
 
@@ -372,7 +555,33 @@ export default component$(() => {
 });
 ```
 
-The `action.formData` is especially useful as it allows to keep the form data filled by the user even on a page refresh, allowing to have a full SPA experience, even with JS disabled.
+The `action.formData` is especially useful as it allows to keep the form data filled by the user even on a page refresh, ensuring a full SPA experience, even with JS disabled.
+
+### Valibot
+
+When an action is triggered, the previous state is stored in the `action.formData` property. This is useful to display a loading state while the action is running.
+
+```tsx {12} /action.formData/
+import { component$ } from '@builder.io/qwik';
+import { routeAction$, Form, valibot$ } from '@builder.io/qwik-city';
+import { object, string } from 'valibot';
+
+export const useAddUser = routeAction$(async (user) => {
+  // handle action...
+});
+
+export default component$(() => {
+  const action = useAddUser();
+  return (
+    <Form action={action}>
+      <input name="name" value={action.formData?.get('name')} />
+      <button type="submit">Add user</button>
+    </Form>
+  );
+});
+```
+
+The `action.formData` is especially useful as it allows to keep the form data filled by the user even on a page refresh, ensuring a full SPA experience, even with JS disabled.
 
 ## Route vs Global actions
 

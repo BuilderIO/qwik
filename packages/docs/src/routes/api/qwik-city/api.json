@@ -703,6 +703,34 @@
       "mdFile": "qwik-city.usenavigate.md"
     },
     {
+      "name": "valibot$",
+      "id": "valibot_",
+      "hierarchy": [
+        {
+          "name": "valibot$",
+          "id": "valibot_"
+        }
+      ],
+      "kind": "Variable",
+      "content": "```typescript\nvalibot$: (first: ValibotObjectShapeOrSchema | ((ev: RequestEvent) => ValibotObjectShapeOrSchema)) => DataValidator<{}>\n```",
+      "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/runtime/src/server-functions.ts",
+      "mdFile": "qwik-city.valibot_.md"
+    },
+    {
+      "name": "valibotQrl",
+      "id": "valibotqrl",
+      "hierarchy": [
+        {
+          "name": "valibotQrl",
+          "id": "valibotqrl"
+        }
+      ],
+      "kind": "Variable",
+      "content": "```typescript\nvalibotQrl: (qrl: QRL<ValibotObjectShapeOrSchema | ((ev: RequestEvent) => ValibotObjectShapeOrSchema)>) => DataValidator\n```",
+      "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/runtime/src/server-functions.ts",
+      "mdFile": "qwik-city.valibotqrl.md"
+    },
+    {
       "name": "validator$",
       "id": "validator_",
       "hierarchy": [

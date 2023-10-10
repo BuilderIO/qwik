@@ -8,6 +8,7 @@
     "@types/mdx": "2.0.5",
     "source-map": "0.7.4",
     "svgo": "^3.0.2",
+    "valibot": "^0.13.0",
     "vfile": "^6.0.1",
     "vite-imagetools": "^5.0.5",
     "zod": "^3.21.4"

@@ -19,6 +19,7 @@ import { RouteStateContext } from './contexts';
 import type {
   ActionConstructor,
   ZodConstructor,
+  ValibotConstructor,
   JSONObject,
   RouteActionResolver,
   RouteLocation,
@@ -38,11 +39,17 @@ import type {
   ZodConstructorQRL,
   ValidatorConstructorQRL,
   ServerConstructorQRL,
+  ValibotConstructorQRL,
+  ValibotObjectShapeOrSchema,
+  ValibotSchema,
+  ValibotObjectShape,
 } from './types';
 import { useAction, useLocation, useQwikCityEnv } from './use-functions';
 import { z } from 'zod';
+import { objectAsync, safeParseAsync, flatten } from 'valibot';
 import { isDev, isServer } from '@builder.io/qwik/build';
 import type { FormSubmitCompletedDetail } from './form-component';
+import type { BaseSchema, BaseSchemaAsync, ObjectShape, ObjectShapeAsync } from 'valibot';
 
 /**
  * @public
@@ -229,6 +236,56 @@ export const validatorQrl = ((
  * @public
  */
 export const validator$: ValidatorConstructor = /*#__PURE__*/ implicit$FirstArg(validatorQrl);
+
+/**
+ * @public
+ */
+export const valibotQrl = ((
+  qrl: QRL<ValibotObjectShapeOrSchema | ((ev: RequestEvent) => ValibotObjectShapeOrSchema)>
+): DataValidator => {
+  if (isServer) {
+    return {
+      async validate(ev, inputData) {
+        const data = inputData ?? (await ev.parseBody());
+        const schema: Promise<ValibotSchema> = qrl.resolve().then((obj) => {
+          if (typeof obj === 'function') {
+            obj = obj(ev);
+          }
+
+          if (typeof obj._parse === 'function') {
+            return obj as ValibotSchema;
+          } else {
+            return objectAsync(obj as ValibotObjectShape);
+          }
+        });
+
+        const result = await safeParseAsync(await schema, data);
+        if (result.success) {
+          return result;
+        } else {
+          if (isDev) {
+            console.error(
+              '\nVALIDATION ERROR\naction$() Valibot validation failed.',
+              '\n  - Issues:',
+              result.issues
+            );
+          }
+          return {
+            success: false,
+            status: 400,
+            error: flatten(result.issues),
+          };
+        }
+      },
+    };
+  }
+  return undefined as any;
+}) as ValibotConstructorQRL;
+
+/**
+ * @public
+ */
+export const valibot$: ValibotConstructor = /*#__PURE__*/ implicit$FirstArg(valibotQrl);
 
 /**
  * @public

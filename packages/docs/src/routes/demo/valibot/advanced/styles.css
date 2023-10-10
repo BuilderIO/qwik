@@ -1,0 +1,19 @@
+.flow > * + * {
+  margin-block-start: 0.5rem;
+}
+
+label > input {
+  font-weight: 400;
+}
+
+[data-status] {
+  font-weight: 400;
+}
+
+[data-status='error'] {
+  color: red;
+}
+
+[data-status='success'] {
+  color: green;
+}
