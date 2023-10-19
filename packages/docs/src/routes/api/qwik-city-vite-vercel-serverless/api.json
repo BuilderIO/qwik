@@ -1,0 +1,34 @@
+{
+  "id": "qwik-city-vite-vercel-serverless",
+  "package": "@builder.io/qwik-city/vite/vercel-serverless",
+  "members": [
+    {
+      "name": "vercelServerlessAdapter",
+      "id": "vercelserverlessadapter",
+      "hierarchy": [
+        {
+          "name": "vercelServerlessAdapter",
+          "id": "vercelserverlessadapter"
+        }
+      ],
+      "kind": "Function",
+      "content": "```typescript\nexport declare function vercelServerlessAdapter(opts?: VercelServerlessAdapterOptions): any;\n```\n\n\n|  Parameter | Type | Description |\n|  --- | --- | --- |\n|  opts | [VercelServerlessAdapterOptions](#vercelserverlessadapteroptions) | _(Optional)_ |\n\n**Returns:**\n\nany",
+      "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/adapters/vercel-serverless/vite/index.ts",
+      "mdFile": "qwik-city.vercelserverlessadapter.md"
+    },
+    {
+      "name": "VercelServerlessAdapterOptions",
+      "id": "vercelserverlessadapteroptions",
+      "hierarchy": [
+        {
+          "name": "VercelServerlessAdapterOptions",
+          "id": "vercelserverlessadapteroptions"
+        }
+      ],
+      "kind": "Interface",
+      "content": "```typescript\nexport interface VercelServerlessAdapterOptions extends ServerAdapterOptions \n```\n**Extends:** ServerAdapterOptions\n\n\n|  Property | Modifiers | Type | Description |\n|  --- | --- | --- | --- |\n|  [environment?](#) |  | Record&lt;string, string&gt;\\[\\] | _(Optional)_ Map of additional environment variables that will be available to the Serverless Function, in addition to the env vars specified in the Project Settings. |\n|  [maxDuration?](#) |  | number | _(Optional)_ Maximum execution duration (in seconds) that will be allowed for the Serverless Function. |\n|  [memory?](#) |  | number | _(Optional)_ Amount of memory (RAM in MB) that will be allocated to the Serverless Function. |\n|  [outputConfig?](#) |  | boolean | <p>_(Optional)_ Determines if the build should auto-generate the <code>.vercel/output/config.json</code> config.</p><p>Defaults to <code>true</code>.</p> |\n|  [regions?](#) |  | string\\[\\] | _(Optional)_ List of Vercel Regions where the Serverless Function will be deployed to. |\n|  [runtime?](#) |  | string | _(Optional)_ Specifies which \"runtime\" will be used to execute the Serverless Function. Defaults to <code>nodejs18.x</code>. |\n|  [staticPaths?](#) |  | string\\[\\] | _(Optional)_ Manually add pathnames that should be treated as static paths and not SSR. For example, when these pathnames are requested, their response should come from a static file, rather than a server-side rendered response. |\n|  [supportsResponseStreaming?](#) |  | boolean | _(Optional)_ When true, the Serverless Function will stream the response to the client. Defaulted to true since Qwik streams its content. |\n|  [supportsWrapper?](#) |  | boolean | _(Optional)_ True if a custom runtime has support for Lambda runtime wrappers. |\n|  [vcConfigEntryPoint?](#) |  | string | <p>_(Optional)_ The <code>entrypoint</code> property in the <code>.vc-config.json</code> file. Indicates the initial file where code will be executed for the Serverless Function.</p><p>Defaults to <code>entry.vercel-serverless.js</code>.</p> |",
+      "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/adapters/vercel-serverless/vite/index.ts",
+      "mdFile": "qwik-city.vercelserverlessadapteroptions.md"
+    }
+  ]
+}

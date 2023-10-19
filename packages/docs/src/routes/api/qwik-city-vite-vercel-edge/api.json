@@ -1,6 +1,6 @@
 {
-  "id": "qwik-city-vite-vercel",
-  "package": "@builder.io/qwik-city/vite/vercel",
+  "id": "qwik-city-vite-vercel-edge",
+  "package": "@builder.io/qwik-city/vite/vercel-edge",
   "members": [
     {
       "name": "vercelEdgeAdapter",

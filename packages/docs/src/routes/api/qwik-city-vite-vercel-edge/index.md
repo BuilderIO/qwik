@@ -1,8 +1,8 @@
 ---
-title: \@builder.io/qwik-city/vite/vercel API Reference
+title: \@builder.io/qwik-city/vite/vercel-edge API Reference
 ---
 
-# [API](/api) &rsaquo; @builder.io/qwik-city/vite/vercel
+# [API](/api) &rsaquo; @builder.io/qwik-city/vite/vercel-edge
 
 ## vercelEdgeAdapter
 

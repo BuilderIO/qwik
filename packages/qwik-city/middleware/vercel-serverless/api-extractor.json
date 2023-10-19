@@ -1,0 +1,19 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "extends": "../../api-extractor.json",
+  "mainEntryPointFilePath": "<projectFolder>/dist-dev/dts-out/packages/qwik-city/middleware/vercel-serverless/index.d.ts",
+  "apiReport": {
+    "enabled": true,
+    "reportFileName": "api.md",
+    "reportFolder": "<projectFolder>/packages/qwik-city/middleware/vercel-serverless/",
+    "reportTempFolder": "<projectFolder>/dist-dev/api-extractor/qwik-city/middleware/vercel-serverless"
+  },
+  "dtsRollup": {
+    "enabled": true,
+    "untrimmedFilePath": "<projectFolder>/packages/qwik-city/lib/middleware/vercel-serverless/index.d.ts"
+  },
+  "docModel": {
+    "enabled": true,
+    "apiJsonFilePath": "<projectFolder>/dist-dev/api/qwik-city/middleware/vercel-serverless/docs.api.json"
+  }
+}

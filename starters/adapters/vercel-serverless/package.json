@@ -1,0 +1,28 @@
+{
+  "description": "Vercel Edge Functions",
+  "scripts": {
+    "build.server": "vite build -c adapters/vercel-edge/vite.config.ts",
+    "deploy": "vercel deploy"
+  },
+  "devDependencies": {
+    "vercel": "^29.1.1"
+  },
+  "__qwik__": {
+    "priority": 30,
+    "displayName": "Adapter: Vercel Edge",
+    "docs": [
+      "https://qwik.builder.io/deployments/vercel-serverless/",
+      "https://vercel.com/docs/concepts/functions/serverless-functions",
+      "https://vercel.com/docs"
+    ],
+    "nextSteps": {
+      "title": "Next Steps",
+      "lines": [
+        " Now you can build and deploy to Vercel with:",
+        "",
+        "  - pnpm run build: production build for Vercel",
+        "  - pnpm run deploy: it will use the Vercel CLI to deploy your site"
+      ]
+    }
+  }
+}

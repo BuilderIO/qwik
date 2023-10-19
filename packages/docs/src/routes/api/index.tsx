@@ -1,7 +1,8 @@
 import { $, component$, useOn, useSignal, useStore, useTask$ } from '@builder.io/qwik';
-import { isBrowser } from '@builder.io/qwik/build';
-import { toSnakeCase } from '../../utils/utils';
 
+import { isBrowser } from '@builder.io/qwik/build';
+import qwikApiData from './qwik/api.json';
+import qwikCityApiData from './qwik-city/api.json';
 // TODO: load the content of these files using fs instead of importing them
 import qwikCityMiddlewareAzureSwaApiData from './qwik-city-middleware-azure-swa/api.json';
 import qwikCityMiddlewareCloudflarePagesApiData from './qwik-city-middleware-cloudflare-pages/api.json';
@@ -17,12 +18,12 @@ import qwikCityViteCloudflarePagesApiData from './qwik-city-vite-cloudflare-page
 import qwikCityViteNetlifyEdgeApiData from './qwik-city-vite-netlify-edge/api.json';
 import qwikCityViteNodeServerApiData from './qwik-city-vite-node-server/api.json';
 import qwikCityViteStaticApiData from './qwik-city-vite-static/api.json';
-import qwikCityViteVercelApiData from './qwik-city-vite-vercel/api.json';
-import qwikCityApiData from './qwik-city/api.json';
+import qwikCityViteVercelEdgeApiData from './qwik-city-vite-vercel-edge/api.json';
+import qwikCityViteVercelServerlessApiData from './qwik-city-vite-vercel-serverless/api.json';
 import qwikOptimizerApiData from './qwik-optimizer/api.json';
 import qwikServerApiData from './qwik-server/api.json';
 import qwikTestingApiData from './qwik-testing/api.json';
-import qwikApiData from './qwik/api.json';
+import { toSnakeCase } from '../../utils/utils';
 
 const _KINDS = new Set<string>();
 
@@ -43,7 +44,8 @@ const apiData = {
   'qwik-city-vite-node-server': qwikCityViteNodeServerApiData,
   'qwik-city-vite-netlify-edge': qwikCityViteNetlifyEdgeApiData,
   'qwik-city-vite-static': qwikCityViteStaticApiData,
-  'qwik-city-vite-vercel': qwikCityViteVercelApiData,
+  'qwik-city-vite-vercel-edge': qwikCityViteVercelEdgeApiData,
+  'qwik-city-vite-vercel-serverless': qwikCityViteVercelServerlessApiData,
   'qwik-optimizer': qwikOptimizerApiData,
   'qwik-server': qwikServerApiData,
   'qwik-testing': qwikTestingApiData,

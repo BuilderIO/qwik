@@ -128,6 +128,19 @@ export async function apiExtractor(config: BuildConfig) {
   );
   createTypesApi(
     config,
+    join(config.packagesDir, 'qwik-city', 'adapters', 'vercel-serverless', 'vite'),
+    join(
+      config.packagesDir,
+      'qwik-city',
+      'lib',
+      'adapters',
+      'vercel-serverless',
+      'vite',
+      'index.d.ts'
+    )
+  );
+  createTypesApi(
+    config,
     join(config.packagesDir, 'qwik-city', 'middleware', 'azure-swa'),
     join(config.packagesDir, 'qwik-city', 'lib', 'middleware', 'azure-swa', 'index.d.ts')
   );
