@@ -260,7 +260,20 @@ export const zodQrl = ((
 /** @public */
 export const zod$: ZodConstructor = /*#__PURE__*/ implicit$FirstArg(zodQrl) as any;
 
-/** @public */
+const deepFreeze = (obj: any) => {
+  const propNames = Object.getOwnPropertyNames(obj);
+  for (const name of propNames) {
+    const value = obj[name];
+    if (value && typeof value === 'object') {
+      deepFreeze(value);
+    }
+  }
+  return Object.freeze(obj);
+};
+
+/**
+ * @public
+ */
 export const serverQrl: ServerConstructorQRL = (qrl: QRL<(...args: any[]) => any>) => {
   if (isServer) {
     const captured = qrl.getCaptured();
@@ -276,22 +289,17 @@ export const serverQrl: ServerConstructorQRL = (qrl: QRL<(...args: any[]) => any
           ? (args.shift() as AbortSignal)
           : undefined;
       if (isServer) {
-        const requestEvent = [useQwikCityEnv()?.ev, this, _getContextEvent()].find(
-          (v) =>
-            v &&
-            Object.prototype.hasOwnProperty.call(v, 'sharedMap') &&
-            Object.prototype.hasOwnProperty.call(v, 'cookie')
-        );
-        return qrl.apply(requestEvent, args);
+        const requestEvent = useQwikCityEnv()?.ev ?? this ?? _getContextEvent();
+        return qrl.apply(requestEvent, deepFreeze(args));
       } else {
         const ctxElm = _getContextElement();
         const filtered = args.map((arg) => {
           if (arg instanceof SubmitEvent && arg.target instanceof HTMLFormElement) {
             return new FormData(arg.target);
           } else if (arg instanceof Event) {
-            return null;
+            throw new Error('Cannot serialize instances of Event.');
           } else if (arg instanceof Node) {
-            return null;
+            throw new Error('Cannot serialize instances of Node.');
           }
           return arg;
         });
