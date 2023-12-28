@@ -3,8 +3,9 @@ title: Cookbook | Dark and Light Theme
 contributors:
   - Inaam-Ur-Rehman
   - gioboa
+  - nelsonprsousa
 updated_at: '2023-10-10T20:38:51Z'
-created_at: '2023-10-10T16:59:26Z'
+created_at: '2023-12-28T22:00:00Z'
 ---
 
 # Theme management
@@ -24,6 +25,28 @@ You have to enable the darkmode from your ```tailwind.config.js``` file. It shou
 ```js
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  darkMode: "media",
+  theme: {},
+  plugins: [],
+};
+```
+
+> NOTE:
+>
+> - If you want to fully rely on user preference at the OS-level, you're all set and ready to go. You do not need to do anything else.
+> - By default, this uses the prefers-color-scheme CSS media feature and you can start applying your `dark:{class}` classes.
+
+
+
+
+## Toggling dark mode manually
+
+
+If you want to support toggling dark mode manually instead of relying on the operating system preference, use the class strategy instead of the media strategy:
+
+```js
+module.exports = {
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   darkMode: "class",
   theme: {},
   plugins: [],
@@ -31,63 +54,138 @@ module.exports = {
 
 ```
 
-Then we have to add this code in the head tag of our ```root.tsx``` file.
+Using `darkMode: "class"`, the dark classes will be applied whenever the `dark` class is present earlier in the HTML tree, instead of relying on prefers-color-scheme. This means that we can use this opportunity to support both the user’s system preference and a manually selected mode.
 
-```js
-<script
-          dangerouslySetInnerHTML={`
-        (function() {
-          function setTheme(theme) {
-            document.documentElement.className = theme;
-            localStorage.setItem('theme', theme);
-          }
-          var theme = localStorage.getItem('theme');
-          console.log(theme);
-          if (theme) {
-            setTheme(theme);
-          } else {
-            setTheme('light');
-          }
-        })();
-        window.addEventListener('load', function() {
-          var themeSwitch = document.getElementById('hide-checkbox');
-          themeSwitch.checked = localStorage.getItem('theme') === 'light'? true: false;
-        }
-        );
-      `}
-        ></script>
-```
+> NOTE:
+>
+> - This is useful if you want your users to choose a different theme than the one they are using on their OS.
 
-You can change the variable name "hide-checkbox" to any name that you want. It need to be same as we have in our html file.
 
-Then in any component you can add your theme toggle code.
+
+Create a new `ThemeScript` component that will contains our theme management logic:
+
+- User preference for our Qwik application theme takes precedence over the OS-theme, using `localStorage`;
+- If the user preferece isn't set in `localStorage`, use the OS-theme;
+- Attach an event listener to OS-theme's change;
+- Use 'light' theme by default.
 
 ```tsx
-import { component$, useStylesScoped$ } from "@builder.io/qwik";
-import styles from "./style.css?inline";
+import { component$, sync$, useOnDocument, $ } from '@builder.io/qwik';
 
-export const ThemeSwitch = component$(() => {
-  useStylesScoped$(styles);
+export const colorSchemeChangeListener = (
+  onColorSchemeChange: (isDark: boolean) => void
+) => {
+  const listener = ({ matches: isDark }: MediaQueryListEvent) => {
+    onColorSchemeChange(isDark);
+  };
+
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', (event) => listener(event));
+
+  return () =>
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .removeEventListener('change', listener);
+};
+
+export const ThemeScript = component$(() => {
+  const UserColorThemeKey = 'user-preference-color-theme';
+
+  useOnDocument(
+    'DOMContentLoaded',
+    sync$(() => {
+      const userPreference = localStorage.getItem(UserColorThemeKey);
+
+      if (userPreference) {
+        if (userPreference === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })
+  );
+
+  useOnDocument(
+    'DOMContentLoaded',
+    $(() => {
+      return colorSchemeChangeListener((isDark) => {
+        if (!(UserColorThemeKey in localStorage)) {
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        }
+      });
+    })
+  );
+
+  return null;
+});
+```
+
+Add this component to your `router-head.tsx` component:
+```tsx
+export const RouterHead = component$(() => {
   return (
-    <div class="flex items-center gap-3">
-      <label class="switch">
-        <input
-          type="checkbox"
-          id="hide-checkbox"
-          onClick$={() => {
-            const theme = document.documentElement.className;
-            if (theme === "light") {
-              document.documentElement.className = "dark";
-              localStorage.setItem("theme", "dark");
-            } else {
-              document.documentElement.className = "light";
-              localStorage.setItem("theme", "light");
-            }
-          }}
-        />
-        <span class="slider round"></span>
-      </label>
-    </div>
+    <>
+      <title>{head.title}</title>
+
+      // ... all your other links, tags, and scripts
+
+      <ThemeScript />
+    </>
+  );
+});
+```
+
+Then in any component you can add your theme toggle code, to let your users manually change the theme.
+
+```tsx
+import { component$, event$, useStyles$ } from '@builder.io/qwik';
+import { SunAndMoon } from './sun-and-moon';
+import themeToggle from './theme-toggle.css?inline';
+
+export const ThemeToggle = component$(() => {
+  useStyles$(themeToggle);
+
+  const UserColorThemeKey = 'user-preference-color-theme';
+
+  const onClick$ = event$(() => {
+    const currentTheme =
+      localStorage.getItem(UserColorThemeKey) ??
+      (window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light');
+
+    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem(UserColorThemeKey, nextTheme);
+
+    if (nextTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  });
+
+  return (
+    <button
+      type="button"
+      class="theme-toggle"
+      id="theme-toggle"
+      title="Toggles light & dark"
+      aria-label={'Toggles light & dark'}
+      aria-live="polite"
+      onClick$={onClick$}
+    >
+      <SunAndMoon />
+    </button>
   );
 });
 
@@ -97,52 +195,170 @@ For styling of theme switch.
 
 
 ```css
-.switch{
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 30px;
-  background-color: red;
-  border-radius: 100px;
-  cursor: pointer;
-}
+.theme-toggle {
+  --size: 22px;
+  --icon-fill: hsl(210 10% 15%);
+  --icon-fill-hover: hsl(210 10% 30%);
 
-.switch input{
-  display: none;
-}
+  display: block;
 
-.slider{
-  width: 50px;
-  height: 25px;
-  border-radius: 25px;
-  background-color: #ccc;
-  position: relative;
-  cursor: pointer;
-  transition: all .3s linear;
-}
+  background: none;
+  border: none;
+  padding: 0;
 
-.slider:before{
-  content: "";
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  background-size: cover;
+  inline-size: var(--size);
+  block-size: var(--size);
+  aspect-ratio: 1;
   border-radius: 50%;
-  background-color: #fff;
-  top: 15px;
-  left: 5px;
-  bottom: 0;
-  margin: auto;
-  transition: all .3s linear;
+
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+
+  outline-offset: 5px;
 }
 
-input:checked + .slider{
-  background-color: #2196F3;
+html[class~='dark'] .theme-toggle {
+  --icon-fill: hsl(210 10% 100%);
+  --icon-fill-hover: hsl(210 15% 70%);
 }
 
-input:checked + .slider:before{
-  left: 22px;
+.theme-toggle > svg {
+  inline-size: 100%;
+  block-size: 100%;
+  stroke-linecap: round;
 }
 ```
 
-Then run the code. You have the functionality of dark and light theme.
+```tsx
+import { component$, useStyles$ } from '@builder.io/qwik';
+import sunAndMoonStyles from './sun-and-moon.css?inline';
+
+export const SunAndMoon = component$(() => {
+  useStyles$(sunAndMoonStyles);
+
+  return (
+    <svg
+      class="sun-and-moon"
+      aria-hidden="true"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <mask class="moon" id="moon-mask">
+        <rect x="0" y="0" width="100%" height="100%" fill="white" />
+        <circle cx="24" cy="10" r="6" fill="black" />
+      </mask>
+      <circle
+        class="sun"
+        cx="12"
+        cy="12"
+        r="6"
+        mask="url(#moon-mask)"
+        fill="currentColor"
+      />
+      <g class="sun-beams" stroke="currentColor">
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </g>
+    </svg>
+  );
+});
+
+```
+
+```css
+.sun-and-moon {
+  --ease-elastic-3: cubic-bezier(0.5, 1.25, 0.75, 1.25);
+  --ease-elastic-4: cubic-bezier(0.5, 1.5, 0.75, 1.25);
+  --ease-out-5: cubic-bezier(0, 0, 0, 1);
+  --ease-3: cubic-bezier(0.25, 0, 0.3, 1);
+}
+
+.sun-and-moon > :is(.moon, .sun, .sun-beams) {
+  transform-origin: center center;
+}
+
+.sun-and-moon > :is(.moon, .sun) {
+  fill: var(--icon-fill);
+}
+
+.theme-toggle:is(:hover, :focus-visible) > .sun-and-moon > :is(.moon, .sun) {
+  fill: var(--icon-fill-hover);
+}
+
+.sun-and-moon > .sun-beams {
+  stroke: var(--icon-fill);
+  stroke-width: 2px;
+}
+
+.theme-toggle:is(:hover, :focus-visible) .sun-and-moon > .sun-beams {
+  stroke: var(--icon-fill-hover);
+}
+
+html[class~='dark'] .sun-and-moon > .sun {
+  transform: scale(1.75);
+}
+
+html[class~='dark'] .sun-and-moon > .sun-beams {
+  opacity: 0;
+}
+
+html[class~='dark'] .sun-and-moon > .moon > circle {
+  transform: translateX(-7px);
+}
+
+@supports (cx: 1) {
+  html[class~='dark'] .sun-and-moon > .moon > circle {
+    transform: translateX(0);
+    cx: 17;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sun-and-moon > .sun {
+    transition: transform 0.5s var(--ease-elastic-3);
+  }
+
+  .sun-and-moon > .sun-beams {
+    transition:
+      transform 0.5s var(--ease-elastic-4),
+      opacity 0.5s var(--ease-3);
+  }
+
+  .sun-and-moon .moon > circle {
+    transition: transform 0.25s var(--ease-out-5);
+  }
+
+  @supports (cx: 1) {
+    .sun-and-moon .moon > circle {
+      transition: cx 0.25s var(--ease-out-5);
+    }
+  }
+}
+
+html[class~='dark'] .sun-and-moon > .sun {
+  transform: scale(1.75);
+  transition-timing-function: var(--ease-3);
+  transition-duration: 0.25s;
+}
+
+html[class~='dark'] .sun-and-moon > .sun-beams {
+  transform: rotateZ(-25deg);
+  transition-duration: 0.15s;
+}
+
+html[class~='dark'] .sun-and-moon > .moon > circle {
+  transition-delay: 0.25s;
+  transition-duration: 0.5s;
+}
+
+```
+
+Then run the code. You have the functionality of dark and light theme, controlled by both the OS or manually by the user.
