@@ -1,0 +1,34 @@
+{
+  "id": "qwik-city-vite-fastly",
+  "package": "@builder.io/qwik-city/vite/fastly",
+  "members": [
+    {
+      "name": "fastlyAdapter",
+      "id": "fastlyadapter",
+      "hierarchy": [
+        {
+          "name": "fastlyAdapter",
+          "id": "fastlyadapter"
+        }
+      ],
+      "kind": "Function",
+      "content": "```typescript\nexport declare function fastlyAdapter(opts?: FastlyAdapterOptions): any;\n```\n\n\n|  Parameter | Type | Description |\n|  --- | --- | --- |\n|  opts | [FastlyAdapterOptions](#fastlyadapteroptions) | _(Optional)_ |\n\n**Returns:**\n\nany",
+      "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/adapters/fastly/vite/index.ts",
+      "mdFile": "qwik-city.fastlyadapter.md"
+    },
+    {
+      "name": "FastlyAdapterOptions",
+      "id": "fastlyadapteroptions",
+      "hierarchy": [
+        {
+          "name": "FastlyAdapterOptions",
+          "id": "fastlyadapteroptions"
+        }
+      ],
+      "kind": "Interface",
+      "content": "```typescript\nexport interface FastlyAdapterOptions extends ServerAdapterOptions \n```\n**Extends:** ServerAdapterOptions\n\n\n|  Property | Modifiers | Type | Description |\n|  --- | --- | --- | --- |\n|  [staticPaths?](#) |  | string\\[\\] | _(Optional)_ Manually add pathnames that should be treated as static paths and not SSR. For example, when these pathnames are requested, their response should come from a static file, rather than a server-side rendered response. |",
+      "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/adapters/fastly/vite/index.ts",
+      "mdFile": "qwik-city.fastlyadapteroptions.md"
+    }
+  ]
+}

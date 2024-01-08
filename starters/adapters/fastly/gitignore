@@ -1,0 +1,8 @@
+# fastly
+/bin
+/pkg
+/src/statics.js
+/src/statics.d.ts
+/src/statics-metadata.js
+/src/statics-metadata.d.ts
+/src/static-content

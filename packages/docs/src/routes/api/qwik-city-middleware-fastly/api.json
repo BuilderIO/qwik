@@ -1,0 +1,48 @@
+{
+  "id": "qwik-city-middleware-fastly",
+  "package": "@builder.io/qwik-city/middleware/fastly",
+  "members": [
+    {
+      "name": "createQwikCity",
+      "id": "createqwikcity",
+      "hierarchy": [
+        {
+          "name": "createQwikCity",
+          "id": "createqwikcity"
+        }
+      ],
+      "kind": "Function",
+      "content": "```typescript\nexport declare function createQwikCity(opts: QwikCityFastlyOptions): (event: FetchEvent, staticContentServer: PublisherServer) => Promise<Response | import(\"fastly:cache\").SimpleCacheEntry | null>;\n```\n\n\n|  Parameter | Type | Description |\n|  --- | --- | --- |\n|  opts | [QwikCityFastlyOptions](#qwikcityfastlyoptions) |  |\n\n**Returns:**\n\n(event: FetchEvent, staticContentServer: PublisherServer) =&gt; Promise&lt;Response \\| import(\"fastly:cache\").SimpleCacheEntry \\| null&gt;",
+      "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts",
+      "mdFile": "qwik-city.createqwikcity.md"
+    },
+    {
+      "name": "PlatformFastly",
+      "id": "platformfastly",
+      "hierarchy": [
+        {
+          "name": "PlatformFastly",
+          "id": "platformfastly"
+        }
+      ],
+      "kind": "Interface",
+      "content": "```typescript\nexport interface PlatformFastly \n```\n\n\n|  Property | Modifiers | Type | Description |\n|  --- | --- | --- | --- |\n|  [env](#) |  | typeof env |  |\n|  [fetch](#) |  | typeof fetch |  |\n|  [request](#) |  | FetchEvent\\['request'\\] |  |\n|  [waitUntil](#) |  | FetchEvent\\['waitUntil'\\] |  |",
+      "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts",
+      "mdFile": "qwik-city.platformfastly.md"
+    },
+    {
+      "name": "QwikCityFastlyOptions",
+      "id": "qwikcityfastlyoptions",
+      "hierarchy": [
+        {
+          "name": "QwikCityFastlyOptions",
+          "id": "qwikcityfastlyoptions"
+        }
+      ],
+      "kind": "Interface",
+      "content": "```typescript\nexport interface QwikCityFastlyOptions extends ServerRenderOptions \n```\n**Extends:** ServerRenderOptions",
+      "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts",
+      "mdFile": "qwik-city.qwikcityfastlyoptions.md"
+    }
+  ]
+}

@@ -17,6 +17,8 @@
   "devDependencies": {
     "@azure/functions": "^3.5.1",
     "@builder.io/qwik": "workspace:*",
+    "@fastly/compute-js-static-publish": "^5.2.1",
+    "@fastly/js-compute": "^3.7.3",
     "@microsoft/api-extractor": "^7.38.0",
     "@netlify/edge-functions": "^2.2.0",
     "@types/marked": "5.0.1",
@@ -80,6 +82,10 @@
       "import": "./lib/adapters/netlify-edge/vite/index.mjs",
       "require": "./lib/adapters/netlify-edge/vite/index.cjs"
     },
+    "./adapters/fastly/vite": {
+      "import": "./lib/adapters/fastly/vite/index.mjs",
+      "require": "./lib/adapters/fastly/vite/index.cjs"
+    },
     "./adapters/shared/vite": {
       "import": "./lib/adapters/shared/vite/index.mjs",
       "require": "./lib/adapters/shared/vite/index.cjs"
@@ -97,6 +103,9 @@
     },
     "./middleware/cloudflare-pages": {
       "import": "./lib/middleware/cloudflare-pages/index.mjs"
+    },
+    "./middleware/fastly": {
+      "import": "./lib/middleware/fastly/index.mjs"
     },
     "./middleware/deno": {
       "import": "./lib/middleware/deno/index.mjs"

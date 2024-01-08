@@ -99,6 +99,7 @@
     "packages/qwik-react/vite",
     "@types/deno.d.ts",
     "@types/bun.d.ts",
+    "@types/fastly.d.ts",
     "types.d.ts"
   ],
   "exclude": [

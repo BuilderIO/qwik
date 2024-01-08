@@ -1,0 +1,28 @@
+{
+  "description": "Fastly",
+  "type": "module",
+  "scripts": {
+    "build.server": "vite build -c adapters/fastly/vite.config.ts && npx @fastly/compute-js-static-publish --build-static && js-compute-runtime dist/index.js bin/main.wasm",
+    "deploy": "fastly compute publish",
+    "serve": "fastly compute serve"
+  },
+  "devDependencies": {
+    "@fastly/compute-js-static-publish": "^5.2.1",
+    "@fastly/js-compute": "^3.7.3",
+    "fastly": "^6.1.1"
+  },
+  "__qwik__": {
+    "priority": 40,
+    "displayName": "Adapter: Fastly",
+    "docs": [],
+    "nextSteps": {
+      "title": "Next Steps",
+      "lines": [
+        "Now you can build and deploy to Fastly with:",
+        "",
+        "- pnpm run build: production build for Fastly",
+        "- pnpm run deploy: it will use the Fastly CLI to deploy your site"
+      ]
+    }
+  }
+}

@@ -23,6 +23,7 @@ export async function buildQwikCity(config: BuildConfig) {
     buildVite(config),
     buildAdapterAzureSwaVite(config),
     buildAdapterCloudflarePagesVite(config),
+    buildAdapterFastlyVite(config),
     buildAdapterCloudRunVite(config),
     buildAdapterDenoVite(config),
     buildAdapterBunVite(config),
@@ -32,6 +33,7 @@ export async function buildQwikCity(config: BuildConfig) {
     buildAdapterStaticVite(config),
     buildAdapterVercelEdgeVite(config),
     buildMiddlewareCloudflarePages(config),
+    buildMiddlewareFastly(config),
     buildMiddlewareNetlifyEdge(config),
     buildMiddlewareAzureSwa(config),
     buildMiddlewareDeno(config),
@@ -71,6 +73,11 @@ export async function buildQwikCity(config: BuildConfig) {
         types: './adapters/cloudflare-pages/vite/index.d.ts',
         import: './adapters/cloudflare-pages/vite/index.mjs',
         require: './adapters/cloudflare-pages/vite/index.cjs',
+      },
+      './adapters/fastly/vite': {
+        types: './adapters/fastly/vite/index.d.ts',
+        import: './adapters/fastly/vite/index.mjs',
+        require: './adapters/fastly/vite/index.cjs',
       },
       './adapters/cloud-run/vite': {
         types: './adapters/cloud-run/vite/index.d.ts',
@@ -119,6 +126,10 @@ export async function buildQwikCity(config: BuildConfig) {
       './middleware/cloudflare-pages': {
         types: './middleware/cloudflare-pages/index.d.ts',
         import: './middleware/cloudflare-pages/index.mjs',
+      },
+      './middleware/fastly': {
+        types: './middleware/fastly/index.d.ts',
+        import: './middleware/fastly/index.mjs',
       },
       './middleware/firebase': {
         types: './middleware/firebase/index.d.ts',
@@ -362,6 +373,32 @@ async function buildAdapterCloudflarePagesVite(config: BuildConfig) {
   await build({
     entryPoints,
     outfile: join(config.distQwikCityPkgDir, 'adapters', 'cloudflare-pages', 'vite', 'index.cjs'),
+    bundle: true,
+    platform: 'node',
+    target: nodeTarget,
+    format: 'cjs',
+    external: ADAPTER_EXTERNALS,
+    plugins: [resolveAdapterShared('../../shared/vite/index.cjs')],
+  });
+}
+
+async function buildAdapterFastlyVite(config: BuildConfig) {
+  const entryPoints = [join(config.srcQwikCityDir, 'adapters', 'fastly', 'vite', 'index.ts')];
+
+  await build({
+    entryPoints,
+    outfile: join(config.distQwikCityPkgDir, 'adapters', 'fastly', 'vite', 'index.mjs'),
+    bundle: true,
+    platform: 'node',
+    target: nodeTarget,
+    format: 'esm',
+    external: ADAPTER_EXTERNALS,
+    plugins: [resolveAdapterShared('../../shared/vite/index.mjs')],
+  });
+
+  await build({
+    entryPoints,
+    outfile: join(config.distQwikCityPkgDir, 'adapters', 'fastly', 'vite', 'index.cjs'),
     bundle: true,
     platform: 'node',
     target: nodeTarget,
@@ -620,6 +657,21 @@ async function buildMiddlewareCloudflarePages(config: BuildConfig) {
     target: nodeTarget,
     format: 'esm',
     external: MIDDLEWARE_EXTERNALS,
+    plugins: [resolveRequestHandler('../request-handler/index.mjs')],
+  });
+}
+
+async function buildMiddlewareFastly(config: BuildConfig) {
+  const entryPoints = [join(config.srcQwikCityDir, 'middleware', 'fastly', 'index.ts')];
+
+  await build({
+    entryPoints,
+    outfile: join(config.distQwikCityPkgDir, 'middleware', 'fastly', 'index.mjs'),
+    bundle: true,
+    platform: 'node',
+    target: nodeTarget,
+    format: 'esm',
+    external: [...MIDDLEWARE_EXTERNALS, 'fastly:*'],
     plugins: [resolveRequestHandler('../request-handler/index.mjs')],
   });
 }
