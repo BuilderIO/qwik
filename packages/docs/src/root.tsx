@@ -12,6 +12,7 @@ export default component$(() => {
     headerMenuOpen: false,
     sideMenuOpen: false,
     theme: 'auto',
+    pkgManager: 'npm',
   });
 
   useContextProvider(GlobalStore, store);

@@ -7,6 +7,8 @@ updated_at: '2023-06-25T19:43:33Z'
 created_at: '2023-04-28T16:43:21Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Deno Middleware
 
 Qwik City Deno middleware allows you to hook up Qwik City to a Deno server which uses the standard Request/Response that's well supported by Deno. Some Deno server implementations include:
@@ -20,25 +22,82 @@ To integrate the `deno` adapter, use the `add` command:
 
 - For the [integrated HTTP server](https://deno.com/manual/examples/http_server):
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add deno
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add deno
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add deno
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add deno
+```
+  </span>
+</PackageManagerTabs>
 
 ## Production build
 
 To build the application for production, use the `build` command, this command will automatically run `npm run build.server` and `npm run build.client`:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run build
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run build
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run build
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run build
+```
+  </span>
+</PackageManagerTabs>
 
 ## Serve
 
 To start the Deno server after a build:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run serve
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run serve
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run serve
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run serve
+```
+  </span>
+</PackageManagerTabs>
 
 ## Production deploy
 

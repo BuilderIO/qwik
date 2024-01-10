@@ -30,10 +30,10 @@ export const mapProducts = (data: { node: Product }[]) =>
       variants: node.variants.edges.map(({ node }) => node),
     }));
 
-export const setCookie = (cookie: Cookie, value: string) => {
+export const setCookie = (cookie: Cookie, name: string, value: string) => {
   const maxAge = 60 * 60 * 24 * 30;
   const options: CookieOptions = { maxAge, sameSite: 'strict', path: '/', secure: true };
-  cookie.set(COOKIE_CART_ID_KEY, value, options);
+  cookie.set(name, value, options);
 };
 
 export const deleteCookie = (name: string) => {

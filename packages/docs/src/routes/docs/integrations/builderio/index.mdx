@@ -11,6 +11,8 @@ updated_at: '2023-09-28T17:30:02Z'
 created_at: '2023-05-02T09:18:30Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Builder.io
 
 [Builder.io](https://builder.io/) is a Visual Headless CMS. Think about it as a drag-and-drop CMS that integrates into your existing Qwik codebase, allowing you and your team to edit content without having to write code.
@@ -19,9 +21,28 @@ created_at: '2023-05-02T09:18:30Z'
 
 You can add builder.io easily by using the following `add` script:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add builder.io
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add builder.io
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add builder.io
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add builder.io
+```
+  </span>
+</PackageManagerTabs>
 
 After running the command, `@builder.io/sdk-qwik` will be installed, and a new sample component and catchall route will be created in `src/components` and `src/routes` respectively.
 
@@ -34,9 +55,28 @@ Create a free [Builder.io account](https://builder.io/signup) (only takes a coup
 
 Then run the development server:
 
-```bash
+<PackageManagerTabs>
+  <span q:slot="npm">
+```shell
 npm run dev
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run dev
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run dev
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run dev
+```
+  </span>
+</PackageManagerTabs>
 
 Now, go set your [preview URL](https://www.builder.io/c/docs/guides/preview-url) to `http://localhost:5173/`
 

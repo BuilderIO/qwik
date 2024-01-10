@@ -10,6 +10,8 @@ updated_at: '2023-10-03T18:53:23Z'
 created_at: '2023-04-25T19:05:53Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Storybook
 
 [Storybook](https://storybook.js.org/) is a frontend workshop for building UI components and pages in isolation. Thousands of teams use it for UI development, testing, and documentation. It's open source and free.
@@ -20,14 +22,52 @@ Since version 7.0, Storybook supports Vite natively, which means it has first-cl
 
 You can add Storybook to your existing app, or library use:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add storybook
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add storybook
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add storybook
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add storybook
+```
+  </span>
+</PackageManagerTabs>
 
 The previous command installs the necessary dependencies and adds an example component and stories
 
 Now you can serve the Storybook dashboard:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run storybook
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run storybook
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run storybook
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run storybook
+```
+  </span>
+</PackageManagerTabs>

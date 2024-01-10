@@ -8,6 +8,8 @@ updated_at: '2023-06-25T19:43:33Z'
 created_at: '2023-04-26T16:12:18Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Library
 
 Qwik uses the [library mode of Vite](https://vitejs.dev/guide/build.html#library-mode) to create component libraries.
@@ -15,10 +17,29 @@ Qwik uses the [library mode of Vite](https://vitejs.dev/guide/build.html#library
 In order to create a component library for Qwik, you need to make sure of specific rules, this is because the Qwik Optimizer needs to recognize your library as a Qwik library.
 
 The easiest way to create a new component library is to use the build-in `library` starter:
-
-```bash
+<PackageManagerTabs>
+  <span q:slot="npm">
+```shell
+npm create qwik library my-library
+```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn create qwik library my-library
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
 pnpm create qwik library my-library
 ```
+  </span>
+  <span q:slot="bun">
+```shell
+bun create qwik library my-library
+```
+  </span>
+</PackageManagerTabs>
+
 
 This will create a new folder called `my-library` with the following structure:
 
@@ -113,15 +134,53 @@ Do not worry about them, they won't be part of the final library, but they are u
 
 In order to publish your library, you have to first build it in `lib` mode and then publish to npm.
 
-```bash
+<PackageManagerTabs>
+  <span q:slot="npm">
+```shell
 npm run build
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run build
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run build
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run build
+```
+  </span>
+</PackageManagerTabs>
 
 This will create a `lib` folder with the following structure. Then you can publish it to npm.
 
-```bash {2,11,14}
+<PackageManagerTabs>
+  <span q:slot="npm">
+```shell
 npm publish
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn publish
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm publish
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun publish
+```
+  </span>
+</PackageManagerTabs>
 
 > Notice that before first publishing, you might want to update the `package.json` fields, like `name`, `version`, `description`, etc.
 

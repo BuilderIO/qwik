@@ -11,13 +11,34 @@ updated_at: '2023-10-03T18:53:23Z'
 created_at: '2023-04-06T21:28:28Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Deployments
 
 When it's time to deploy your application, Qwik comes with ready-to-use integration that make this so easy!
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add
+```
+  </span>
+</PackageManagerTabs>
 
 ## Adapters and Middleware
 
@@ -29,9 +50,28 @@ When a new integration is added to the project, a `build.server` script is added
 
 The only thing you need to do is to run the following command:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run build
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run build
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run build
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run build
+```
+  </span>
+</PackageManagerTabs>
 
 > Under the hood, the `build` script will execute, `build.server` and `build.client` scripts.
 

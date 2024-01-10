@@ -10,6 +10,8 @@ updated_at: '2023-10-03T18:53:23Z'
 created_at: '2023-06-21T19:51:30Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Panda CSS
 
 Panda is a styling engine that generates styling primitives to author atomic CSS and recipes in a type-safe and readable manner.
@@ -19,9 +21,28 @@ Panda is a styling engine that generates styling primitives to author atomic CSS
 
 You can add Panda easily by using the following Qwik starter script:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add pandacss
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add pandacss
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add pandacss
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add pandacss
+```
+  </span>
+</PackageManagerTabs>
 
 The previous command updates your app with the necessary dependencies.
 

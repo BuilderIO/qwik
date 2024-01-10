@@ -18,6 +18,8 @@ updated_at: '2023-10-03T18:53:23Z'
 created_at: '2023-04-06T21:28:28Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 import { IntegrationsList } from './integrations-list';
 
 # Integrations
@@ -26,9 +28,28 @@ Qwik CLI comes with integrations to make it easy to connect to your tooling and 
 
 Once you create a Qwik City application, run the following command to add new integrations:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add
+```
+  </span>
+</PackageManagerTabs>
 
 It will prompt you to select the integration you want to add. Once you select an integration, it will be added to your application and you can start using it.
 

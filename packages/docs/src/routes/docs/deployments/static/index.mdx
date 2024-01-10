@@ -6,6 +6,8 @@ updated_at: '2023-10-11T15:09:55Z'
 created_at: '2023-10-11T15:09:55Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Static Site Adapter
 
 Qwik's Static Site adapter helps to generate static html files which can be easily deployed to any cloud providers.
@@ -14,9 +16,28 @@ Qwik's Static Site adapter helps to generate static html files which can be easi
 
 To integrate the `static-site` adapter, use the `add` command:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add static
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add static
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add static
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add static
+```
+  </span>
+</PackageManagerTabs>
 
 Above command will create a directory at project root named `adapters/static/vite.config.ts` with the below code.
 

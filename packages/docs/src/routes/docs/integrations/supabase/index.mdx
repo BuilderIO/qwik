@@ -12,15 +12,36 @@ updated_at: '2023-10-03T18:53:23Z'
 created_at: '2023-04-25T11:05:50Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Supabase
 
 The `Supabase` JS library plays nicely with the server-side APIs from Qwik such as `routeLoader$`, `routeAction$` or `server$`.
 
 First, install supabase in your Qwik project:
 
-```bash
+<PackageManagerTabs>
+  <span q:slot="npm">
+```shell
 npm install @supabase/supabase-js supabase-auth-helpers-qwik
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn add @supabase/supabase-js supabase-auth-helpers-qwik
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm add @supabase/supabase-js supabase-auth-helpers-qwik
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun add @supabase/supabase-js supabase-auth-helpers-qwik
+```
+  </span>
+</PackageManagerTabs>
 
 The second step would be to add the `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_ANON_KEY` environment variables to `.env` file, the "anon" key is safe to be exposed in the client-side.
 

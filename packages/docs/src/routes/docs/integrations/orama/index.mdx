@@ -7,6 +7,8 @@ updated_at: '2023-07-22T20:12:28Z'
 created_at: '2023-07-22T20:12:28Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Orama
 
 [Orama](https://oramasearch.com/) is a fast, batteries-included, full-text search engine entirely written in TypeScript, with zero dependencies.
@@ -15,9 +17,28 @@ Orama could be used in Qwik on the client side or on the server side with `route
 
 The easiest way to add Orama to Qwik is using the `pnpm qwik add orama` command. This will install the required dependencies and create a new public route `/src/routes/orama` to showcase the Orama integration.
 
-```bash
+<PackageManagerTabs>
+  <span q:slot="npm">
+```shell
 npm run qwik add orama
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add orama
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add orama
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add orama
+```
+  </span>
+</PackageManagerTabs>
 
 > Orama has been designed to work on any runtime and has no dependencies. A JavaScript runtime is the only requirement. 
 

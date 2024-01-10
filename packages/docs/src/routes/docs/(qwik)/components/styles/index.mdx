@@ -21,6 +21,8 @@ updated_at: '2023-09-19T17:37:26Z'
 created_at: '2023-03-20T23:45:13Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Styles
 
 Qwik does not enforce a specific styling approach, you can style your Qwik app using any method you prefer, such as CSS, CSS-in-JS, CSS modules...
@@ -106,9 +108,28 @@ export const Cmp = component$(() => {
 });
 ```
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add styled-vanilla-extract
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add styled-vanilla-extract
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add styled-vanilla-extract
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add styled-vanilla-extract
+```
+  </span>
+</PackageManagerTabs>
 
 Please refer to the [docs of our official integration](/docs/integrations/styled-vanilla-extract/index.mdx) for more information.
 
@@ -118,9 +139,28 @@ Please refer to the [docs of our official integration](/docs/integrations/styled
 
 Styled components is a popular tool in React-land to write CSS-in-JS. Thanks to the same [styled-vanilla-extract](https://github.com/wmertens/styled-vanilla-extract) plugin, you can write your styles with styled-components syntax in Qwik with zero-runtime cost!
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add styled-vanilla-extract
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add styled-vanilla-extract
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add styled-vanilla-extract
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add styled-vanilla-extract
+```
+  </span>
+</PackageManagerTabs>
 
 Like this:
 
@@ -243,8 +283,9 @@ export const CmpStyles = component$(() => {
 Thanks to [Vite](https://vitejs.dev/guide/features.html#css-pre-processors), Qwik supports CSS preprocessors like Sass, Less, Stylus, and PostCSS.
 
 There is no need to install Qwik-specific plugins for them, but the corresponding pre-processor itself must be installed:
-
-```bash
+<PackageManagerTabs>
+  <span q:slot="npm">
+```shell
 # .scss and .sass
 npm add -D sass
 
@@ -254,6 +295,44 @@ npm add -D less
 # .styl and .stylus
 npm add -D stylus
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+# .scss and .sass
+yarn add -D sass
+
+# .less
+yarn add -D less
+
+# .styl and .stylus
+yarn add -D stylus
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+# .scss and .sass
+pnpm add -D sass
+
+# .less
+pnpm add -D less
+
+# .styl and .stylus
+pnpm add -D stylus
+```
+  </span>
+  <span q:slot="bun">
+```shell
+# .scss and .sass
+bun add -D sass
+
+# .less
+bun add -D less
+
+# .styl and .stylus
+bun add -D stylus
+```
+  </span>
+</PackageManagerTabs>
 
 Check [Vite's docs](https://vitejs.dev/guide/features.html#css-pre-processors) for more information.
 
@@ -261,9 +340,28 @@ Check [Vite's docs](https://vitejs.dev/guide/features.html#css-pre-processors) f
 
 To use Tailwind in your app, you can add it to your app with our built-in integration:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add tailwind
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add tailwind
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add tailwind
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add tailwind
+```
+  </span>
+</PackageManagerTabs>
 
 Check out [the integration docs](/docs/integrations/tailwind/index.mdx) for more information.
 
@@ -271,9 +369,28 @@ Check out [the integration docs](/docs/integrations/tailwind/index.mdx) for more
 
 It is also possible to use PostCSS in your app with our built-in integration:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add postcss
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add postcss
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add postcss
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add postcss
+```
+  </span>
+</PackageManagerTabs>
 
 Important: Since we are using vite, the configuration should look as follows to work:
 

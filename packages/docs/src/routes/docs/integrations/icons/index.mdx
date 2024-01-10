@@ -11,6 +11,7 @@ updated_at: '2023-07-18T17:47:48Z'
 created_at: '2023-04-25T11:05:50Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
 import image from './icones.png';
 import CodeSandbox from '../../../../components/code-sandbox/index.tsx';
 
@@ -34,11 +35,28 @@ This package allows for a stremalined way to add icons to your Qwik app from a v
 
 Simply install the package with your package manager of choice:
 
-```bash
-npm i @qwikest/icons
+<PackageManagerTabs>
+  <span q:slot="npm">
+```shell
+npm install @qwikest/icons
+```
+  </span>
+  <span q:slot="yarn">
+```shell
 yarn add @qwikest/icons
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
 pnpm add @qwikest/icons
 ```
+  </span>
+  <span q:slot="bun">
+```shell
+bun add @qwikest/icons
+```
+  </span>
+</PackageManagerTabs>
 
 ### Usage
 

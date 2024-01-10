@@ -19,6 +19,7 @@
     "@modular-forms/qwik": "^0.21.0",
     "@mui/material": "^5.14.13",
     "@mui/x-data-grid": "^6.16.1",
+    "@qwik-ui/headless": "^0.2.0",
     "@supabase/supabase-js": "2.38.1",
     "@types/prismjs": "^1.26.1",
     "@types/react": "^18.2.28",

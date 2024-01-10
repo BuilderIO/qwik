@@ -9,6 +9,8 @@ updated_at: '2023-07-18T17:46:28Z'
 created_at: '2023-04-28T06:05:17Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Cypress 
 
 With [Cypress](https://www.cypress.io), you can easily create tests for your modern web applications, debug them visually, and automatically run them in your continuous integration builds.
@@ -26,9 +28,28 @@ in isolation with the help of the [cypress-ct-qwik](https://github.com/qwikifier
 
 You can add Cypress easily by using the following Qwik starter script:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add cypress
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add cypress
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add cypress
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add cypress
+```
+  </span>
+</PackageManagerTabs>
 
 This command adds `cypress` and `cypress-ct-qwik` to your dependencies, appends testing commands to your `package.json` 
 scripts section and creates the configuration files needed to run component testing with Cypress.

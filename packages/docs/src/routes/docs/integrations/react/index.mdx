@@ -14,7 +14,9 @@ contributors:
 updated_at: '2023-10-03T18:53:23Z'
 created_at: '2023-04-06T21:28:28Z'
 ---
-import CodeSandbox, {CodeFile} from '../../../../components/code-sandbox/index.tsx';
+
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+import CodeSandbox, {CodeFile} from '~/components/code-sandbox/index.tsx';
 
 # Qwik React ⚛️
 
@@ -46,9 +48,28 @@ Before you can use Qwik React you need to configure the Qwik project to use Qwik
 > If you don't have a Qwik app yet, then you need to [create one first](/docs/(qwik)/getting-started/index.mdx), then, follow the instructions and run the command add React to your app.
 
 
-```bash
+<PackageManagerTabs>
+  <span q:slot="npm">
+```shell
 npm run qwik add react
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add react
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add react
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add react
+```
+  </span>
+</PackageManagerTabs>
 
 
 The above command will perform the following:

@@ -16,6 +16,8 @@ updated_at: '2023-10-15T10:10:17Z'
 created_at: '2023-04-24T10:35:21Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Auth.js
 
 [Auth.js](https://authjs.dev/) is a well-known library for authentication used by various JS frameworks. With Auth.js, we benefit from reduced complexity. We also have access to a range of authentication providers, such as GitHub, Google, Facebook, among others. Moreover, it can be integrated into multiple frameworks including Qwik.
@@ -34,9 +36,28 @@ Be aware that the Auth.js library is still in a pre-1.0 stage and could have bug
 
 You can add Auth.js easily by using the following Qwik starter script:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
-npm run qwik add auth
+npm  run qwik add auth
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn  run qwik add auth
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm  run qwik add auth
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun  run qwik add auth
+```
+  </span>
+</PackageManagerTabs>
 
 This command will add new packages:
 

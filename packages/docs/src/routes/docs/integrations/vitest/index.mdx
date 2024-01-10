@@ -12,6 +12,8 @@ updated_at: '2023-07-18T17:51:35Z'
 created_at: '2023-04-06T21:28:28Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Vitest
 
 [Vitest](https://vitest.dev/) is a blazing-fast unit test framework powered by Vite. Because Qwik City uses [Vite](https://vitejs.dev/) by default, Vitest is our defacto unit test framework.
@@ -20,9 +22,28 @@ created_at: '2023-04-06T21:28:28Z'
 
 You can add vitest easily by using the following Qwik starter script:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add vitest
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add vitest
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add vitest
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add vitest
+```
+  </span>
+</PackageManagerTabs>
 
 After running the command, vitest will be installed and a new component will be added to your project. The component will be added to the `src/components/example` directory as long as a new unit test is named `example.spec.ts`.
 If you are looking for an example for a Component with QwikCity checkout [QwikCityMockProvider](/docs/(qwikcity)/api/index.mdx#qwikcitymockprovider)

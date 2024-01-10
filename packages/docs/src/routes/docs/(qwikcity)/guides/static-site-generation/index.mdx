@@ -15,6 +15,8 @@ updated_at: '2023-10-04T10:27:27Z'
 created_at: '2023-03-20T23:45:13Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Static Site Generation (SSG) Overview
 
 Static Site Generation, or commonly referred to as "SSG", is the process of pre-rendering site webpages into static HTML files. The benefit is that when a visitor requests the webpage, the response is a pre-generated HTML file (a static file), and doesn't require the webpage's HTML to "rebuild" on the visitor's browser, or dynamically created by your server (more on this later).
@@ -39,9 +41,28 @@ With Qwik City however, the decision to use SSG or SSR, does not have to be one 
 
 Static site generation is created from the built in adapter, to create an adapter run:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add static
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add static
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add static
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add static
+```
+  </span>
+</PackageManagerTabs>
 
 Select `Adapter: Static site (.html files)`. Done!
 
@@ -56,9 +77,28 @@ Your build files will be generated into the `dist` folder.
 
 You can build your static site using:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run build.server
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run build
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run build
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run build
+```
+  </span>
+</PackageManagerTabs>
 
 ### SSG Config
 

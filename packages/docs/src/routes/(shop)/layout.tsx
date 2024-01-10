@@ -35,7 +35,7 @@ export const useCartLoader = routeLoader$(async ({ cookie }) => {
   const cart = 'node' in data ? data.node : data.checkoutCreate.checkout;
 
   if (!cartId && cart.id) {
-    setCookie(cookie, cart.id);
+    setCookie(cookie, COOKIE_CART_ID_KEY, cart.id);
   }
   return cart;
 });

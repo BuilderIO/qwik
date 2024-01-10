@@ -12,6 +12,8 @@ updated_at: '2023-09-11T11:03:36Z'
 created_at: '2023-04-06T21:28:28Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Azure Static Web Apps Middleware
 
 Qwik City Azure Static Web Apps middleware allows you to connect Qwik City to [Azure Static Web Apps](https://learn.microsoft.com/azure/static-web-apps/).
@@ -20,9 +22,28 @@ Qwik City Azure Static Web Apps middleware allows you to connect Qwik City to [A
 
 To integrate the `azure-swa` adapter, use the `add` command:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add azure-swa
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add azure-swa
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add azure-swa
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add azure-swa
+```
+  </span>
+</PackageManagerTabs>
 
 The adapter will add a new `vite.config.ts` within the `adapters/` directory, and a new entry file will be created, such as:
 
@@ -40,9 +61,28 @@ Additionally, within the `package.json`, the `build.server` and `deploy` scripts
 
 To build the application for production, use the `build` command, this command will automatically run `npm run build.server` and `npm run build.client`:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run build
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run build
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run build
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run build
+```
+  </span>
+</PackageManagerTabs>
 
 ## Deploy to Azure
 
@@ -54,9 +94,28 @@ There are three ways to deploy:
 
    You can deploy your application from your local environment with:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
    ```shell
    npx swa deploy
    ```
+  </span>
+  <span q:slot="yarn">
+   ```shell
+   yarn dlx swa deploy
+   ```
+  </span>
+  <span q:slot="pnpm">
+   ```shell
+   pnpm dlx swa deploy
+   ```
+  </span>
+  <span q:slot="bun">
+   ```shell
+   bun run swa deploy
+   ```
+  </span>
+</PackageManagerTabs>
 
    This will start a wizard which will guide you through login and deployment to Azure.
 

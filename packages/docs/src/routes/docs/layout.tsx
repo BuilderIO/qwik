@@ -1,5 +1,5 @@
-import { component$, Slot, useContext, useStyles$ } from '@builder.io/qwik';
-import { useContent, useLocation } from '@builder.io/qwik-city';
+import { component$, Slot, useContext, useStyles$, useTask$ } from '@builder.io/qwik';
+import { useContent, useLocation, routeLoader$ } from '@builder.io/qwik-city';
 import { ContentNav } from '../../components/content-nav/content-nav';
 import { Footer } from '../../components/footer/footer';
 import { Header } from '../../components/header/header';
@@ -8,9 +8,24 @@ import { createBreadcrumbs, SideBar } from '../../components/sidebar/sidebar';
 import { GlobalStore } from '../../context';
 import styles from './docs.css?inline';
 import Contributors from '../../components/contributors';
+import type { PackageManagers } from 'src/components/package-manager-tabs';
+import { setCookie } from '../(shop)/utils';
 
 // eslint-disable-next-line
 export { useMarkdownItems } from '../../components/sidebar/sidebar';
+
+export const usePkgManager = routeLoader$(async (req) => {
+  const pkgManager = req.cookie.get('packageManager');
+  if (!pkgManager) {
+    setCookie(req.cookie, 'packageManager', 'npm');
+    return {
+      manager: 'npm',
+    };
+  }
+  return {
+    manager: pkgManager.value,
+  };
+});
 
 export default component$(() => {
   const loc = useLocation();
@@ -20,6 +35,11 @@ export default component$(() => {
   const globalStore = useContext(GlobalStore);
   const { url } = useLocation();
   const breadcrumbs = createBreadcrumbs(menu, url.pathname);
+  const pkgManager = usePkgManager();
+
+  useTask$(() => {
+    globalStore.pkgManager = pkgManager.value.manager as PackageManagers;
+  });
 
   return (
     <div class="docs fixed-header">

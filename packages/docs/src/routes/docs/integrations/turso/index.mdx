@@ -7,6 +7,8 @@ updated_at: '2023-07-23T00:17:06Z'
 created_at: '2023-07-23T00:17:06Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Turso
 
 [Turso] is the edge database based on [libSQL] - the open-source
@@ -19,9 +21,28 @@ around the world.
 
 You can easily add Turso by using the following Qwik starter script:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add turso
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add turso
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add turso
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add turso
+```
+  </span>
+</PackageManagerTabs>
 
 This command will add the necessary dependencies to use Turso.
 
@@ -47,19 +68,19 @@ link for installation instructions].
 
 Proceed to create an SQLite file database by running the following command.
 
-```sh
+```shell
 sqlite3 foo.db
 ```
 
 Create your database schema.
 
-```sh
+```shell
 sqlite> create table todo (id integer not null, task text, done int default 0);
 ```
 
 Seed some data into your table.
 
-```sh
+```shell
 sqlite> insert into todo(id, task) values(1, "Go to the gym");
 sqlite> insert into todo(id, task) values(2, "Buy groceries");
 ```
@@ -82,19 +103,19 @@ Turso CLI] to your machine and [create a Turso database].
 
 Use the Turso CLI's `db shell` command to issue queries to your database.
 
-```sh
+```shell
 turso db shell <database-name>
 ```
 
 Create your database schema.
 
-```sh
+```shell
 →  create table todo (id integer not null, task text, done int default 0);
 ```
 
 Seed some data into your table.
 
-```sh
+```shell
 →  insert into todo(id, task) values(1, "Go to the gym");
 →  insert into todo(id, task) values(2, "Buy groceries");
 ```
@@ -106,7 +127,7 @@ assign them to the environment variables inside your deployment environment.
 
 Starting with the database url, run the following command.
 
-```sh
+```shell
 turso db show <database-name> --url
 ```
 
@@ -114,7 +135,7 @@ Copy the resulting URL and assign it to the `PRIVATE_TURSO_DB_URL` environment v
 
 And, for the database authentication token, run the command.
 
-```sh
+```shell
 turso db tokens create <database-name>
 ```
 

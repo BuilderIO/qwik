@@ -16,6 +16,8 @@ updated_at: '2023-10-03T18:53:23Z'
 created_at: '2023-04-06T21:28:28Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Tailwind
 
 Tailwind is a CSS framework that provides us with single-purpose utility classes which are
@@ -26,9 +28,28 @@ markup or `.js/.jsx/.ts/.tsx/.mdx` files. [Tailwindcss Website](https://tailwind
 
 You can add Tailwind easily by using the following Qwik starter script:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add tailwind
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add tailwind
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add tailwind
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add tailwind
+```
+  </span>
+</PackageManagerTabs>
 
 The previous command updates your app with the necessary dependencies.
 

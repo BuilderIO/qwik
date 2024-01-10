@@ -9,6 +9,8 @@ updated_at: '2023-07-05T08:00:42Z'
 created_at: '2023-06-22T22:13:24Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # 🧪 Qwik Labs Overview
 
 Qwik Labs is an incubator for ideas not yet ready for production. It's a place where we can publish our "work in progress" so the community can try it out and provide feedback, without any guarantees that the feature is stable or will make it into production. 
@@ -37,10 +39,28 @@ Each Qwik Labs feature can roughly be thought of as going through these stages:
 
 Qwik labs are distributed as a separate node package. Because Qwik Labs is "work in progress" the node package is not published to NPM but instead as a github URL. The package is continually updated and so it will always contains the latest build. (You may read up on installing node packages [here](https://docs.npmjs.com/cli/v8/commands/npm-install).)
 
-
-```sh
+<PackageManagerTabs>
+  <span q:slot="npm">
+```shell
 npm install github:BuilderIo/qwik-labs-build#main
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn add github:BuilderIo/qwik-labs-build#main
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm add github:BuilderIo/qwik-labs-build#main
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun add github:BuilderIo/qwik-labs-build#main
+```
+  </span>
+</PackageManagerTabs>
 
 Or just add this to your `package.json`
 

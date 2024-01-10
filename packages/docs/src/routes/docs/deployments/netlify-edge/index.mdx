@@ -10,6 +10,8 @@ updated_at: '2023-06-25T19:43:33Z'
 created_at: '2023-04-06T21:28:28Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Netlify Edge Adapter
 
 Qwik City Netlify Edge adapter allows you to connect Qwik City to [Netlify Edge Functions](https://docs.netlify.com/edge-functions/overview/).
@@ -18,9 +20,28 @@ Qwik City Netlify Edge adapter allows you to connect Qwik City to [Netlify Edge 
 
 To integrate the `netlify-edge` adapter, use the `add` command:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add netlify-edge
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add netlify-edge
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add netlify-edge
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add netlify-edge
+```
+  </span>
+</PackageManagerTabs>
 
 > It will automatically install the required dependencies, including the [Netlify CLI](https://cli.netlify.com/).
 
@@ -40,9 +61,28 @@ Additionally, within the `package.json`, the `build.server` and `deploy` scripts
 
 To build the application for production, use the `build` command, this command will automatically run `npm run build.server` and `npm run build.client`:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run build
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run build
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run build
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run build
+```
+  </span>
+</PackageManagerTabs>
 
 [Read the full guide here](https://github.com/BuilderIO/qwik/blob/main/starters/adapters/netlify-edge/README.md)
 
@@ -50,9 +90,28 @@ npm run build
 
 To deploy the application for development:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run deploy
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run deploy
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run deploy
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run deploy
+```
+  </span>
+</PackageManagerTabs>
 
 Notice that you might need a [Netlify account](https://docs.netlify.com/get-started/) in order to complete this step!
 

@@ -14,6 +14,8 @@ updated_at: '2023-07-18T17:50:05Z'
 created_at: '2023-04-06T21:28:28Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # PostCSS
 
 [PostCSS](https://postcss.org/) allows developers to write modern CSS while still maintaining backwards compatibility and improving performance. It parses CSS code and passes it through a series of plugins that can modify, optimize, and extend the CSS before outputting the final result.
@@ -22,9 +24,28 @@ created_at: '2023-04-06T21:28:28Z'
 
 You can add PostCSS to your project by using the following Qwik starter script:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add postcss
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add postcss
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add postcss
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add postcss
+```
+  </span>
+</PackageManagerTabs>
 
 This will create a new `postcss.config.js` file at the root of the project with following dependencies and configuration.
 
@@ -47,8 +68,29 @@ module.exports = {
 
 If you wish to add a new plugin like [CssNano](https://cssnano.co/) run the following command and update the `postcss.config.js`.
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm install cssnano --save-dev
+```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn add -D cssnano
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm add -D cssnano
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun add -D cssnano
+```
+  </span>
+</PackageManagerTabs>
+npm 
 ```
 
 ```ts title="postcss.config.js"

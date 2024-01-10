@@ -16,6 +16,8 @@ updated_at: '2023-10-03T18:53:23Z'
 created_at: '2023-04-06T21:28:28Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Partytown
 
 Third party scripts slow down your initial page load substantially by blocking the main thread.
@@ -27,9 +29,28 @@ For more information about this tool visit the [Partytown docs](https://partytow
 
 You can add Partytown easily by using the following Qwik starter script:
 
+<PackageManagerTabs>
+  <span q:slot="npm">
 ```shell
 npm run qwik add partytown
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add partytown
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add partytown
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add partytown
+```
+  </span>
+</PackageManagerTabs>
 
 The previous command updates your app and sets the correct configuration in `vite.config.ts`.
 

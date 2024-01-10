@@ -11,6 +11,8 @@ updated_at: '2023-10-08T10:16:44Z'
 created_at: '2023-04-19T22:13:46Z'
 ---
 
+import PackageManagerTabs from '~/components/package-manager-tabs/index.tsx';
+
 # Internationalization
 
 Internationalization is a complex problem. Qwik does not solve the internationalization problem directly instead it only provides low-level APIs to allow other libraries to solve it.
@@ -77,9 +79,28 @@ Our recommendation is to use a tool that would provide a runtime approach on the
 
 The easiest way to add $localize to Qwik is using the `pnpm qwik add localize` command. This will install the required dependencies and create a new public route `/src/routes/[locale]` showcasing i18n $localize integration.
 
-```bash
+<PackageManagerTabs>
+  <span q:slot="npm">
+```shell
 npm run qwik add localize
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn run qwik add localize
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm run qwik add localize
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run qwik add localize
+```
+  </span>
+</PackageManagerTabs>
 
 For further reference, please check this [example repo](https://github.com/mhevery/qwik-i18n).
 
@@ -93,9 +114,28 @@ This will update the file you see in `package.json`.
 For auto translations, you can use the [deepl-localize](https://www.npmjs.com/package/deepl-localize) package. It will automatically translate your strings using the [deepl.com](https://deepl.com/) API.
 
 Use the `deepl-localize` command to translate your strings with npx:
-```bash
+<PackageManagerTabs>
+  <span q:slot="npm">
+```shell
 npx deepl-localize translate -b src/locales/message.en.json -l de-DE fr-FR -a "YOUR-DEEPL-API-KEY"
 ```
+  </span>
+  <span q:slot="yarn">
+```shell
+yarn dlx deepl-localize translate -b src/locales/message.en.json -l de-DE fr-FR -a "YOUR-DEEPL-API-KEY"
+```
+  </span>
+  <span q:slot="pnpm">
+```shell
+pnpm dlx deepl-localize translate -b src/locales/message.en.json -l de-DE fr-FR -a "YOUR-DEEPL-API-KEY"
+```
+  </span>
+  <span q:slot="bun">
+```shell
+bun run deepl-localize translate -b src/locales/message.en.json -l de-DE fr-FR -a "YOUR-DEEPL-API-KEY"
+```
+  </span>
+</PackageManagerTabs>
 
 Alternatively, you can use the `deepl-localize` command to translate your strings within your script section:
 ```json
