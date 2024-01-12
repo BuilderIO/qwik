@@ -21,9 +21,6 @@ export async function generatePackageJson(config: BuildConfig) {
       qwik: './qwik-cli.cjs',
     },
     type: 'module',
-    peerDependencies: {
-      undici: '*',
-    },
     dependencies: rootPkg.dependencies,
     exports: {
       '.': {

@@ -35,22 +35,9 @@ export async function configureDevServer(
   isClientDevOnly: boolean,
   clientDevInput: string | undefined
 ) {
-  if (typeof fetch !== 'function' && sys.env === 'node') {
-    // polyfill fetch() when not available in Node.js
-
-    try {
-      if (!globalThis.fetch) {
-        const undici = await sys.strictDynamicImport('undici');
-        globalThis.fetch = undici.fetch;
-        globalThis.Headers = undici.Headers;
-        globalThis.Request = undici.Request;
-        globalThis.Response = undici.Response;
-        globalThis.FormData = undici.FormData;
-      }
-    } catch {
-      console.warn('Global fetch() was not installed');
-      // Nothing
-    }
+  if (typeof fetch !== 'function') {
+    console.error('Global fetch() is missing');
+    process.exit(1);
   }
 
   // qwik middleware injected BEFORE vite internal middlewares

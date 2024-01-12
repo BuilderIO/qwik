@@ -9,15 +9,14 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "18"
+    "node": "^18.17.0 || ^20.3.0 || >=21.0.0"
   },
   "type": "module",
   "main": "index.js",
   "dependencies": {
     "@google-cloud/functions-framework": "^3.3.0",
     "firebase-admin": "^11.8.0",
-    "firebase-functions": "^4.3.1",
-    "undici": "*"
+    "firebase-functions": "^4.3.1"
   },
   "devDependencies": {
     "firebase-functions-test": "^3.1.0"

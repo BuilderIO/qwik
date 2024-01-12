@@ -53,7 +53,7 @@ body:
     id: system-info
     attributes:
       label: System Info
-      description: Output of `npx envinfo --system --npmPackages '{vite,undici,@builder.io/*}' --binaries --browsers`
+      description: Output of `npx envinfo --system --npmPackages '{vite,@builder.io/*}' --binaries --browsers`
       render: shell
       placeholder: System, Binaries, Browsers
     validations:

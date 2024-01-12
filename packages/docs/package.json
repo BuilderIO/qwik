@@ -47,14 +47,13 @@
     "terser": "^5.28.1",
     "tsm": "^2.3.0",
     "typescript": "5.3.3",
-    "undici": "*",
     "valibot": "^0.29.0",
     "vite": "^5.1.4",
     "vite-plugin-inspect": "^0.8.3",
     "wrangler": "^3.30.1"
   },
   "engines": {
-    "node": ">=18.11",
+    "node": "^18.17.0 || ^20.3.0 || >=21.0.0",
     "npm": "please-use-pnpm",
     "yarn": "please-use-pnpm",
     "pnpm": ">=8.6.12"

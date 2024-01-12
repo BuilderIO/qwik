@@ -25,6 +25,6 @@
     "@libsql/client": "^0.3.1"
   },
   "devDependencies": {
-    "@builder.io/qwik-city": "^1.2.13"
+    "@builder.io/qwik-city": "latest"
   }
 }
