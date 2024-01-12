@@ -134,7 +134,6 @@ async function captureMultipleScreenshots() {
 }
 
 async function getPagespeedData(url) {
-  const { fetch } = await import('undici');
   const requestURL = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(
     url
   )}&key=AIzaSyApBC9gblaCzWrtEBgHnZkd_B37OF49BfM&category=PERFORMANCE&strategy=MOBILE`;

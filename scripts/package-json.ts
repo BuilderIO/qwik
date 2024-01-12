@@ -21,9 +21,6 @@ export async function generatePackageJson(config: BuildConfig) {
       qwik: './qwik-cli.cjs',
     },
     type: 'module',
-    peerDependencies: {
-      undici: '*',
-    },
     dependencies: rootPkg.dependencies,
     exports: recursiveChangePrefix(rootPkg.exports!, './dist/', './'),
     files: Array.from(new Set(rootPkg.files)).sort((a, b) => {

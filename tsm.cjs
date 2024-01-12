@@ -16,21 +16,6 @@ globalThis.qDev = true;
 globalThis.qInspector = false;
 import * as qwikJsx from "${corePath}";`;
 
-if (
-  typeof global !== 'undefined' &&
-  typeof globalThis.fetch !== 'function' &&
-  typeof process !== 'undefined' &&
-  process.versions.node
-) {
-  if (!globalThis.fetch) {
-    const { fetch, Headers, Request, Response, FormData } = require('undici');
-    globalThis.fetch = fetch;
-    globalThis.Headers = Headers;
-    globalThis.Request = Request;
-    globalThis.Response = Response;
-    globalThis.FormData = FormData;
-  }
-}
 module.exports = {
   common: {
     minifyWhitespace: true,

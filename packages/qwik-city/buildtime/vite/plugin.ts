@@ -13,7 +13,6 @@ import { build } from '../build';
 import { ssrDevMiddleware, staticDistMiddleware } from './dev-server';
 import { transformMenu } from '../markdown/menu';
 import { generateQwikCityEntries } from '../runtime-generation/generate-entries';
-import { patchGlobalThis } from '../../middleware/node/node-fetch';
 import type { QwikVitePlugin } from '@builder.io/qwik/optimizer';
 import fs from 'node:fs';
 import {
@@ -41,9 +40,6 @@ function qwikCityPlugin(userOpts?: QwikCityVitePluginOptions): any {
   let qwikPlugin: QwikVitePlugin | null;
   let ssrFormat: 'esm' | 'cjs' = 'esm';
   let outDir: string | null = null;
-
-  // Patch Stream APIs
-  patchGlobalThis();
 
   globalThis.__qwikCityNew = true;
 

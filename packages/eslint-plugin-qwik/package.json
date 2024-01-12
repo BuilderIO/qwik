@@ -17,7 +17,7 @@
     "redent": "^4.0.0"
   },
   "engines": {
-    "node": ">=16.8.0 <18.0.0 || >=18.11"
+    "node": "^18.17.0 || ^20.3.0 || >=21.0.0"
   },
   "homepage": "https://github.com/QwikDev/qwik#readme",
   "keywords": [
