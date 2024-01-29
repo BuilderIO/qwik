@@ -9,6 +9,8 @@ updated_at: '2023-10-10T20:38:51Z'
 created_at: '2023-12-28T22:00:00Z'
 ---
 
+import CodeSandbox, {CodeFile} from '../../../../components/code-sandbox/index.tsx';
+
 # Theme management
 
 In modern website we have seen that it has the feature of dark and light theme that creates a good impact on the users. They can change the theme according to their prefrences.
@@ -70,6 +72,8 @@ Create a new `ThemeScript` component that will contains our theme management log
 - Attach an event listener to OS-theme's change;
 - Use 'light' theme by default.
 
+
+<CodeFile src="/src/routes/demo/cookbook/theme-management/index.tsx">
 ```tsx
 import { component$, sync$, useOnDocument, $ } from '@builder.io/qwik';
 
@@ -130,6 +134,7 @@ export const ThemeScript = component$(() => {
   return null;
 });
 ```
+</CodeFile>
 
 Add this component to your `router-head.tsx` component:
 ```tsx
@@ -148,6 +153,7 @@ export const RouterHead = component$(() => {
 
 Then in any component you can add your theme toggle code, to let your users manually change the theme.
 
+<CodeFile src="/src/routes/demo/cookbook/theme-management/index.tsx">
 ```tsx
 import { component$, event$, useStyles$ } from '@builder.io/qwik';
 import { SunAndMoon } from './sun-and-moon';
@@ -189,12 +195,13 @@ export const ThemeToggle = component$(() => {
     </button>
   );
 });
-
 ```
+</CodeFile>
+
 
 For styling of theme switch.
 
-
+<CodeFile src="/src/routes/demo/cookbook/theme-management/index.tsx">
 ```css
 .theme-toggle {
   --size: 22px;
@@ -230,7 +237,10 @@ html[class~='dark'] .theme-toggle {
   stroke-linecap: round;
 }
 ```
+</CodeFile>
 
+
+<CodeFile src="/src/routes/demo/cookbook/theme-management/index.tsx">
 ```tsx
 import { component$, useStyles$ } from '@builder.io/qwik';
 import sunAndMoonStyles from './sun-and-moon.css?inline';
@@ -273,7 +283,9 @@ export const SunAndMoon = component$(() => {
 });
 
 ```
+</CodeFile>
 
+<CodeFile src="/src/routes/demo/cookbook/theme-management/index.tsx">
 ```css
 .sun-and-moon {
   --ease-elastic-3: cubic-bezier(0.5, 1.25, 0.75, 1.25);
@@ -359,7 +371,7 @@ html[class~='dark'] .sun-and-moon > .moon > circle {
   transition-delay: 0.25s;
   transition-duration: 0.5s;
 }
-
 ```
+</CodeFile>
 
 Then run the code. You have the functionality of dark and light theme, controlled by both the OS or manually by the user.
