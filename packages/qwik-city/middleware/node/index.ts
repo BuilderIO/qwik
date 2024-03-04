@@ -12,7 +12,6 @@ import { extname, join, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { computeOrigin, fromNodeHttp, getUrl } from './http';
 import { MIME_TYPES } from '../request-handler/mime-types';
-import { patchGlobalThis } from './node-fetch';
 import { _deserializeData, _serializeData, _verifySerializable } from '@builder.io/qwik';
 import type { Http2ServerRequest } from 'node:http2';
 
@@ -20,9 +19,6 @@ import type { Http2ServerRequest } from 'node:http2';
 
 /** @public */
 export function createQwikCity(opts: QwikCityNodeRequestOptions) {
-  // Patch Stream APIs
-  patchGlobalThis();
-
   const qwikSerializer = {
     _deserializeData,
     _serializeData,

@@ -81,7 +81,7 @@ export function cleanPackageJson(srcPkg: IntegrationPackageJson) {
     types: srcPkg.types,
     exports: srcPkg.exports,
     files: srcPkg.files,
-    engines: { node: '^18.17.0 || ^20.3.0 || >=21.0.0' },
+    engines: { node: srcPkg.engines?.node || '^18.17.0 || ^20.3.0 || >=21.0.0' },
   };
 
   Object.keys(cleanedPkg).forEach((prop) => {

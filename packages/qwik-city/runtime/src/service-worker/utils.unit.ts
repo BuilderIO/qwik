@@ -1,4 +1,3 @@
-import { Request as NodeRequest, Response as NodeResponse } from 'undici';
 import type { AppBundle } from './types';
 import { getCacheToDelete, isAppBundleRequest, useCache } from './utils';
 import { assert, test } from 'vitest';
@@ -78,9 +77,9 @@ test('useCache', () => {
 
 export function mockRequest(url?: string): Request {
   url = url || 'https://qwik.builder.io/';
-  return new NodeRequest(url) as any;
+  return new Request(url);
 }
 
 export function mockResponse(body?: any): Response {
-  return new NodeResponse(body) as any;
+  return new Response(body);
 }

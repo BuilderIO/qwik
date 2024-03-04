@@ -1,7 +1,6 @@
 import { type BuildConfig, ensureDir } from './util';
 import spawn from 'cross-spawn';
 import { join } from 'node:path';
-import { fetch } from 'undici';
 import semver from 'semver';
 import { existsSync } from 'node:fs';
 import { copyFile, readdir, writeFile } from 'fs/promises';

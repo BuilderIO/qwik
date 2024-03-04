@@ -2,15 +2,12 @@
 import type { StaticGenerateOptions, System } from '../types';
 import fs from 'node:fs';
 import { dirname, join } from 'node:path';
-import { patchGlobalThis } from '../../middleware/node/node-fetch';
 import { createNodeMainProcess } from './node-main';
 import { createNodeWorkerProcess } from './node-worker';
 import { normalizePath } from '../../utils/fs';
 
 /** @public */
 export async function createSystem(opts: StaticGenerateOptions) {
-  patchGlobalThis();
-
   const createWriteStream = (filePath: string) => {
     return fs.createWriteStream(filePath, {
       flags: 'w',
