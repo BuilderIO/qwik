@@ -32,18 +32,16 @@ let Thing;
     Thing[Thing["B"] = 1] = "B";
 })(Thing || (Thing = {}));
 export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(()=>import("./app_component_ckepmxzlub0"), "App_component_ckEPmXZlub0"));
-export { Thing as _auto_Thing };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;IAGA;UAAK,KAAK;IAAL,MAAA,MACD,OAAA,KAAA;IADC,MAAA,MAED,OAAA,KAAA;GAFC,UAAA;AAKL,OAAO,MAAM,oBAAM,wGAOhB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;UAGK;;;GAAA,UAAA;AAKL,OAAO,MAAM,oBAAM,wGAOhB\"}")
 ============================= app_component_ckepmxzlub0.js (ENTRY POINT)==
 
-import { _auto_Thing as Thing } from "./test";
 import { Fragment as _Fragment } from "@builder.io/qwik/jsx-runtime";
 import { _jsxC } from "@builder.io/qwik";
 import { _jsxQ } from "@builder.io/qwik";
 export const App_component_ckEPmXZlub0 = ()=>{
-    console.log(Thing.A);
+    console.log(0);
     return /*#__PURE__*/ _jsxC(_Fragment, {
         children: /*#__PURE__*/ _jsxQ("p", null, {
             class: "stuff"
@@ -52,7 +50,7 @@ export const App_component_ckEPmXZlub0 = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;yCAQ8B,IAAM;IAChC,QAAQ,GAAG,CAAC,MAAM,CAAC;IACnB,qBACI;kBACI,cAAA,MAAC;YAAE,OAAM;WAAQ;;AAG7B\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;yCAQ8B;IAC1B,QAAQ,GAAG;IACX,qBACI;kBACI,cAAA,MAAC;YAAE,OAAM;WAAQ;;AAG7B\"}")
 /*
 {
   "origin": "test.tsx",

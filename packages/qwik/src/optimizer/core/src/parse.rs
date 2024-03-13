@@ -206,7 +206,7 @@ impl Emitter for ErrorBuffer {
 pub fn transform_code(config: TransformCodeOptions) -> Result<TransformOutput, anyhow::Error> {
 	let source_map = Lrc::new(SourceMap::default());
 	let path_data = parse_path(config.relative_path, config.src_dir)?;
-	let module = parse(
+	let result = parse(
 		config.code,
 		&path_data,
 		config.root_dir,
@@ -218,8 +218,8 @@ pub fn transform_code(config: TransformCodeOptions) -> Result<TransformOutput, a
 
 	let origin: JsWord = path_data.rel_path.to_slash_lossy().into();
 
-	match module {
-		Ok((main_module, comments, is_type_script, is_jsx)) => {
+	match result {
+		Ok((program, comments, is_type_script, is_jsx)) => {
 			let extension = match (transpile_ts, transpile_jsx, is_type_script, is_jsx) {
 				(true, true, _, _) => JsWord::from("js"),
 				(true, false, _, true) => JsWord::from("jsx"),
@@ -240,35 +240,20 @@ pub fn transform_code(config: TransformCodeOptions) -> Result<TransformOutput, a
 					let unresolved_mark = Mark::new();
 					let top_level_mark = Mark::new();
 
-					let mut main_module = main_module;
+					let mut program = program;
 
 					if let Some(strip_exports) = config.strip_exports {
 						let mut visitor = StripExportsVisitor::new(strip_exports);
-						main_module.visit_mut_with(&mut visitor);
+						program.visit_mut_with(&mut visitor);
 					}
 
 					let mut did_transform = false;
 
-					// Transpile JSX
 					if transpile_ts && is_type_script {
 						did_transform = true;
-						main_module = if is_jsx {
-							main_module.fold_with(&mut typescript::strip_with_jsx(
-								Lrc::clone(&source_map),
-								typescript::Config {
-									pragma: Some("h".to_string()),
-									pragma_frag: Some("Fragment".to_string()),
-									..Default::default()
-								},
-								Some(&comments),
-								top_level_mark,
-							))
-						} else {
-							main_module.fold_with(&mut typescript::strip(top_level_mark))
-						}
+						program.visit_mut_with(&mut typescript::strip(top_level_mark))
 					}
 
-					// Transpile JSX
 					if transpile_jsx && is_jsx {
 						did_transform = true;
 						let mut react_options = react::Options::default();
@@ -278,7 +263,7 @@ pub fn transform_code(config: TransformCodeOptions) -> Result<TransformOutput, a
 							react_options.runtime = Some(react::Runtime::Automatic);
 							react_options.import_source = Some("@builder.io/qwik".to_string());
 						};
-						main_module = main_module.fold_with(&mut react::react(
+						program.visit_mut_with(&mut react::react(
 							Lrc::clone(&source_map),
 							Some(&comments),
 							react_options,
@@ -288,19 +273,15 @@ pub fn transform_code(config: TransformCodeOptions) -> Result<TransformOutput, a
 					}
 
 					// Resolve with mark
-					main_module.visit_mut_with(&mut resolver(
+					program.visit_mut_with(&mut resolver(
 						unresolved_mark,
 						top_level_mark,
 						is_type_script && !transpile_ts,
 					));
 					// Collect import/export metadata
-					let mut collect = global_collect(&main_module);
+					let mut collect = global_collect(&program);
 
-					transform_props_destructuring(
-						&mut main_module,
-						&mut collect,
-						&config.core_module,
-					);
+					transform_props_destructuring(&mut program, &mut collect, &config.core_module);
 
 					// Replace const values
 					if let Some(is_server) = config.is_server {
@@ -308,7 +289,7 @@ pub fn transform_code(config: TransformCodeOptions) -> Result<TransformOutput, a
 							let is_dev = config.mode == EmitMode::Dev;
 							let mut const_replacer =
 								ConstReplacerVisitor::new(is_server, is_dev, &collect);
-							main_module.visit_mut_with(&mut const_replacer);
+							program.visit_mut_with(&mut const_replacer);
 						}
 					}
 					let mut qwik_transform = QwikTransform::new(QwikTransformOptions {
@@ -330,14 +311,14 @@ pub fn transform_code(config: TransformCodeOptions) -> Result<TransformOutput, a
 					});
 
 					// Run main transform
-					main_module = main_module.fold_with(&mut qwik_transform);
+					program = program.fold_with(&mut qwik_transform);
 
 					let mut treeshaker = Treeshaker::new();
 
 					if config.minify != MinifyMode::None {
-						main_module.visit_mut_with(&mut treeshaker.marker);
+						program.visit_mut_with(&mut treeshaker.marker);
 
-						main_module = main_module.fold_with(&mut simplify::simplifier(
+						program = program.fold_with(&mut simplify::simplifier(
 							unresolved_mark,
 							simplify::Config {
 								dce: simplify::dce::Config {
@@ -352,7 +333,7 @@ pub fn transform_code(config: TransformCodeOptions) -> Result<TransformOutput, a
 						config.entry_strategy,
 						EntryStrategy::Inline | EntryStrategy::Hoist
 					) {
-						main_module.visit_mut_with(&mut SideEffectVisitor::new(
+						program.visit_mut_with(&mut SideEffectVisitor::new(
 							&qwik_transform.options.global_collect,
 							&path_data,
 							config.src_dir,
@@ -360,9 +341,9 @@ pub fn transform_code(config: TransformCodeOptions) -> Result<TransformOutput, a
 					} else if config.minify != MinifyMode::None
 						&& matches!(config.is_server, Some(false))
 					{
-						main_module.visit_mut_with(&mut treeshaker.cleaner);
+						program.visit_mut_with(&mut treeshaker.cleaner);
 						if treeshaker.cleaner.did_drop {
-							main_module = main_module.fold_with(&mut simplify::simplifier(
+							program = program.fold_with(&mut simplify::simplifier(
 								unresolved_mark,
 								simplify::Config {
 									dce: simplify::dce::Config {
@@ -374,8 +355,8 @@ pub fn transform_code(config: TransformCodeOptions) -> Result<TransformOutput, a
 							));
 						}
 					}
-					main_module.visit_mut_with(&mut hygiene_with_config(Default::default()));
-					main_module.visit_mut_with(&mut fixer(None));
+					program.visit_mut_with(&mut hygiene_with_config(Default::default()));
+					program.visit_mut_with(&mut fixer(None));
 
 					let hooks = qwik_transform.hooks;
 					let mut modules: Vec<TransformModule> = Vec::with_capacity(hooks.len() + 10);
@@ -449,13 +430,16 @@ pub fn transform_code(config: TransformCodeOptions) -> Result<TransformOutput, a
 						});
 					}
 
-					let (code, map) = emit_source_code(
-						Lrc::clone(&source_map),
-						Some(comments),
-						&main_module,
-						config.root_dir,
-						config.source_maps,
-					)?;
+					let (code, map) = match program {
+						ast::Program::Module(ref modu) => emit_source_code(
+							Lrc::clone(&source_map),
+							Some(comments),
+							modu,
+							config.root_dir,
+							config.source_maps,
+						)?,
+						_ => (String::new(), None),
+					};
 
 					let a = if did_transform && !config.preserve_filenames {
 						[&path_data.file_stem, ".", &extension].concat()
@@ -506,7 +490,7 @@ fn parse(
 	path_data: &PathData,
 	root_dir: Option<&Path>,
 	source_map: Lrc<SourceMap>,
-) -> PResult<(ast::Module, SingleThreadedComments, bool, bool)> {
+) -> PResult<(ast::Program, SingleThreadedComments, bool, bool)> {
 	let sm_path = if let Some(root_dir) = root_dir {
 		pathdiff::diff_paths(path_data.abs_path.clone(), root_dir).unwrap()
 	} else {
@@ -538,9 +522,9 @@ fn parse(
 	);
 
 	let mut parser = Parser::new_from(lexer);
-	match parser.parse_module() {
+	match parser.parse_program() {
 		Err(err) => Err(err),
-		Ok(module) => Ok((module, comments, is_type_script, is_jsx)),
+		Ok(result) => Ok((result, comments, is_type_script, is_jsx)),
 	}
 }
 
@@ -562,7 +546,7 @@ fn parse_filename(path_data: &PathData) -> (bool, bool) {
 pub fn emit_source_code(
 	source_map: Lrc<SourceMap>,
 	comments: Option<SingleThreadedComments>,
-	program: &ast::Module,
+	module: &ast::Module,
 	root_dir: Option<&Path>,
 	source_maps: bool,
 ) -> Result<(String, Option<String>), Error> {
@@ -579,19 +563,14 @@ pub fn emit_source_code(
 				None
 			},
 		));
-		let config = swc_ecmascript::codegen::Config {
-			minify: false,
-			target: ast::EsVersion::latest(),
-			ascii_only: false,
-			omit_last_semi: false,
-		};
+		let config = swc_ecmascript::codegen::Config::default();
 		let mut emitter = swc_ecmascript::codegen::Emitter {
 			cfg: config,
 			comments: Some(&comments),
 			cm: Lrc::clone(&source_map),
 			wr: writer,
 		};
-		emitter.emit_module(program)?;
+		emitter.emit_module(module)?;
 	}
 
 	let mut map_buf = vec![];

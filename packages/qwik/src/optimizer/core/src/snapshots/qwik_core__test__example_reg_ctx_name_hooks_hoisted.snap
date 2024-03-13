@@ -38,7 +38,7 @@ const STYLES = '.class {}';
 export { STYLES as _auto_STYLES };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;gFAO+B,IAAM,QAAQ,GAAG,CAAC,aAFhC;oCAFe,CAAC,QAAU;IACvC,qCAAU;IAEV,qBACI,MAAC;QAAI,UAAU;;AAEvB;AANA,OAAO,MAAM,sBAAQ,mGAMlB;AAEH,MAAM,SAAS\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;gFAO+B,IAAM,QAAQ,GAAG,CAAC,aAFhC;oCAFe,CAAC;IAC7B,qCAAU;IAEV,qBACI,MAAC;QAAI,UAAU;;AAEvB;AANA,OAAO,MAAM,sBAAQ,mGAMlB;AAEH,MAAM,SAAS\"}")
 == DIAGNOSTICS ==
 
 []

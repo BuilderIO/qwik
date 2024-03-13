@@ -57,7 +57,7 @@ export const App_component_ckEPmXZlub0 = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;yCAG8B,IAAM;IAChC,qBACI,MAAC;kBACG,cAAA,MAAC;YAAE,OAAM;YAAQ,QAAQ;;;;;;WAA6B;;;;;;;;;;AAGlE\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;yCAG8B;IAC1B,qBACI,MAAC;kBACG,cAAA,MAAC;YAAE,OAAM;YAAQ,QAAQ;;;;;;WAA6B;;;;;;;;;;AAGlE\"}")
 /*
 {
   "origin": "test.tsx",

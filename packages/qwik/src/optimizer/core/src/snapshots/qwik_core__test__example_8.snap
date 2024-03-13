@@ -27,7 +27,7 @@ export const Header_component_J4uyIhaBNR4 = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";4CAGiC,IAAM;IACnC;AAQJ\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";4CAGiC;IAC7B;AAQJ\"}")
 /*
 {
   "origin": "test.tsx",
@@ -52,14 +52,14 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
 import { Header } from "./test";
 export const Header_component_1_2B8d0oH9ZWc = (hola)=>{
     const hola = this;
-    const { something , styff  } = hola;
+    const { something, styff } = hola;
     hola.nothere.stuff[global];
     return <Header/>;
 };
 export { _hW } from "@builder.io/qwik";
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";8CAIa,CAAC,OAAS;IACf,MAAM,OAAO,IAAI;IACjB,MAAM,EAAC,UAAS,EAAE,MAAK,EAAC,GAAG;IACb,KAAK,OAAO,CAAC,KAAK,CAAC,OAAO;IACxC,QACK;AAET\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";8CAIa,CAAC;IACN,MAAM,OAAO,IAAI;IACjB,MAAM,EAAC,SAAS,EAAE,KAAK,EAAC,GAAG;IACb,KAAK,OAAO,CAAC,KAAK,CAAC,OAAO;IACxC,QACK;AAET\"}")
 /*
 {
   "origin": "test.tsx",

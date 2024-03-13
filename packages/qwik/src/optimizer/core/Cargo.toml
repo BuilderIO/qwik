@@ -13,9 +13,9 @@ categories = ["development-tools", "development-tools::cargo-plugins"]
 crate-type = ["rlib"]
 
 [dependencies]
-swc_ecmascript = { version = "0.227.16", features = ["codegen", "utils", "visit", "parser", "transforms", "typescript",  "react", "optimization"] }
-swc_common = { version = "0.31.4", features = ["sourcemap"] }
-swc_atoms = "0.5.3"
+swc_ecmascript = { version = "*", features = ["codegen", "utils", "visit", "parser", "transforms", "typescript",  "react", "optimization"] }
+swc_common = { version = "*", features = ["sourcemap"] }
+swc_atoms = "*"
 serde = "1.0.160"
 serde_bytes = "0.11.9"
 serde_json = "1.0.96"

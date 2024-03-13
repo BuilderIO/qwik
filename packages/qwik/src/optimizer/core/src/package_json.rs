@@ -1,6 +1,3 @@
-pub use crate::entry_strategy::EntryStrategy;
-pub use crate::parse::{ErrorBuffer, HookAnalysis, MinifyMode, TransformModule, TransformOutput};
-
 #[cfg(feature = "fs")]
 pub fn find_modules(
 	src_dir: &std::path::Path,

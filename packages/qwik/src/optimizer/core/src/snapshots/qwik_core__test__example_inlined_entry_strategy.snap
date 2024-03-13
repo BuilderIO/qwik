@@ -57,7 +57,7 @@ export const Child = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(()=>{
 }, "Child_component_9GyF01GDKqw"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AACA,SAA6C,QAAQ,QAAoB,mBAAmB;AAC5F,SAAS,KAAK,QAAQ,YAAY;AAClC,OAAO,aAAa,UAAU;AAE9B,OAAO,MAAM,sBAAQ,sCAAW,IAAM;IAElC,sCAAW;IACX,MAAM,QAAQ,SAAS;QACnB,OAAO;IACX;IAEA,qBAAqB;IACrB,kDAAuB;;QACnB,MAAM,KAAK,GAAG,MAAM,OAAO,KAAK,MAAM,CAAC;;;;IAG3C,QACK,IAAI,mCAAU,IAAM,QAAQ,GAAG,CAAC,sDAAU;;QAC3C,EAAE;AAEV,mCAAG\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AACA,SAA6C,QAAQ,QAAoB,mBAAmB;AAC5F,SAAS,KAAK,QAAQ,YAAY;AAClC,OAAO,aAAa,UAAU;AAE9B,OAAO,MAAM,sBAAQ,sCAAW;IAE5B,sCAAW;IACX,MAAM,QAAQ,SAAS;QACnB,OAAO;IACX;IAEA,qBAAqB;IACrB,kDAAuB;;QACnB,MAAM,KAAK,GAAG,MAAM,OAAO,KAAK,MAAM,CAAC;;;;IAG3C,QACK,IAAI,mCAAU,IAAM,QAAQ,GAAG,CAAC,sDAAU;;QAC3C,EAAE;AAEV,mCAAG\"}")
 == DIAGNOSTICS ==
 
 []

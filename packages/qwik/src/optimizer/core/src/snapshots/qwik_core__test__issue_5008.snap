@@ -67,7 +67,7 @@ export const test_component_LUXeXe0DQrg = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;0CAGkC,IAAM;IAChC,MAAM,QAAQ,SAAS;QAAC;YAAE,OAAO;QAAE;KAAE;IACrC,qBACI;;0BACA,MAAC;gBAAO,QAAQ;;;eAA0B;YACzC,MAAM,GAAG,CAAC,SAAU,CAAC,EAAE,GAAG,EAAE;gBACzB,qBAAO,MAAC;oBAAsB;gCAAW;sBAAxB,QAAQ;YAC7B;YACC,MAAM,GAAG,CAAC,CAAC,GAAG,oBACX,MAAC;oBAAyB;gCAAQ;sBAAxB,WAAW;;;AAI7B\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;0CAGkC;IAC1B,MAAM,QAAQ,SAAS;QAAC;YAAE,OAAO;QAAE;KAAE;IACrC,qBACI;;0BACA,MAAC;gBAAO,QAAQ;;;eAA0B;YACzC,MAAM,GAAG,CAAC,SAAU,CAAC,EAAE,GAAG;gBACvB,qBAAO,MAAC;oBAAsB;gCAAW;sBAAxB,QAAQ;YAC7B;YACC,MAAM,GAAG,CAAC,CAAC,GAAG,oBACX,MAAC;oBAAyB;gCAAQ;sBAAxB,WAAW;;;AAI7B\"}")
 /*
 {
   "origin": "test.tsx",

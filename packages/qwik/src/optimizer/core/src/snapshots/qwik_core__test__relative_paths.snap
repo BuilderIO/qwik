@@ -3,7 +3,6 @@ source: packages/qwik/src/optimizer/core/src/test.rs
 assertion_line: 3280
 expression: output
 ---
-
 ============================= app_component_div_p_button_onclick_8dwua0cjar4.js (ENTRY POINT)==
 
 import { useLexicalScope } from "@builder.io/qwik";
@@ -13,7 +12,7 @@ export const App_component_div_p_button_onClick_8dWUa0cJAr4 = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"node_modules/dep/dist/lib.mjs\"],\"sourceRoot\":\"/path/to/app/\",\"names\":[],\"mappings\":\";8DAuByC,IAAI;IACrB,MAAM,CAAC,MAAM,GAAG;IAChB,OAAO,MAAM,KAAK;AACtB\"}")
+Some("{\"version\":3,\"sources\":[\"node_modules/dep/dist/lib.mjs\"],\"sourceRoot\":\"/path/to/app/\",\"names\":[],\"mappings\":\";8DAuByC;IACjB,MAAM,CAAC,MAAM,GAAG;IAChB,OAAO,MAAM,KAAK;AACtB\"}")
 /*
 {
   "origin": "../../node_modules/dep/dist/lib.mjs",
@@ -57,7 +56,7 @@ export const App_component_AkbU84a8zes = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"node_modules/dep/dist/lib.mjs\"],\"sourceRoot\":\"/path/to/app/\",\"names\":[],\"mappings\":\";;;;yCAWyD,IAAI;IACzD,MAAM,QAAQ;IACd,OAAO,WAAW,GAAG,MAAK,mBACZ;QACN,WAAW,GAAG,MAAK,iBACL;YACN;4BACA,GAAM,KAAK;;;SACd;QAEL,WAAW,GAAG,MAAI,iBACJ,WAAW,GAAG,MAAI;YACxB,QAAQ;;;iBAME;KAGrB;AAET\"}")
+Some("{\"version\":3,\"sources\":[\"node_modules/dep/dist/lib.mjs\"],\"sourceRoot\":\"/path/to/app/\",\"names\":[],\"mappings\":\";;;;yCAWyD;IACrD,MAAM,QAAQ;IACd,OAAO,WAAW,GAAG,MAAK,mBACZ;QACN,WAAW,GAAG,MAAK,iBACL;YACN;4BACA,GAAM,KAAK;;;SACd;QAEL,WAAW,GAAG,MAAI,iBACJ,WAAW,GAAG,MAAI;YACxB,QAAQ;;;iBAME;KAGrB;AAET\"}")
 /*
 {
   "origin": "../../node_modules/dep/dist/lib.mjs",
@@ -90,7 +89,7 @@ export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(()=>import("../.
 export { useData as _auto_useData };
 
 
-Some("{\"version\":3,\"sources\":[\"node_modules/dep/dist/lib.mjs\"],\"sourceRoot\":\"/path/to/app/\",\"names\":[],\"mappings\":\";AACA,SAAS,YAAY,EAAc,QAAQ,QAAyB,mBAAmB;AAIvF,MAAM,UAAU,IAAM;IAClB,OAAO,SAAS;QACZ,OAAO;IACX;AACJ;AAEA,OAAO,MAAM,MAAM,WAAW,GAAG,4HAuBA\"}")
+Some("{\"version\":3,\"sources\":[\"node_modules/dep/dist/lib.mjs\"],\"sourceRoot\":\"/path/to/app/\",\"names\":[],\"mappings\":\";AACA,SAAS,YAAY,EAAc,QAAQ,QAAyB,mBAAmB;AAIvF,MAAM,UAAU;IACZ,OAAO,SAAS;QACZ,OAAO;IACX;AACJ;AAEA,OAAO,MAAM,MAAM,WAAW,GAAG,4HAuBA\"}")
 ============================= local_component_jj0v28bs0p8.js (ENTRY POINT)==
 
 import { _jsxQ } from "@builder.io/qwik";
@@ -100,7 +99,7 @@ export const Local_component_jJ0v28bs0p8 = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"src/thing/components/main.tsx\"],\"sourceRoot\":\"/path/to/app/\",\"names\":[],\"mappings\":\";;2CAIgC,IAAM;IAClC,qBACI,MAAC,mBAAK;AAEd\"}")
+Some("{\"version\":3,\"sources\":[\"src/thing/components/main.tsx\"],\"sourceRoot\":\"/path/to/app/\",\"names\":[],\"mappings\":\";;2CAIgC;IAC5B,qBACI,MAAC,mBAAK;AAEd\"}")
 /*
 {
   "origin": "components/main.tsx",

@@ -27,7 +27,7 @@ export const Foo_component_HTDRsvUbLiE = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAG8B,IAAM;IAChC;AAMJ\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAG8B;IAC1B;AAMJ\"}")
 /*
 {
   "origin": "test.tsx",
@@ -57,7 +57,7 @@ export const Foo_component_1_DvU6FitWglY = ()=>{
 export { _hW } from "@builder.io/qwik";
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"2CAIa,IAAM;IACX,QACK,IAAI;;YACL,EAAE;AAEV\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"2CAIa;IACL,QACK,IAAI;;YACL,EAAE;AAEV\"}")
 /*
 {
   "origin": "test.tsx",

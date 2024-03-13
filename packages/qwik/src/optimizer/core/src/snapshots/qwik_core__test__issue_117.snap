@@ -13,7 +13,7 @@ export const cache = patternCache[cacheKey] || (patternCache[cacheKey]={});
 export const cache = patternCache[cacheKey] || (patternCache[cacheKey] = {});
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\"AACA,OAAO,MAAM,QAAQ,YAAY,CAAC,SAAS,IAAK,CAAA,YAAY,CAAC,SAAS,GAAC,CAAC,CAAA,EAAG\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\"AACA,OAAO,MAAM,QAAQ,YAAY,CAAC,SAAS,IAAI,CAAC,YAAY,CAAC,SAAS,GAAC,CAAC,CAAC,EAAE\"}")
 == DIAGNOSTICS ==
 
 []

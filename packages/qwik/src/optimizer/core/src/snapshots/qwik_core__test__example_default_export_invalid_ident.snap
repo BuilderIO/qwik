@@ -34,7 +34,7 @@ export const _404_component_zRvoWc98eqo = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/src/components/mongo/404.tsx\"],\"names\":[],\"mappings\":\";0CAG0B,IAAM;IAC5B,QACK,IAAI,+HAAsC;;QAC3C,EAAE;AAEV\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/src/components/mongo/404.tsx\"],\"names\":[],\"mappings\":\";0CAG0B;IACtB,QACK,IAAI,+HAAsC;;QAC3C,EAAE;AAEV\"}")
 /*
 {
   "origin": "src/components/mongo/404.tsx",

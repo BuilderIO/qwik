@@ -57,7 +57,7 @@ export const App_component_ckEPmXZlub0 = (props)=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;yCAG8B,CAAC,QAAiB;IAC5C,qBACI;;0BACI,MAAC,cAAQ;0BACT,MAAC;0BACD,MAAC;gBAAI,MAAK;;oBAAL,IAAI;;;0BACT,MAAC;gBAAI,MAAK;;oBAAL,IAAI;;kBAAW,MAAM,KAAK;0BAC/B,MAAC,iBAAoB,iBAAb,MAAM,KAAK;;;AAG/B\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;yCAG8B,CAAC;IAC3B,qBACI;;0BACI,MAAC,cAAQ;0BACT,MAAC;0BACD,MAAC;gBAAI,MAAK;;oBAAL,IAAI;;;0BACT,MAAC;gBAAI,MAAK;;oBAAL,IAAI;;kBAAW,MAAM,KAAK;0BAC/B,MAAC,iBAAoB,iBAAb,MAAM,KAAK;;;AAG/B\"}")
 /*
 {
   "origin": "test.tsx",

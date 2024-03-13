@@ -77,7 +77,7 @@ export const Parent_component_0TaiDayHrlo = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;4CAKiC,IAAM;IACnC,MAAM,QAAQ,SAAS;QACnB,MAAM;IACV;IAEA,qBAAqB;IACrB;;;IAKA,qBACI,MAAC;QAAI,QAAQ;uBACR,GAAM,IAAI;;;AAGvB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;4CAKiC;IAC7B,MAAM,QAAQ,SAAS;QACnB,MAAM;IACV;IAEA,qBAAqB;IACrB;;;IAKA,qBACI,MAAC;QAAI,QAAQ;uBACR,GAAM,IAAI;;;AAGvB\"}")
 /*
 {
   "origin": "test.tsx",
@@ -175,7 +175,7 @@ export const Child_component_9GyF01GDKqw = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;2CAuBgC,IAAM;IAClC,MAAM,QAAQ,SAAS;QACnB,MAAM;IACV;IAEA,qBAAqB;IACrB;;;IAIA,qBACI,MAAC;QAAI,QAAQ;uBACR,GAAM,IAAI;;;AAGvB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;2CAuBgC;IAC5B,MAAM,QAAQ,SAAS;QACnB,MAAM;IACV;IAEA,qBAAqB;IACrB;;;IAIA,qBACI,MAAC;QAAI,QAAQ;uBACR,GAAM,IAAI;;;AAGvB\"}")
 /*
 {
   "origin": "test.tsx",

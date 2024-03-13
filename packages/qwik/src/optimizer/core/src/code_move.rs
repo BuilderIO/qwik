@@ -53,7 +53,7 @@ pub fn new_module(ctx: NewModuleCtx) -> Result<(ast::Module, SingleThreadedComme
 
 	let has_scoped_idents = ctx.need_transform && !ctx.scoped_idents.is_empty();
 	let use_lexical_scope = if has_scoped_idents {
-		let new_local = id!(private_ident!(&USE_LEXICAL_SCOPE.clone()));
+		let new_local = id!(private_ident!(&*USE_LEXICAL_SCOPE.clone()));
 		module
 			.body
 			.push(create_synthetic_named_import(&new_local, ctx.core_module));
@@ -93,7 +93,8 @@ pub fn new_module(ctx: NewModuleCtx) -> Result<(ast::Module, SingleThreadedComme
 					ast::ImportDecl {
 						span: DUMMY_SP,
 						type_only: false,
-						asserts: import.asserts.clone(),
+						with: import.asserts.clone(),
+						phase: Default::default(),
 						src: Box::new(ast::Str {
 							span: DUMMY_SP,
 							value: fix_path(
@@ -121,7 +122,8 @@ pub fn new_module(ctx: NewModuleCtx) -> Result<(ast::Module, SingleThreadedComme
 					ast::ImportDecl {
 						span: DUMMY_SP,
 						type_only: false,
-						asserts: None,
+						with: None,
+						phase: Default::default(),
 						src: Box::new(ast::Str {
 							span: DUMMY_SP,
 							value: fix_path(
@@ -241,10 +243,7 @@ pub fn generate_entries(
 		let hooks: Vec<&HookAnalysis> = output.modules.iter().flat_map(|m| &m.hook).collect();
 		for hook in hooks {
 			if let Some(ref e) = hook.entry {
-				entries_map
-					.entry(e.as_ref())
-					.or_insert_with(Vec::new)
-					.push(hook);
+				entries_map.entry(e.as_ref()).or_default().push(hook);
 			}
 		}
 
@@ -293,7 +292,7 @@ fn new_entry_module(
 				ast::NamedExport {
 					span: DUMMY_SP,
 					type_only: false,
-					asserts: None,
+					with: None,
 					src: Some(Box::new(ast::Str {
 						span: DUMMY_SP,
 						value: JsWord::from(src),
