@@ -38,7 +38,7 @@ export const Header_component_UVBJuFYfvDo = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";4CAciC,IAAM;IACnC;AAMJ\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";4CAciC;IAC7B;AAMJ\"}")
 /*
 {
   "origin": "project/test.tsx",
@@ -62,7 +62,7 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\"
 
 import { componentQrl } from "@builder.io/qwik";
 import { qrl } from "@builder.io/qwik";
-export const [a, { b , v1: [c] , d =v2 , ...e }, f = v3, ...g] = obj;
+export const [a, { b, v1: [c], d = v2, ...e }, f = v3, ...g] = obj;
 const exp1 = 1;
 const internal = 2;
 export { exp1, internal as expr2 };
@@ -74,7 +74,7 @@ export const Header = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(()=>import(".
 export const Footer = /*#__PURE__*/ componentQrl();
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";;AAGA,OAAO,MAAM,CAAC,GAAG,EAAC,EAAC,EAAE,IAAI,CAAC,EAAE,CAAA,EAAE,GAAE,GAAE,EAAE,GAAG,GAAE,EAAE,IAAE,EAAE,EAAE,GAAG,EAAE,GAAG,IAAI;AAE7D,MAAM,OAAO;AACb,MAAM,WAAW;AACjB,SAAQ,IAAI,EAAE,YAAY,KAAK,GAAE;AAEjC,OAAO,SAAS,MAAM,CAAE,CAAC;AACzB,OAAO,MAAM;AAAK,CAAC;AAEnB,eAAe,SAAS,YAAY,CAAC,CAAC;AAEtC,OAAO,MAAM,uBAAS,+GAOnB;AAEH,OAAO,MAAM,uBAAS,eAAa\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";;AAGA,OAAO,MAAM,CAAC,GAAG,EAAC,CAAC,EAAE,IAAI,CAAC,EAAE,EAAE,IAAE,EAAE,EAAE,GAAG,GAAE,EAAE,IAAE,EAAE,EAAE,GAAG,EAAE,GAAG,IAAI;AAE7D,MAAM,OAAO;AACb,MAAM,WAAW;AACjB,SAAQ,IAAI,EAAE,YAAY,KAAK,GAAE;AAEjC,OAAO,SAAS,OAAQ;AACxB,OAAO,MAAM;AAAK;AAElB,eAAe,SAAS,aAAa;AAErC,OAAO,MAAM,uBAAS,+GAOnB;AAEH,OAAO,MAAM,uBAAS,eAAa\"}")
 ============================= header_component_1_uwm1kg0igo0.jsx (ENTRY POINT)==
 
 import { default as DefaultFn } from "./project/test";

@@ -28,6 +28,9 @@
               # Provides rustc and cargo
               ((rust-bin.fromRustupToolchainFile
                 ./rust-toolchain).override {
+                # For rust-analyzer
+                extensions = [ "rust-src" ];
+                # For building wasm
                 targets = [ "wasm32-unknown-unknown" ];
               })
             ];

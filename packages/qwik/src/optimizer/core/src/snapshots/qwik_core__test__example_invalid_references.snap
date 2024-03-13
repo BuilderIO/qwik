@@ -28,7 +28,7 @@ export const App = component$(({count}) => {
 import { componentQrl } from "@builder.io/qwik";
 import { qrl } from "@builder.io/qwik";
 const I1 = 12;
-const [I2, { I3 , v1: [I4] , I5 =v2 , ...I6 }, I7 = v3, ...I8] = obj;
+const [I2, { I3, v1: [I4], I5 = v2, ...I6 }, I7 = v3, ...I8] = obj;
 function I9() {}
 class I10 {
 }
@@ -45,7 +45,7 @@ export { I8 as _auto_I8 };
 export { I9 as _auto_I9 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAGA,MAAM,KAAK;AACX,MAAM,CAAC,IAAI,EAAC,GAAE,EAAE,IAAI,CAAC,GAAG,CAAA,EAAE,IAAG,GAAE,EAAE,GAAG,IAAG,EAAE,KAAG,EAAE,EAAE,GAAG,GAAG,GAAG;AACzD,SAAS,KAAK,CAAC;AACf,MAAM;AAAK;AAEX,OAAO,MAAM,oBAAM,wGAQjB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAGA,MAAM,KAAK;AACX,MAAM,CAAC,IAAI,EAAC,EAAE,EAAE,IAAI,CAAC,GAAG,EAAE,KAAG,EAAE,EAAE,GAAG,IAAG,EAAE,KAAG,EAAE,EAAE,GAAG,GAAG,GAAG;AACzD,SAAS,MAAM;AACf,MAAM;AAAK;AAEX,OAAO,MAAM,oBAAM,wGAQjB\"}")
 ============================= app_component_ckepmxzlub0.js (ENTRY POINT)==
 
 import { _auto_I1 as I1 } from "./test";
@@ -65,7 +65,7 @@ export const App_component_ckEPmXZlub0 = (props)=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;;yCAQ8B,SAAa;IACvC,QAAQ,GAAG,CAAC,IAAI,IAAI,IAAI,IAAI,IAAI,IAAI,IAAI,IAAI;IAC5C,QAAQ,GAAG,CAAC,OAAO,IAAI,IAAI,IAAI;IAC/B;AAKJ\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;;yCAQ8B;IAC1B,QAAQ,GAAG,CAAC,IAAI,IAAI,IAAI,IAAI,IAAI,IAAI,IAAI,IAAI;IAC5C,QAAQ,GAAG,CAAC,OAAO,IAAI,IAAI,IAAI;IAC/B;AAKJ\"}")
 /*
 {
   "origin": "test.tsx",
@@ -95,7 +95,7 @@ export const App_component_1_w0t0o3QMovU = ()=>{
 export { _hW } from "@builder.io/qwik";
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;2CAWa,IAAM;IACX,qBACI,MAAC;AAET\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;2CAWa;IACL,qBACI,MAAC;AAET\"}")
 /*
 {
   "origin": "test.tsx",

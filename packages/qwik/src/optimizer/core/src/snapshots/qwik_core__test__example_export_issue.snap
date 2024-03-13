@@ -48,7 +48,7 @@ export const Root_component_royhjYaCbYE = (props)=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;0CAU+B,CAAC,QAAiB;IAC7C,qBACI,MAAC;AAET\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;0CAU+B,CAAC;IAC5B,qBACI,MAAC;AAET\"}")
 /*
 {
   "origin": "test.tsx",
@@ -76,7 +76,7 @@ export const App_component_ckEPmXZlub0 = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAGuB,IAAM;IACzB,qBACI,MAAC,mBAAI;AAEb\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAGuB;IACnB,qBACI,MAAC,mBAAI;AAEb\"}")
 /*
 {
   "origin": "test.tsx",

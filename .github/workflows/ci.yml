@@ -244,8 +244,8 @@ jobs:
           - host: macos-latest
             target: aarch64-apple-darwin
             build: |
-              export SDKROOT=$(xcrun -sdk macosx11.1 --show-sdk-path)
-              export MACOSX_DEPLOYMENT_TARGET=$(xcrun -sdk macosx11.1 --show-sdk-platform-version)
+              export SDKROOT=$(xcrun --show-sdk-path)
+              export MACOSX_DEPLOYMENT_TARGET=$(xcrun --show-sdk-platform-version)
               pnpm tsm scripts/index.ts --platform-binding --platform-target=aarch64-apple-darwin
 
           - host: windows-latest

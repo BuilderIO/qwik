@@ -59,7 +59,7 @@ export const test_component_LUXeXe0DQrg = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;0CAGkC,IAAM;IAChC,qBACI;;0BACI,MAAC;gBAAM,QAAQ,WAAQ,SAAS,KAAK,EAAE,MAAM,EAAE;oBAC3C,4BAA4B;oBAC5B,MAAM,cAAc;gBACxB;;0BACA,MAAC;gBAAM,QAAQ,WAAQ,CAAC,OAAO,SAAW;oBACtC,MAAM,cAAc;gBACxB;;0BACA,MAAC;gBAAM,QAAQ,WAAQ,CAAC,OAAO,SAAW,MAAM,cAAc;;;;AAGtE\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;0CAGkC;IAC1B,qBACI;;0BACI,MAAC;gBAAM,QAAQ,WAAQ,SAAS,KAAK,EAAE,MAAM;oBACzC,4BAA4B;oBAC5B,MAAM,cAAc;gBACxB;;0BACA,MAAC;gBAAM,QAAQ,WAAQ,CAAC,OAAO;oBAC3B,MAAM,cAAc;gBACxB;;0BACA,MAAC;gBAAM,QAAQ,WAAQ,CAAC,OAAO,SAAW,MAAM,cAAc;;;;AAGtE\"}")
 /*
 {
   "origin": "test.tsx",

@@ -21,12 +21,12 @@ const Header = component$(() => {
 import { useStore } from "@builder.io/qwik";
 export const Header_component_J4uyIhaBNR4 = ()=>{
     const thing = useStore();
-    const { foo , bar  } = foo();
+    const { foo, bar } = foo();
     return <div>{thing}</div>;
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";4CAE0B,IAAM;IAC5B,MAAM,QAAQ;IACd,MAAM,EAAC,IAAG,EAAE,IAAG,EAAC,GAAG;IAEnB,QACK,KAAK,QAAQ;AAEtB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";4CAE0B;IACtB,MAAM,QAAQ;IACd,MAAM,EAAC,GAAG,EAAE,GAAG,EAAC,GAAG;IAEnB,QACK,KAAK,QAAQ;AAEtB\"}")
 /*
 {
   "origin": "test.tsx",

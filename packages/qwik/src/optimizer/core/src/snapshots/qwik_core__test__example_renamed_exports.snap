@@ -72,7 +72,7 @@ export const App_Component_NuXFTHRjvXE = (props)=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAG6B,CAAC,QAAU;IACpC,MAAM,QAAQ,SAAS;QAAC,OAAO;IAAC;IAEhC;;;AAGJ\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAG6B,CAAC;IAC1B,MAAM,QAAQ,SAAS;QAAC,OAAO;IAAC;IAEhC;;;AAGJ\"}")
 /*
 {
   "origin": "test.tsx",

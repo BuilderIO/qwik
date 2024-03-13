@@ -28,7 +28,7 @@ export const Foo_component_HTDRsvUbLiE = (props)=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"yCAI8B,SAAW;IACrC,UAAU,IAAM,CAIhB;IACA,QACK;AAET\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"yCAI8B;IAC1B,UAAU,KAIV;IACA,QACK;AAET\"}")
 /*
 {
   "origin": "test.tsx",

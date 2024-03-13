@@ -49,7 +49,7 @@ export const STEP = 1;
 export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(()=>import("./app_component_ckepmxzlub0"), "App_component_ckEPmXZlub0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AACA,SAAwB,QAAQ,QAAQ,mBAAmB;AAC3D,OAAO,MAAM,aAAa,IAAM;IAC5B,OAAO,SAAS;QAAC,OAAO;IAAC;AAC7B,EAAC;AAED,OAAO,MAAM,OAAO,EAAE;AAEtB,OAAO,MAAM,oBAAM,wGAoBjB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AACA,SAAwB,QAAQ,QAAQ,mBAAmB;AAC3D,OAAO,MAAM,aAAa;IACtB,OAAO,SAAS;QAAC,OAAO;IAAC;AAC7B,EAAC;AAED,OAAO,MAAM,OAAO,EAAE;AAEtB,OAAO,MAAM,oBAAM,wGAoBjB\"}")
 ============================= app_component_div_onclick_1cgetmfzx0g.js (ENTRY POINT)==
 
 import { useLexicalScope } from "@builder.io/qwik";
@@ -144,7 +144,7 @@ export const App_component_ckEPmXZlub0 = (props)=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;yCAQ8B,CAAC,QAAU;IACrC,MAAM,QAAQ;IACd,MAAM,QAAQ,SAAS;QAAC,OAAO;IAAC;IAGhC,MAAM,SAAS,MAAM,KAAK,GAAG;IAC7B,qBACI,MAAC;QAAI,QAAQ;;;;;sBACT,MAAC,oCAAM,GAAM,KAAK;;;QACjB,QAAQ,GAAG,CAAC,CAAA,oBACT,MAAC;gBACG,QAAQ;;;;;;iCAEP;;AAOrB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;yCAQ8B,CAAC;IAC3B,MAAM,QAAQ;IACd,MAAM,QAAQ,SAAS;QAAC,OAAO;IAAC;IAGhC,MAAM,SAAS,MAAM,KAAK,GAAG;IAC7B,qBACI,MAAC;QAAI,QAAQ;;;;;sBACT,MAAC,oCAAM,GAAM,KAAK;;;QACjB,QAAQ,GAAG,CAAC,CAAA,oBACT,MAAC;gBACG,QAAQ;;;;;;iCAEP;;AAOrB\"}")
 /*
 {
   "origin": "test.tsx",

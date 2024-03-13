@@ -40,7 +40,7 @@ export const test_component_LUXeXe0DQrg = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"0CAa0B,IAAK;IAC3B,QAAQ,IAAI,GAAG,EAAE;AACrB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"0CAa0B;IACtB,QAAQ,IAAI,GAAG,EAAE;AACrB\"}")
 /*
 {
   "origin": "test.tsx",

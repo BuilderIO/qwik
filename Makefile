@@ -27,6 +27,12 @@ lint:
 test:
 	cargo test
 
+test-update:
+	rm packages/qwik/src/optimizer/core/src/snapshots/*
+	cargo test || true
+	cd packages/qwik/src/optimizer/core/src/snapshots/ && for i in *.new; do f=$$(basename $$i .new); mv $$i $$f; done
+	cargo test
+
 publish-core:
 	cd src/optimizer/core && cargo publish --all-features
 

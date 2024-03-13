@@ -33,7 +33,7 @@ export const test_component_useResource_4a8wVY7wh38 = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";sDAciB,IAAM;IACf,OAAO;AACX\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";sDAciB;IACT,OAAO;AACX\"}")
 /*
 {
   "origin": "test.tsx",
@@ -74,7 +74,7 @@ export const test_component_LUXeXe0DQrg = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;0CAa0B,IAAK;IAC3B;IAGA,QAAQ,IAAI,GAAG,EAAE;AACrB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;0CAa0B;IACtB;IAGA,QAAQ,IAAI,GAAG,EAAE;AACrB\"}")
 /*
 {
   "origin": "test.tsx",

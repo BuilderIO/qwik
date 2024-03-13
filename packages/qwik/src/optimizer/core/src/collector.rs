@@ -51,7 +51,7 @@ pub struct GlobalCollect {
 	in_export_decl: bool,
 }
 
-pub fn global_collect(module: &ast::Module) -> GlobalCollect {
+pub fn global_collect(program: &ast::Program) -> GlobalCollect {
 	let mut collect = GlobalCollect {
 		synthetic: vec![],
 		imports: HashMap::with_capacity(16),
@@ -62,7 +62,7 @@ pub fn global_collect(module: &ast::Module) -> GlobalCollect {
 
 		in_export_decl: false,
 	};
-	module.visit_with(&mut collect);
+	program.visit_with(&mut collect);
 	collect
 }
 
@@ -93,7 +93,7 @@ impl GlobalCollect {
 			.cloned()
 			.map_or_else(
 				|| {
-					let local = id!(private_ident!(specifier));
+					let local = id!(private_ident!(specifier.clone()));
 					self.add_import(
 						local.clone(),
 						Import {
@@ -175,7 +175,7 @@ impl Visit for GlobalCollect {
 							specifier: imported,
 							kind: ImportKind::Named,
 							synthetic: false,
-							asserts: node.asserts.clone(),
+							asserts: node.with.clone(),
 						},
 					);
 				}
@@ -187,7 +187,7 @@ impl Visit for GlobalCollect {
 							specifier: js_word!("default"),
 							kind: ImportKind::Default,
 							synthetic: false,
-							asserts: node.asserts.clone(),
+							asserts: node.with.clone(),
 						},
 					);
 				}
@@ -199,7 +199,7 @@ impl Visit for GlobalCollect {
 							specifier: "*".into(),
 							kind: ImportKind::All,
 							synthetic: false,
-							asserts: node.asserts.clone(),
+							asserts: node.with.clone(),
 						},
 					);
 				}

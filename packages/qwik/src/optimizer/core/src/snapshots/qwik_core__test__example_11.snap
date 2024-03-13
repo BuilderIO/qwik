@@ -66,7 +66,7 @@ export const Header_component_UVBJuFYfvDo = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";;;;4CAMiC,IAAM;IACnC,QACK,OAAO,wGAA8B;;YAClC,CAAC,KAAK,KAAK,IAAI,OAAO;;QAC1B,EAAE;AAEV\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";;;;4CAMiC;IAC7B,QACK,OAAO,wGAA8B;;YAClC,CAAC,KAAK,KAAK,IAAI,OAAO;;QAC1B,EAAE;AAEV\"}")
 /*
 {
   "origin": "project/test.tsx",
@@ -95,7 +95,7 @@ export const App_component_wGkRHWXaqjs = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";;yCAc8B,IAAM;IAChC,QACK,QAAQ,QAAQ;AAEzB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/project/test.tsx\"],\"names\":[],\"mappings\":\";;yCAc8B;IAC1B,QACK,QAAQ,QAAQ;AAEzB\"}")
 /*
 {
   "origin": "project/test.tsx",
