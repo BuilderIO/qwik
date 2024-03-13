@@ -133,9 +133,9 @@ pub struct QwikTransformOptions<'a> {
 	pub cm: Lrc<SourceMap>,
 }
 
-fn convert_signal_word(id: &JsWord) -> Option<JsWord> {
+fn convert_qrl_word(id: &JsWord) -> Option<JsWord> {
 	let ident_name = id.as_ref();
-	let has_signal = ident_name.ends_with(SIGNAL);
+	let has_signal = ident_name.ends_with(QRL_SUFFIX);
 	if has_signal {
 		let new_specifier = [&ident_name[0..ident_name.len() - 1], LONG_SUFFIX].concat();
 		Some(JsWord::from(new_specifier))
@@ -147,13 +147,13 @@ impl<'a> QwikTransform<'a> {
 	pub fn new(options: QwikTransformOptions<'a>) -> Self {
 		let mut marker_functions = HashMap::new();
 		for (id, import) in options.global_collect.imports.iter() {
-			if import.kind == ImportKind::Named && import.specifier.ends_with(SIGNAL) {
+			if import.kind == ImportKind::Named && import.specifier.ends_with(QRL_SUFFIX) {
 				marker_functions.insert(id.clone(), import.specifier.clone());
 			}
 		}
 
 		for id in options.global_collect.exports.keys() {
-			if id.0.ends_with(SIGNAL) {
+			if id.0.ends_with(QRL_SUFFIX) {
 				marker_functions.insert(id.clone(), id.0.clone());
 			}
 		}
@@ -1373,7 +1373,7 @@ impl<'a> QwikTransform<'a> {
 								} else if !is_fn && (key_word == *REF || key_word == *QSLOT) {
 									// skip
 									mutable_props.push(prop.fold_with(self));
-								} else if convert_signal_word(&key_word).is_some() {
+								} else if convert_qrl_word(&key_word).is_some() {
 									if matches!(*node.value, ast::Expr::Arrow(_) | ast::Expr::Fn(_))
 									{
 										let (converted_expr, immutable) = self
@@ -2074,7 +2074,7 @@ impl<'a> Fold for QwikTransform<'a> {
 	fn fold_jsx_attr(&mut self, node: ast::JSXAttr) -> ast::JSXAttr {
 		let node = match node.name {
 			ast::JSXAttrName::Ident(ref ident) => {
-				let new_word = convert_signal_word(&ident.sym);
+				let new_word = convert_qrl_word(&ident.sym);
 				self.stack_ctxt.push(ident.sym.to_string());
 
 				if new_word.is_some() {
@@ -2087,7 +2087,7 @@ impl<'a> Fold for QwikTransform<'a> {
 				}
 			}
 			ast::JSXAttrName::JSXNamespacedName(ref namespaced) => {
-				let new_word = convert_signal_word(&namespaced.name.sym);
+				let new_word = convert_qrl_word(&namespaced.name.sym);
 				let ident_name = [
 					namespaced.ns.sym.as_ref(),
 					"-",
@@ -2148,12 +2148,12 @@ impl<'a> Fold for QwikTransform<'a> {
 					let global_collect = &mut self.options.global_collect;
 					if let Some(import) = global_collect.imports.get(&id!(ident)).cloned() {
 						let new_specifier =
-							convert_signal_word(&import.specifier).expect("Specifier ends with $");
+							convert_qrl_word(&import.specifier).expect("Specifier ends with $");
 						let new_local = self.ensure_import(&new_specifier, &import.source);
 						replace_callee = Some(new_ident_from_id(&new_local).as_callee());
 					} else {
 						let new_specifier =
-							convert_signal_word(&ident.sym).expect("Specifier ends with $");
+							convert_qrl_word(&ident.sym).expect("Specifier ends with $");
 						global_collect
                             .exports
                             .keys()

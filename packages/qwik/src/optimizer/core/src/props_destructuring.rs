@@ -57,7 +57,7 @@ impl<'a> PropsDestructuring<'a> {
 		if let Some(ast::Pat::Object(obj)) = arrow.params.first() {
 			let new_ident = private_ident!("props");
 			if let Some((rest_id, local)) =
-				transform_pat(ast::Expr::Ident(new_ident.clone()), obj, self)
+				transform_pat(ast::Expr::Ident(new_ident.clone()), &obj, self)
 			{
 				if let Some(rest_id) = rest_id {
 					let omit_fn = self.global_collect.import(&_REST_PROPS, self.core_module);
