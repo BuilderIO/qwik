@@ -43,7 +43,7 @@ export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((props)
 }, "Works_component_t45qL4vNGv0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;AAGA,OAAO,MAAM,sBAAQ,sCAAW,CAAC,QAAU;IAEvC,qBACI;;0BACA,MAAC;gBAAI,UAAU,4DAAQ,IAAM,QAAQ,GAAG,CAAC,aAHhC;;0BAIT,MAAC;gBAAI,QAAQ;;;;AAGrB,mCAAG\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;AAGA,OAAO,MAAM,sBAAQ,sCAAW,CAAC;IAE7B,qBACI;;0BACA,MAAC;gBAAI,UAAU,4DAAQ,IAAM,QAAQ,GAAG,CAAC,aAHhC;;0BAIT,MAAC;gBAAI,QAAQ;;;;AAGrB,mCAAG\"}")
 == DIAGNOSTICS ==
 
 []

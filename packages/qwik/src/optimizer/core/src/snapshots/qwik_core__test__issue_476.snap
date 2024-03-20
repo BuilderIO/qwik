@@ -46,7 +46,7 @@ export const Root = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"AACA,SAAS,OAAO,QAAQ,gBAAgB;AAExC,OAAO,MAAM,OAAO,IAAM;IACtB,QACK,KAAK;;YACF,CAAC,KAAK;;gBACF,CAAC,KAAK,QAAQ,SAAU;;gBACxB,CAAC,MAAM,cAAc,EAAE,MAAM;;YACjC,EAAE,KAAK;;YACP,CAAC,KAAK;;gBACF,CAAC,QAAQ,SAAS,IAAK;;YAC3B,EAAE,KAAK;;QACX,EAAE;AAEV,EAAE\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"AACA,SAAS,OAAO,QAAQ,gBAAgB;AAExC,OAAO,MAAM,OAAO;IAChB,QACK,KAAK;;YACF,CAAC,KAAK;;gBACF,CAAC,KAAK,QAAQ,SAAU;;gBACxB,CAAC,MAAM,cAAc,EAAE,MAAM;;YACjC,EAAE,KAAK;;YACP,CAAC,KAAK;;gBACF,CAAC,QAAQ,SAAS,IAAK;;YAC3B,EAAE,KAAK;;QACX,EAAE;AAEV,EAAE\"}")
 == DIAGNOSTICS ==
 
 []

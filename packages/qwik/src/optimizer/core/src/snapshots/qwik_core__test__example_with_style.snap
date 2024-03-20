@@ -52,7 +52,7 @@ export const Foo_component_HTDRsvUbLiE = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAG8B,IAAM;IAChC;IACA,QACK,IAAI,MAAM;AAEnB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAG8B;IAC1B;IACA,QACK,IAAI,MAAM;AAEnB\"}")
 /*
 {
   "origin": "test.tsx",

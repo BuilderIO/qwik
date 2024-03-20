@@ -50,11 +50,11 @@ export const { onRequest, logout, getSession, signup } = auth$({
 import { serverAuthQrl } from "@auth/qwik";
 import { qrl } from "@builder.io/qwik";
 import { authQrl } from "@auth/qwik";
-export const { onRequest , logout , getSession , signup  } = serverAuthQrl(/*#__PURE__*/ qrl(()=>import("./serverauth_qvqpx2a0p9y"), "serverAuth_qVqpX2a0p9Y"));
-export const { onRequest , logout , getSession , signup  } = authQrl(/*#__PURE__*/ qrl(()=>import("./auth_gu0ay5qcety"), "auth_GU0aY5QCETY"));
+export const { onRequest, logout, getSession, signup } = serverAuthQrl(/*#__PURE__*/ qrl(()=>import("./serverauth_qvqpx2a0p9y"), "serverAuth_qVqpX2a0p9Y"));
+export const { onRequest, logout, getSession, signup } = authQrl(/*#__PURE__*/ qrl(()=>import("./auth_gu0ay5qcety"), "auth_GU0aY5QCETY"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAMA,OAAO,MAAM,EAAE,UAAS,EAAE,OAAM,EAAE,WAAU,EAAE,OAAM,EAAE,GAAG,mGAetD;AAEH,OAAO,MAAM,EAAE,UAAS,EAAE,OAAM,EAAE,WAAU,EAAE,OAAM,EAAE,GAAG,iFAetD\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;AAMA,OAAO,MAAM,EAAE,SAAS,EAAE,MAAM,EAAE,UAAU,EAAE,MAAM,EAAE,GAAG,mGAetD;AAEH,OAAO,MAAM,EAAE,SAAS,EAAE,MAAM,EAAE,UAAU,EAAE,MAAM,EAAE,GAAG,iFAetD\"}")
 ============================= auth_gu0ay5qcety.js (ENTRY POINT)==
 
 import Facebook from "next-auth/providers/facebook";

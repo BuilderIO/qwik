@@ -194,6 +194,7 @@
     "test.e2e.firefox": "playwright test starters --browser=firefox --config starters/playwright.config.ts",
     "test.e2e.webkit": "playwright test starters --browser=webkit --config starters/playwright.config.ts",
     "test.rust": "make test",
+    "test.rust.update": "make test-update",
     "test.unit": "vitest packages",
     "test.unit.debug": "vitest --inspect-brk packages",
     "test.vite": "playwright test starters/e2e/qwikcity --browser=chromium --config starters/playwright.config.ts",

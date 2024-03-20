@@ -30,7 +30,7 @@ export const Header_component_J4uyIhaBNR4 = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";4CAGiC,IAAM;IACnC,QAAQ,GAAG,CAAC;IACZ,QACK,IAAI;AAEX\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";4CAGiC;IAC7B,QAAQ,GAAG,CAAC;IACZ,QACK,IAAI;AAEX\"}")
 /*
 {
   "origin": "test.tsx",
@@ -67,7 +67,7 @@ export const App_component_ckEPmXZlub0 = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAUuB,IAAM;IACzB,QACK;AAET\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAUuB;IACnB,QACK;AAET\"}")
 /*
 {
   "origin": "test.tsx",

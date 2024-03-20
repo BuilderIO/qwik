@@ -23,7 +23,7 @@ export const Header_component_J4uyIhaBNR4 = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";4CAEiC,IAAM;IACnC,QAAQ,GAAG,CAAC;IACZ,QACK,IAAI;AAEb\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";4CAEiC;IAC7B,QAAQ,GAAG,CAAC;IACZ,QACK,IAAI;AAEb\"}")
 /*
 {
   "origin": "test.tsx",
