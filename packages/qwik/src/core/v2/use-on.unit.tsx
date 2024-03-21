@@ -1,13 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { trigger } from '../../testing/element-fixture';
-import { component$ } from '../component/component.public';
-import { inlinedQrl } from '../qrl/qrl';
-import { useLexicalScope } from '../use/use-lexical-scope.public';
-import { useOn, useOnDocument, useOnWindow } from '../use/use-on';
-import { useSignal } from '../use/use-signal';
+import {
+  $,
+  component$,
+  useOn,
+  useOnDocument,
+  useOnWindow,
+  useSignal,
+  useVisibleTask$,
+} from '@builder.io/qwik';
 import { domRender, ssrRenderToDom } from './rendering.unit-util';
 import './vdom-diff.unit-util';
-import { useVisibleTaskQrl } from '../use/use-task';
 
 const debug = false; //true;
 Error.stackTraceLimit = 100;
@@ -22,7 +25,7 @@ Error.stackTraceLimit = 100;
         const count = useSignal(props.initial);
         useOn(
           'click',
-          inlinedQrl(() => useLexicalScope()[0].value++, 's_onClick', [count])
+          $(() => count.value++)
         );
         return <button>Count: {count.value}!</button>;
       });
@@ -46,21 +49,17 @@ Error.stackTraceLimit = 100;
         const count = useSignal(props.initial);
         useOn(
           'click',
-          inlinedQrl(() => useLexicalScope()[0].value++, 's_onClick', [count])
+          $(() => count.value++)
         );
         useOn(
           'focus',
-          inlinedQrl(
-            () => {
-              useLexicalScope()[0].value += 2;
-            },
-            's_onFocus',
-            [count]
-          )
+          $(() => {
+            count.value += 2;
+          })
         );
-        useVisibleTaskQrl(
-          inlinedQrl(() => (useLexicalScope()[0].value += 2), 's_visibleTask', [count])
-        );
+        useVisibleTask$(() => {
+          count.value += 2;
+        });
         return <button>Count: {count.value}!</button>;
       });
 
@@ -97,15 +96,9 @@ Error.stackTraceLimit = 100;
         const count = useSignal(props.initial);
         useOn(
           'click',
-          inlinedQrl(() => useLexicalScope()[0].value++, 's_onClick', [count])
+          $(() => count.value++)
         );
-        return (
-          <button
-            onFocus$={inlinedQrl(() => (useLexicalScope()[0].value += 2), 's_onFocus', [count])}
-          >
-            Count: {count.value}!
-          </button>
-        );
+        return <button onFocus$={$(() => (count.value += 2))}>Count: {count.value}!</button>;
       });
 
       const { vNode, container } = await render(<Counter initial={123} />, { debug });
@@ -135,7 +128,7 @@ Error.stackTraceLimit = 100;
         const count = useSignal(props.initial);
         useOnDocument(
           'click',
-          inlinedQrl(() => useLexicalScope()[0].value++, 's_onClick', [count])
+          $(() => count.value++)
         );
         return <button>Count: {count.value}!</button>;
       });
@@ -160,21 +153,17 @@ Error.stackTraceLimit = 100;
         const count = useSignal(props.initial);
         useOnDocument(
           'click',
-          inlinedQrl(() => useLexicalScope()[0].value++, 's_onClick', [count])
+          $(() => count.value++)
         );
         useOnDocument(
           'focus',
-          inlinedQrl(
-            () => {
-              useLexicalScope()[0].value += 2;
-            },
-            's_onFocus',
-            [count]
-          )
+          $(() => {
+            count.value += 2;
+          })
         );
-        useVisibleTaskQrl(
-          inlinedQrl(() => (useLexicalScope()[0].value += 2), 's_visibleTask', [count])
-        );
+        useVisibleTask$(() => {
+          count.value += 2;
+        });
         return <button>Count: {count.value}!</button>;
       });
 
@@ -211,15 +200,9 @@ Error.stackTraceLimit = 100;
         const count = useSignal(props.initial);
         useOnWindow(
           'click',
-          inlinedQrl(() => useLexicalScope()[0].value++, 's_onClick', [count])
+          $(() => count.value++)
         );
-        return (
-          <button
-            onFocus$={inlinedQrl(() => (useLexicalScope()[0].value += 2), 's_onFocus', [count])}
-          >
-            Count: {count.value}!
-          </button>
-        );
+        return <button onFocus$={$(() => (count.value += 2))}>Count: {count.value}!</button>;
       });
 
       const { vNode, container } = await render(<Counter initial={123} />, { debug });
@@ -249,7 +232,7 @@ Error.stackTraceLimit = 100;
         const count = useSignal(props.initial);
         useOnWindow(
           'click',
-          inlinedQrl(() => useLexicalScope()[0].value++, 's_onClick', [count])
+          $(() => count.value++)
         );
         return <button>Count: {count.value}!</button>;
       });
@@ -274,21 +257,17 @@ Error.stackTraceLimit = 100;
         const count = useSignal(props.initial);
         useOnWindow(
           'click',
-          inlinedQrl(() => useLexicalScope()[0].value++, 's_onClick', [count])
+          $(() => count.value++)
         );
         useOnWindow(
           'focus',
-          inlinedQrl(
-            () => {
-              useLexicalScope()[0].value += 2;
-            },
-            's_onFocus',
-            [count]
-          )
+          $(() => {
+            count.value += 2;
+          })
         );
-        useVisibleTaskQrl(
-          inlinedQrl(() => (useLexicalScope()[0].value += 2), 's_visibleTask', [count])
-        );
+        useVisibleTask$(() => {
+          count.value += 2;
+        });
         return <button>Count: {count.value}!</button>;
       });
 
@@ -325,15 +304,9 @@ Error.stackTraceLimit = 100;
         const count = useSignal(props.initial);
         useOnDocument(
           'click',
-          inlinedQrl(() => useLexicalScope()[0].value++, 's_onClick', [count])
+          $(() => count.value++)
         );
-        return (
-          <button
-            onFocus$={inlinedQrl(() => (useLexicalScope()[0].value += 2), 's_onFocus', [count])}
-          >
-            Count: {count.value}!
-          </button>
-        );
+        return <button onFocus$={$(() => (count.value += 2))}>Count: {count.value}!</button>;
       });
 
       const { vNode, container } = await render(<Counter initial={123} />, { debug });
@@ -362,38 +335,24 @@ Error.stackTraceLimit = 100;
       const count = useSignal(props.initial);
       useOn(
         'click',
-        inlinedQrl(() => useLexicalScope()[0].value++, 's_onClick', [count])
+        $(() => count.value++)
       );
       useOnWindow(
         'focus',
-        inlinedQrl(
-          () => {
-            useLexicalScope()[0].value += 2;
-          },
-          's_onFocus',
-          [count]
-        )
+        $(() => {
+          count.value += 2;
+        })
       );
       useOnDocument(
         'blur',
-        inlinedQrl(
-          () => {
-            useLexicalScope()[0].value += 3;
-          },
-          's_onBlur',
-          [count]
-        )
+        $(() => {
+          count.value += 3;
+        })
       );
-      useVisibleTaskQrl(
-        inlinedQrl(() => (useLexicalScope()[0].value += 2), 's_visibleTask', [count])
-      );
-      return (
-        <button
-          onResize$={inlinedQrl(() => (useLexicalScope()[0].value += 4), 's_onResize', [count])}
-        >
-          Count: {count.value}!
-        </button>
-      );
+      useVisibleTask$(() => {
+        count.value += 2;
+      });
+      return <button onResize$={$(() => (count.value += 4))}>Count: {count.value}!</button>;
     });
 
     const { vNode, container } = await render(<Counter initial={123} />, { debug });

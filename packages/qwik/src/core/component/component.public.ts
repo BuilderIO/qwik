@@ -1,4 +1,4 @@
-import { $, type PropFnInterface, type QRL } from '../qrl/qrl.public';
+import { dollar, type PropFnInterface, type QRL } from '../qrl/qrl.public';
 import type { JSXNode, JSXOutput } from '../render/jsx/types/jsx-node';
 import { OnRenderProp, QSlot } from '../util/markers';
 import type {
@@ -276,7 +276,7 @@ export type PropFunctionProps<PROPS extends Record<any, any>> = {
  */
 // </docs>
 export const component$ = <PROPS = unknown>(onMount: OnRenderFn<PROPS>): Component<PROPS> => {
-  return componentQrl($(onMount));
+  return componentQrl(dollar(onMount));
 };
 
 /** @public */

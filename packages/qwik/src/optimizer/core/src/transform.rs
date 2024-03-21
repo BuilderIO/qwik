@@ -110,9 +110,6 @@ pub struct QwikTransform<'a> {
     jsx_mutable: bool,
 
     hook_stack: Vec<JsWord>,
-    file_hash: u64,
-    jsx_key_counter: u32,
-    root_jsx_mode: bool,
 }
 
 pub struct QwikTransformOptions<'a> {
@@ -217,8 +214,6 @@ impl<'a> QwikTransform<'a> {
             })
             .collect();
         QwikTransform {
-            file_hash: hasher.finish(),
-            jsx_key_counter: 0,
             stack_ctxt: Vec::with_capacity(16),
             decl_stack: Vec::with_capacity(32),
             in_component: false,
@@ -249,7 +244,6 @@ impl<'a> QwikTransform<'a> {
             marker_functions,
             jsx_functions,
             immutable_function_cmp,
-            root_jsx_mode: true,
             jsx_mutable: false,
             options,
         }
@@ -815,25 +809,12 @@ impl<'a> QwikTransform<'a> {
                 (false, true, false)
             }
         };
-        let should_emit_key = is_fn || self.root_jsx_mode;
-        self.root_jsx_mode = false;
 
         let (dynamic_props, mutable_props, immutable_props, children, flags) =
             self.handle_jsx_props_obj(node_props, is_fn, is_text_only);
 
         let key = if node.args.len() == 1 {
             node.args.remove(0)
-        } else if should_emit_key {
-            let new_key = format!("{}_{}", &base64(self.file_hash)[0..2], self.jsx_key_counter);
-            self.jsx_key_counter += 1;
-            ast::ExprOrSpread {
-                spread: None,
-                expr: Box::new(ast::Expr::Lit(ast::Lit::Str(ast::Str {
-                    span: DUMMY_SP,
-                    value: new_key.into(),
-                    raw: None,
-                }))),
-            }
         } else {
             get_null_arg()
         };
@@ -1238,6 +1219,7 @@ impl<'a> QwikTransform<'a> {
                     .cloned()
                     .collect();
 
+                // Do we have spread arguments?
                 let dynamic_props = object
                     .props
                     .iter()
@@ -1819,9 +1801,6 @@ impl<'a> Fold for QwikTransform<'a> {
 
     fn fold_function(&mut self, node: ast::Function) -> ast::Function {
         self.decl_stack.push(vec![]);
-        let prev = self.root_jsx_mode;
-        self.root_jsx_mode = true;
-
         let prev_jsx_mutable = self.jsx_mutable;
         self.jsx_mutable = false;
 
@@ -1863,7 +1842,6 @@ impl<'a> Fold for QwikTransform<'a> {
                 );
             }
         }
-        self.root_jsx_mode = prev;
         self.jsx_mutable = prev_jsx_mutable;
         self.decl_stack.pop();
 
@@ -1872,9 +1850,6 @@ impl<'a> Fold for QwikTransform<'a> {
 
     fn fold_arrow_expr(&mut self, node: ast::ArrowExpr) -> ast::ArrowExpr {
         self.decl_stack.push(vec![]);
-        let prev = self.root_jsx_mode;
-        self.root_jsx_mode = true;
-
         let prev_jsx_mutable = self.jsx_mutable;
         self.jsx_mutable = false;
 
@@ -1925,7 +1900,6 @@ impl<'a> Fold for QwikTransform<'a> {
                 }
             }
         }
-        self.root_jsx_mode = prev;
         self.jsx_mutable = prev_jsx_mutable;
         self.decl_stack.pop();
 
@@ -1934,11 +1908,8 @@ impl<'a> Fold for QwikTransform<'a> {
 
     fn fold_for_stmt(&mut self, node: ast::ForStmt) -> ast::ForStmt {
         self.decl_stack.push(vec![]);
-        let prev = self.root_jsx_mode;
-        self.root_jsx_mode = true;
         self.in_component = false;
         let o = node.fold_children_with(self);
-        self.root_jsx_mode = prev;
         self.decl_stack.pop();
 
         o
@@ -1946,11 +1917,8 @@ impl<'a> Fold for QwikTransform<'a> {
 
     fn fold_for_in_stmt(&mut self, node: ast::ForInStmt) -> ast::ForInStmt {
         self.decl_stack.push(vec![]);
-        let prev = self.root_jsx_mode;
-        self.root_jsx_mode = true;
         self.in_component = false;
         let o = node.fold_children_with(self);
-        self.root_jsx_mode = prev;
         self.decl_stack.pop();
 
         o
@@ -1958,38 +1926,24 @@ impl<'a> Fold for QwikTransform<'a> {
 
     fn fold_for_of_stmt(&mut self, node: ast::ForOfStmt) -> ast::ForOfStmt {
         self.decl_stack.push(vec![]);
-        let prev = self.root_jsx_mode;
-        self.root_jsx_mode = true;
         let o = node.fold_children_with(self);
-        self.root_jsx_mode = prev;
         self.decl_stack.pop();
 
         o
     }
 
     fn fold_bin_expr(&mut self, node: ast::BinExpr) -> ast::BinExpr {
-        let prev = self.root_jsx_mode;
-        self.root_jsx_mode = true;
-        let o = node.fold_children_with(self);
-        self.root_jsx_mode = prev;
-        o
+        node.fold_children_with(self)
     }
 
     fn fold_cond_expr(&mut self, node: ast::CondExpr) -> ast::CondExpr {
-        let prev = self.root_jsx_mode;
-        self.root_jsx_mode = true;
-        let o = node.fold_children_with(self);
-        self.root_jsx_mode = prev;
-        o
+        node.fold_children_with(self)
     }
 
     fn fold_if_stmt(&mut self, node: ast::IfStmt) -> ast::IfStmt {
         self.decl_stack.push(vec![]);
-        let prev = self.root_jsx_mode;
-        self.root_jsx_mode = true;
         self.in_component = false;
         let o = node.fold_children_with(self);
-        self.root_jsx_mode = prev;
         self.decl_stack.pop();
 
         o
@@ -1997,10 +1951,7 @@ impl<'a> Fold for QwikTransform<'a> {
 
     fn fold_block_stmt(&mut self, node: ast::BlockStmt) -> ast::BlockStmt {
         self.decl_stack.push(vec![]);
-        let prev = self.root_jsx_mode;
-        self.root_jsx_mode = true;
         let o = node.fold_children_with(self);
-        self.root_jsx_mode = prev;
         self.decl_stack.pop();
 
         o
@@ -2008,12 +1959,9 @@ impl<'a> Fold for QwikTransform<'a> {
 
     fn fold_while_stmt(&mut self, node: ast::WhileStmt) -> ast::WhileStmt {
         self.decl_stack.push(vec![]);
-        let prev = self.root_jsx_mode;
-        self.root_jsx_mode = true;
         self.in_component = false;
 
         let o = node.fold_children_with(self);
-        self.root_jsx_mode = prev;
         self.decl_stack.pop();
 
         o
@@ -2026,11 +1974,8 @@ impl<'a> Fold for QwikTransform<'a> {
 
         self.stack_ctxt.push(node.ident.sym.to_string());
         self.decl_stack.push(vec![]);
-        let prev = self.root_jsx_mode;
-        self.root_jsx_mode = true;
         self.in_component = false;
         let o = node.fold_children_with(self);
-        self.root_jsx_mode = prev;
         self.stack_ctxt.pop();
         self.decl_stack.pop();
 

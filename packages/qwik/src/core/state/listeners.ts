@@ -1,6 +1,6 @@
 import { inflateQrl, parseQRL } from '../qrl/qrl';
 import { assertQrl, isQrl, type QRLInternal } from '../qrl/qrl-class';
-import { $ } from '../qrl/qrl.public';
+import { dollar } from '../qrl/qrl.public';
 import { isArray } from '../util/types';
 import { assertTrue } from '../error/assert';
 import { EMPTY_ARRAY } from '../util/flyweight';
@@ -93,7 +93,7 @@ const ensureQrl = <T = unknown>(value: any, containerEl: Element | undefined) =>
     value.$setContainer$(containerEl);
     return value;
   }
-  const qrl = isQrl<T>(value) ? value : ($(value) as QRLInternal<T>);
+  const qrl = isQrl<T>(value) ? value : (dollar(value) as QRLInternal<T>);
   qrl.$setContainer$(containerEl);
   return qrl;
 };

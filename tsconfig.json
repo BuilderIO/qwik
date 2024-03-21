@@ -18,13 +18,6 @@
     "assumeChangesOnlyAffectDirectDependencies": true,
     "noUnusedLocals": true,
     "paths": {
-      "@builder.io/qwik": ["packages/qwik/src/core/index.ts"],
-      "@builder.io/qwik/build": ["packages/qwik/src/build/index.ts"],
-      "@builder.io/qwik/jsx-runtime": ["packages/qwik/src/jsx-runtime/index.ts"],
-      "@builder.io/qwik/jsx-dev-runtime": ["packages/qwik/src/jsx-runtime/index.ts"],
-      "@builder.io/qwik/optimizer": ["packages/qwik/src/optimizer/src/index.ts"],
-      "@builder.io/qwik/server": ["packages/qwik/src/server/index.ts"],
-      "@builder.io/qwik/testing": ["packages/qwik/src/testing/index.ts"],
       "@builder.io/qwik-react": ["packages/qwik-react/src/index.ts"],
       "@builder.io/qwik-city": ["packages/qwik-city/runtime/src/index.ts"],
       "@builder.io/qwik-city/service-worker": [
@@ -112,6 +105,7 @@
     "packages/create-qwik/dist",
     "**/lib",
     "packages/qwik/**/*.d.ts",
+    "packages/qwik/dist/**/*",
     "scripts/eslint-docs.ts"
   ]
 }

@@ -1,4 +1,4 @@
-import { $, type QRL } from '../qrl/qrl.public';
+import { dollar, type QRL } from '../qrl/qrl.public';
 
 // <docs markdown="../readme.md#implicit$FirstArg">
 // !!DO NOT EDIT THIS COMMENT DIRECTLY!!!
@@ -44,6 +44,6 @@ export const implicit$FirstArg = <FIRST, REST extends any[], RET>(
   fn: (first: QRL<FIRST>, ...rest: REST) => RET
 ): ((first: FIRST, ...rest: REST) => RET) => {
   return function (first: FIRST, ...rest: REST): RET {
-    return fn.call(null, $(first), ...rest);
+    return fn.call(null, dollar(first), ...rest);
   };
 };

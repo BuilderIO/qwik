@@ -30,16 +30,16 @@ Error.stackTraceLimit = 100;
       );
     });
     it('should render nested component', async () => {
+      const Child = component$((props: { name: string }) => {
+        return <>{props.name}</>;
+      });
+
       const Parent = component$((props: { salutation: string; name: string }) => {
         return (
           <>
             {props.salutation} <Child name={props.name} />
           </>
         );
-      });
-
-      const Child = component$((props: { name: string }) => {
-        return <>{props.name}</>;
       });
 
       const { vNode } = await render(<Parent salutation="Hello" name="World" />, {

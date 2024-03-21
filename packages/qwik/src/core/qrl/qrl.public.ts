@@ -264,6 +264,8 @@ export const $ = <T>(expression: T): QRL<T> => {
 
   return createQRL<T>(null, 's' + runtimeSymbolId++, expression, null, null, null, null);
 };
+/** @private Use to avoid optimizer replacement */
+export const dollar = $;
 
 /** @public */
 export const eventQrl = <T>(qrl: QRL<T>): QRL<T> => {

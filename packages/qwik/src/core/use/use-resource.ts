@@ -1,6 +1,6 @@
 import { isServerPlatform } from '../platform/platform';
 import { assertQrl } from '../qrl/qrl-class';
-import { $, type QRL } from '../qrl/qrl.public';
+import { dollar, type QRL } from '../qrl/qrl.public';
 import { Fragment, jsx } from '../render/jsx/jsx-runtime';
 import { untrack, useBindInvokeContext } from './use-core';
 import {
@@ -185,7 +185,7 @@ export const useResource$ = <T>(
   generatorFn: ResourceFn<T>,
   opts?: ResourceOptions
 ): ResourceReturn<T> => {
-  return useResourceQrl<T>($(generatorFn), opts);
+  return useResourceQrl<T>(dollar(generatorFn), opts);
 };
 
 /** @public */

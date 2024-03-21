@@ -77,8 +77,11 @@ function diffJsxVNode(received: VNode, expected: JSXNode | string, path: string[
       if (isJsxPropertyAnEventName(prop) || isHtmlAttributeAnEventName(prop)) {
         return;
       }
-      const expectedValue = prop == 'key' || prop == 'q:key' ? expected.key : expected.props[prop];
       const receivedValue = vnode_getAttr(received, prop);
+      const expectedValue =
+        prop === 'key' || prop === 'q:key'
+          ? expected.key || receivedValue
+          : expected.props[prop] || expected.immutableProps?.[prop];
       if (expectedValue !== receivedValue) {
         diffs.push(`${path.join(' > ')}: [${prop}]`);
         diffs.push('  EXPECTED: ' + JSON.stringify(expectedValue));

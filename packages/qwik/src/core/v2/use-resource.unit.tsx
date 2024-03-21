@@ -1,22 +1,20 @@
 import { describe, expect, it } from 'vitest';
-import { component$ } from '../component/component.public';
-import { inlinedQrl } from '../qrl/qrl';
 import {
+  component$,
   Fragment as Awaited,
   Fragment as Component,
   Fragment,
   Fragment as InlineComponent,
-} from '../render/jsx/jsx-runtime';
-import { Resource, useResourceQrl } from '../use/use-resource';
+  Resource,
+  useResource$,
+  useSignal,
+} from '@builder.io/qwik';
 import { domRender, ssrRenderToDom } from './rendering.unit-util';
 import './vdom-diff.unit-util';
-import { useSignal } from '../use/use-signal';
-import { useLexicalScope } from '../use/use-lexical-scope.public';
 import { delay } from '../util/promises';
-import type { Signal } from '../state/signal';
 import { trigger } from '../../testing/element-fixture';
 
-const debug = false; //true;
+const debug = !false; //true;
 Error.stackTraceLimit = 100;
 
 [
@@ -24,9 +22,9 @@ Error.stackTraceLimit = 100;
   domRender, //
 ].forEach((render) => {
   describe(render.name + ': useResource', () => {
-    it('should execute resource task', async () => {
+    it(render.name + 'should execute resource task', async () => {
       const TestCmp = component$(() => {
-        const rsrc = useResourceQrl(inlinedQrl(() => 'RESOURCE_VALUE', 's_resource'));
+        const rsrc = useResource$(() => 'RESOURCE_VALUE');
         return (
           <div>
             <Resource value={rsrc} onResolved={(v) => <span>{v}</span>} />
@@ -51,20 +49,13 @@ Error.stackTraceLimit = 100;
     it('should update resource task', async () => {
       const TestCmp = component$(() => {
         const count = useSignal(0);
-        const rsrc = useResourceQrl(
-          inlinedQrl(
-            async ({ track }) => {
-              const [count] = useLexicalScope<[Signal<number>]>();
-              const value = track(() => count.value);
-              await delay(5);
-              return value;
-            },
-            's_resource',
-            [count]
-          )
-        );
+        const rsrc = useResource$(async ({ track }) => {
+          const value = track(() => count.value);
+          await delay(5);
+          return value;
+        });
         return (
-          <button onClick$={inlinedQrl(() => useLexicalScope()[0].value++, 's_click', [count])}>
+          <button onClick$={() => count.value++}>
             <Resource value={rsrc} onResolved={(v) => <span>{v}</span>} />
           </button>
         );

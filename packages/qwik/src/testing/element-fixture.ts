@@ -46,7 +46,7 @@ export class ElementFixture {
       this.host.querySelectorAll('script[q\\:func="qwik/json"]').forEach((script) => {
         const code = script.textContent;
         if (code?.startsWith(Q_FUNCS_PREFIX)) {
-          const qFuncs = eval(code.substring(Q_FUNCS_PREFIX.length));
+          const qFuncs = (0, eval)(code.substring(Q_FUNCS_PREFIX.length));
           const container = this.host.closest(QContainerSelector);
           (container as any as { qFuncs?: Function[] }).qFuncs = qFuncs;
         }

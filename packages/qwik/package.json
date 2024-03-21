@@ -1,4 +1,5 @@
 {
+  "annotation": "This package.json is for internal use in the monorepo, the build actually makes a new package.json for the published package via scripts/package-json.ts",
   "name": "@builder.io/qwik",
   "description": "An Open-Source sub-framework designed with a focus on server-side-rendering, lazy-loading, and styling/animation.",
   "version": "1.5.1",
@@ -23,9 +24,10 @@
   ],
   "dependencies": {
     "csstype": "^3.1.3",
-    "vite": "^5.1.4"
+    "vite": "^5.1.6"
   },
   "devDependencies": {
+    "@builder.io/qwik": "workspace:^",
     "@builder.io/qwik-dom": "workspace:^",
     "image-size": "^1.0.2",
     "kleur": "4.1.5"
@@ -33,73 +35,20 @@
   "engines": {
     "node": ">=16.8.0 <18.0.0 || >=18.11"
   },
+  "exports_annotation": "We use the build for the optimizer because esbuild doesn't like the html?raw imports in the server plugin and it's only used in the vite configs",
   "exports": {
-    ".": {
-      "import": {
-        "development": "./dist/core.mjs",
-        "production": "./dist/core.prod.mjs",
-        "default": "./dist/core.mjs",
-        "min": "./dist/core.min.mjs"
-      },
-      "require": {
-        "development": "./dist/core.cjs",
-        "production": "./dist/core.prod.cjs",
-        "default": "./dist/core.cjs"
-      }
-    },
-    "./cli": {
-      "require": "./dist/cli.cjs"
-    },
-    "./jsx-runtime": {
-      "import": {
-        "development": "./dist/core.mjs",
-        "production": "./dist/core.prod.mjs",
-        "default": "./dist/core.mjs",
-        "min": "./dist/core.min.mjs"
-      },
-      "require": {
-        "development": "./dist/core.cjs",
-        "production": "./dist/core.prod.cjs",
-        "default": "./dist/core.cjs"
-      }
-    },
-    "./jsx-dev-runtime": {
-      "import": {
-        "development": "./dist/core.mjs",
-        "production": "./dist/core.prod.mjs",
-        "default": "./dist/core.mjs",
-        "min": "./dist/core.min.mjs"
-      },
-      "require": {
-        "development": "./dist/core.cjs",
-        "production": "./dist/core.prod.cjs",
-        "default": "./dist/core.cjs"
-      }
-    },
-    "./build": {
-      "import": "./src/build/index.ts",
-      "require": "./dist/build/index.cjs"
-    },
-    "./loader": {
-      "import": "./dist/loader/index.mjs",
-      "require": "./dist/loader/index.cjs"
-    },
+    ".": "./src/core/index.ts",
+    "./cli": "./src/cli/index.ts",
+    "./jsx-runtime": "./src/core/index.ts",
+    "./jsx-dev-runtime": "./src/core/index.ts",
+    "./build": "./src/build/index.ts",
     "./optimizer.cjs": "./dist/optimizer.cjs",
     "./optimizer.mjs": "./dist/optimizer.mjs",
-    "./optimizer": {
-      "import": "./dist/optimizer.mjs",
-      "require": "./dist/optimizer.cjs"
-    },
+    "./optimizer": "./dist/optimizer.mjs",
     "./server.cjs": "./dist/server.cjs",
     "./server.mjs": "./dist/server.mjs",
-    "./server": {
-      "import": "./dist/server.mjs",
-      "require": "./dist/server.cjs"
-    },
-    "./testing": {
-      "import": "./dist/testing/index.mjs",
-      "require": "./dist/testing/index.cjs"
-    },
+    "./server": "./src/server/index.ts",
+    "./testing": "./src/testing/index.ts",
     "./qwikloader.js": "./dist/qwikloader.js",
     "./qwikloader.debug.js": "./dist/qwikloader.debug.js",
     "./qwik-prefetch.js": "./dist/qwik-prefetch.js",
@@ -190,13 +139,12 @@
     "website"
   ],
   "license": "MIT",
-  "main": "./dist/core.mjs",
+  "main": "./src/index.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/BuilderIO/qwik.git",
     "directory": "packages/qwik"
   },
   "sideEffects": false,
-  "type": "module",
-  "types": "./dist/core.d.ts"
+  "type": "module"
 }
