@@ -102,5 +102,37 @@ test.describe("server$", () => {
       await expect(usersContainer1).toContainText("user1user1");
       await expect(usersContainer2).toContainText("user2user2");
     });
+    test("should have multiple server$ should set cookie value", async ({
+      browser,
+    }) => {
+      const user1Context = await browser.newContext();
+      const user2Context = await browser.newContext();
+
+      const user1Cookies = [
+        { name: "user", value: "user1", url: "http://localhost:3301" },
+      ];
+      const user2Cookies = [
+        { name: "user", value: "user2", url: "http://localhost:3301" },
+      ];
+      await user1Context.addCookies(user1Cookies);
+      await user2Context.addCookies(user2Cookies);
+
+      const [user1Page, user2Page] = await Promise.all([
+        user1Context.newPage(),
+        user2Context.newPage(),
+      ]);
+      await Promise.all([
+        user1Page.goto("/qwikcity-test/server-func/server-cookie"),
+        user2Page.goto("/qwikcity-test/server-func/server-cookie"),
+      ]);
+      const usersContainer1 = user1Page.locator("#server-cookie");
+      const usersContainer2 = user2Page.locator("#server-cookie");
+      await Promise.all([
+        usersContainer1.waitFor({ state: "visible", timeout: 2000 }),
+        usersContainer2.waitFor({ state: "visible", timeout: 2000 }),
+      ]);
+      await expect(usersContainer1).toContainText("PatrickJS-user1");
+      await expect(usersContainer2).toContainText("PatrickJS-user2");
+    });
   });
 });

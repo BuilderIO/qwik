@@ -77,15 +77,20 @@ export function createQwikCity(opts: QwikCityAzureOptions): AzureFunction {
         },
         request: new Request(url, options),
         getWritableStream: (status, headers, cookies, resolve) => {
+          let once = true;
           const response: AzureResponse = {
             status,
             body: new Uint8Array(),
             headers: {},
-            cookies: cookies.headers().map((header) => parseString(header)),
           };
           headers.forEach((value, key) => (response.headers[key] = value));
           return new WritableStream({
             write(chunk: Uint8Array) {
+              // set headers once but allow for dev to add cookie values
+              if (once) {
+                response.cookies = cookies.headers().map((header) => parseString(header));
+                once = false;
+              }
               if (response.body instanceof Uint8Array) {
                 const newBuffer = new Uint8Array(response.body.length + chunk.length);
                 newBuffer.set(response.body);
