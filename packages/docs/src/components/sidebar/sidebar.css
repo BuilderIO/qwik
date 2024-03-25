@@ -1,11 +1,16 @@
 .sidebar {
-  @apply fixed z-20 top-0 bottom-0;
+  @apply hidden lg:block;
+
+  position: sticky;
+  top: var(--header-height);
+  min-width: fit-content;
+  max-height: calc(100vh - var(--header-height));
 }
 
 .sidebar summary {
   cursor: pointer;
   display: block;
-  padding-top: 3px;
+  margin-top: 3px;
   margin-bottom: 3px;
 }
 
@@ -71,26 +76,26 @@
 }
 
 .menu {
-  @apply fixed z-10 bottom-0;
-  @apply pb-6;
-  @apply overflow-y-auto;
-  @apply hidden;
-
-  @apply right-auto left-[max(0px,calc(50%-43rem))];
+  @apply py-8 pt-10;
+  @apply h-full overflow-y-auto;
 
   /* large */
-  @apply lg:block;
   @apply lg:pl-4 lg:pr-4;
   @apply lg:w-[14rem];
 
-  padding-top: 30px;
-  top: 8rem;
   border-right: 1px solid #8c8c8c66;
+  overscroll-behavior: contain;
 }
 
 .menu h5 {
-  @apply px-3 py-1 mb-1 rounded-md whitespace-nowrap;
+  @apply px-3 py-1 mb-2 rounded-md whitespace-nowrap;
   color: var(--interactive-text-color);
+}
+
+.menu li:first-child h5,
+.menu li:first-child summary {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .menu ul {

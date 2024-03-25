@@ -1,18 +1,17 @@
-.docs main {
-  @apply mx-auto min-h-[100vh] xl:max-w-[1300px];
+.docs .content-container {
+  @apply px-8 lg:pl-0 xl:pr-0;
+  @apply mx-auto min-h-[100vh];
+  max-width: var(--container-max-width);
 }
 
 .docs .docs-container {
-  @apply pt-8;
-  @apply px-8;
+  @apply pt-8 lg:pt-5;
 
-  /* medium */
-
-  /* large */
-  @apply lg:pt-5 lg:ml-[17rem] lg:mr-[4rem] lg:px-0;
-
-  /* xlarge */
-  @apply xl:pr-16 xl:mr-[18rem];
+  @screen lg {
+    /* approx 85ch, but since the contents use font-sizes in absolute values,
+       we need to use an absolute value here too */
+    max-width: 850px;
+  }
 }
 
 .docs article a {
@@ -268,14 +267,4 @@ h6 a:hover .icon {
 .docs article img {
   border-radius: 5px;
   overflow: hidden;
-}
-
-.docs main.no-right-menu .on-this-page {
-  display: none;
-}
-
-@media (min-width: 1280px) {
-  .docs main.no-right-menu .docs-container {
-    margin-right: 6rem;
-  }
 }

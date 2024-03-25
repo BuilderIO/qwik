@@ -60,6 +60,7 @@
 :root {
   color-scheme: light;
   --header-height: 80px;
+  --container-max-width: 1400px;
   --builder-bar-height: 56px;
   --panel-toggle-height: 0px;
   --scroll-margin-top: calc(var(--header-height) + var(--builder-bar-height) + 10px);

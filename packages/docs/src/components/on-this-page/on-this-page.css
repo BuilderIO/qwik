@@ -1,12 +1,11 @@
 .on-this-page {
-  @apply z-20 bottom-0 pb-8;
+  @apply py-8 pt-10 ml-8;
   @apply text-base;
-}
 
-@media screen and (min-width: 1280px) {
-  .on-this-page {
-    top: 162px;
-  }
+  position: sticky;
+  top: var(--header-height);
+  min-width: fit-content;
+  max-height: calc(100vh - var(--header-height));
 }
 
 .on-this-page h6 {
