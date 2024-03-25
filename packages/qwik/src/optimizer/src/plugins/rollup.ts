@@ -174,7 +174,7 @@ export function normalizeRollupOutputOptions(
     Object.assign(outputOpts, rollupOutputOpts);
   }
   if (!outputOpts.assetFileNames) {
-    outputOpts.assetFileNames = 'build/q-[hash].[ext]';
+    outputOpts.assetFileNames = 'assets/[hash].[ext]';
   }
   if (opts.target === 'client') {
     // client output
