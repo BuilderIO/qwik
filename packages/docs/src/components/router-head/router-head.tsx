@@ -1,4 +1,5 @@
-import { component$, useSignal, useTask$ } from '@builder.io/qwik';
+/* eslint-disable no-console */
+import { component$ } from '@builder.io/qwik';
 import { useDocumentHead, useLocation } from '@builder.io/qwik-city';
 import { Social } from './social';
 import { Vendor } from './vendor';
@@ -14,47 +15,40 @@ export const RouterHead = component$(() => {
     head.meta.find((m) => m.name === 'description')?.content ||
     `No hydration, auto lazy-loading, edge-optimized, and fun 🎉!`;
 
-  const pageTitle = head.title;
+  const OGImage = {
+    imageURL: '',
+    ogImgTitle: '',
+    ogImgSubTitle: '' as string | undefined,
 
-  const ogImageUrl = new URL('https://opengraphqwik.vercel.app/api/og');
+    get URL() {
+      //turn the title into array with [0] -> Title [1] -> subTitle
+      const arrayedTitle = title.split(' | ');
+      const ogImageUrl = new URL('https://opengraphqwik.vercel.app/api/og?level=1');
 
-  //turn the title into array
-  const arrayedTitle = pageTitle.split(' | ');
+      // biggerTitle
+      this.ogImgTitle = arrayedTitle[0];
+      //smallerTitle
+      this.ogImgSubTitle = arrayedTitle[1]
+        ? arrayedTitle[1].replace(' 📚 Qwik Documentation', '')
+        : undefined;
 
-  //check if we are on home page or level 0 or 1 route
-  let isBaseRoute = true;
-  isBaseRoute = arrayedTitle.length > 0 ? false : true;
+      //decide whether or not to show dynamic OGimage or use docs default social card
+      if (this.ogImgSubTitle == undefined || this.ogImgTitle == undefined) {
+        this.imageURL = new URL(`/logos/social-card.jpg`, url).href;
 
-  // set the text for the ogimage
-  const biggerTitle = isBaseRoute ? undefined : arrayedTitle[0];
-  const smallerTitle = isBaseRoute ? undefined : arrayedTitle[1];
+        return this.imageURL;
+      } else {
+        ogImageUrl.searchParams.set('title', this.ogImgTitle);
+        ogImageUrl.searchParams.set('subtitle', this.ogImgSubTitle);
+        // ogImageUrl.searchParams.set('level', this.routeLevel.toString());
 
-  const routeLevel = useSignal(0);
+        this.imageURL = ogImageUrl.toString();
 
-  const imageUrl = useSignal('');
-  const ogImgTitle = useSignal('');
-  const ogImgSubTitle = useSignal('');
+        return this.imageURL;
+      }
+    },
+  };
 
-  useTask$(() => {
-    //change the value of the title and subtitle
-    ogImgTitle.value = biggerTitle!;
-    ogImgSubTitle.value = smallerTitle!;
-
-    //decide whether or not to show subtitle
-    if (ogImgSubTitle.value == undefined || ogImgTitle == undefined) {
-      ogImgTitle.value = biggerTitle!;
-
-      routeLevel.value = 0;
-      imageUrl.value = new URL(`/logos/social-card.jpg`, url).href;
-    } else {
-      routeLevel.value = 1;
-      ogImageUrl.searchParams.set('title', ogImgTitle.value);
-      ogImageUrl.searchParams.set('subtitle', ogImgSubTitle.value);
-      ogImageUrl.searchParams.set('level', routeLevel.value.toString());
-
-      imageUrl.value = ogImageUrl.toString();
-    }
-  });
   return (
     <>
       <title>{title}</title>
@@ -72,12 +66,7 @@ export const RouterHead = component$(() => {
 
       {import.meta.env.PROD && (
         <>
-          <Social
-            title={title}
-            description={description}
-            href={url.href}
-            ogImage={imageUrl.value}
-          />
+          <Social title={title} description={description} href={url.href} ogImage={OGImage.URL} />
           <Vendor />
         </>
       )}
