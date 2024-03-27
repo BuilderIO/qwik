@@ -555,6 +555,15 @@ test.describe("signals", () => {
         `Card useComputed$: https://placehold.co/400x400?text=1&useComputed$`,
       );
     });
+
+    test("issue 4979", async ({ page }) => {
+      const button = page.locator(".issue-4979 button");
+      const result = page.locator(".issue-4979 .result");
+
+      await expect(result).toHaveText("123");
+      await button.click();
+      await expect(result).toHaveText("124");
+    });
   }
 
   tests();

@@ -134,6 +134,7 @@ export const SignalsChildren = component$(() => {
       <Issue4228 />
       <Issue4368 />
       <Issue4868 />
+      <Issue4979 />
     </div>
   );
 });
@@ -1237,4 +1238,23 @@ export const Issue4868Card = component$((props: { src: string }) => {
       <p id="issue-4868-usecomputed">Card useComputed$: {src$.value}</p>
     </div>
   );
+});
+
+export const Issue4979 = component$(() => {
+  const count = useSignal(123);
+  return (
+    <div class="issue-4979">
+      <button class="issue" onClick$={() => (count.value += 1)}>
+        Issue4979
+      </button>
+      {[count.value].map((o) => (
+        <Issue4979Child key={o} value={o} />
+      ))}
+    </div>
+  );
+});
+
+export const Issue4979Child = component$<{ value: number }>((props) => {
+  const foo = useComputed$(() => props.value);
+  return <div class="result">{JSON.stringify(foo.value)}</div>;
 });
