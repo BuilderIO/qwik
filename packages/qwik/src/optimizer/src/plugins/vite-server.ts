@@ -118,7 +118,7 @@ export async function configureDevServer(
                   location: 'head',
                   attributes: {
                     rel: 'stylesheet',
-                    href: url,
+                    href: `${opts.base}${url}`,
                   },
                 });
               }
@@ -130,6 +130,7 @@ export async function configureDevServer(
             : 'src';
 
           const renderOpts: RenderToStreamOptions = {
+            base: opts.base,
             debug: true,
             locale: serverData.locale,
             stream: res,
@@ -176,7 +177,7 @@ export async function configureDevServer(
                 query === '' &&
                 ['.css', '.scss', '.sass'].some((ext) => pathId.endsWith(ext))
               ) {
-                res.write(`<link rel="stylesheet" href="${v.url}">`);
+                res.write(`<link rel="stylesheet" href="${opts.base}${v.url}">`);
               }
             });
           });
@@ -367,7 +368,7 @@ const DEV_QWIK_INSPECTOR = (opts: NormalizedQwikPluginOptions['devTools'], srcDi
 
 const END_SSR_SCRIPT = (opts: NormalizedQwikPluginOptions, srcDir: string) => `
 <style>${VITE_ERROR_OVERLAY_STYLES}</style>
-<script type="module" src="/@vite/client"></script>
+<script type="module" src="${opts.base}/@vite/client"></script>
 ${errorHost}
 ${perfWarning}
 ${DEV_QWIK_INSPECTOR(opts.devTools, srcDir)}

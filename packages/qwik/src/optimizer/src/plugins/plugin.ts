@@ -100,6 +100,7 @@ export function createPlugin(optimizerOptions: OptimizerOptions = {}) {
     },
     inlineStylesUpToBytes: null as any,
     lint: true,
+    base: '/',
   };
 
   const init = async () => {
@@ -133,6 +134,13 @@ export function createPlugin(optimizerOptions: OptimizerOptions = {}) {
     const path = optimizer.sys.path;
 
     opts.debug = !!updatedOpts.debug;
+
+    opts.base =
+      !updatedOpts?.base || updatedOpts.base.length === 1
+        ? ''
+        : updatedOpts.base.endsWith('/')
+          ? updatedOpts.base.slice(0, -1)
+          : updatedOpts.base;
 
     updatedOpts.target === 'test';
     if (
@@ -957,6 +965,7 @@ export interface QwikPluginOptions {
    * large projects. Defaults to `true`
    */
   lint?: boolean;
+  base?: string;
 }
 
 export interface NormalizedQwikPluginOptions extends Required<QwikPluginOptions> {
