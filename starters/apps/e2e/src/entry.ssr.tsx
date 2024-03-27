@@ -25,6 +25,7 @@ import { ResourceSerialization } from "./components/resource/resource-serializat
 import { Weather } from "./components/resource/weather";
 import { Resuming1 } from "./components/resuming/resuming";
 import Issue5001 from "./components/signals/Issue_5001";
+import Issue5017 from "./components/signals/Issue_5017";
 import { Signals } from "./components/signals/signals";
 import { SlotParent } from "./components/slot/slot";
 import { StreamingRoot } from "./components/streaming/streaming";
@@ -70,6 +71,7 @@ export default function (opts: RenderToStreamOptions) {
     "/e2e/ref": () => <RefRoot />,
     "/e2e/signals": () => <Signals />,
     "/e2e/signals/issue-5001": () => <Issue5001 />,
+    "/e2e/signals/issue-5017": () => <Issue5017 />,
     "/e2e/attributes": () => <Attributes />,
     "/e2e/events-client": () => <EventsClient />,
     "/e2e/no-resume": () => <NoResume />,
