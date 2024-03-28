@@ -135,7 +135,7 @@ Error.stackTraceLimit = 100;
         const promise = Promise.resolve('const ');
         const signal = useSignal(Promise.resolve(0));
         return (
-          <button onClick$={() => (signal.value = signal.value.then((v) => v + 1))}>
+          <button key="0" onClick$={() => (signal.value = signal.value.then((v) => v + 1))}>
             {promise}
             {signal.value}
           </button>
@@ -145,7 +145,7 @@ Error.stackTraceLimit = 100;
       const { vNode, container, document } = await render(<MpCmp />, { debug });
       expect(vNode).toMatchVDOM(
         <Component>
-          <button>
+          <button key="0">
             <Awaited>{'const '}</Awaited>
             <Signal>
               <Awaited>{'0'}</Awaited>
@@ -153,7 +153,11 @@ Error.stackTraceLimit = 100;
           </button>
         </Component>
       );
-      expect(document.querySelector('button')?.innerHTML).toBe('const 0');
+      await expect(document.querySelector('button')).toMatchDOM(`
+        <button q:key="0">
+          const 0
+        </button>
+      `);
       await trigger(container.element, 'button', 'click');
       expect(vNode).toMatchVDOM(
         <Component>
@@ -165,7 +169,11 @@ Error.stackTraceLimit = 100;
           </button>
         </Component>
       );
-      expect(document.querySelector('button')?.innerHTML).toBe('const 1');
+      await expect(document.querySelector('button')).toMatchDOM(`
+        <button q:key="0">
+          const 1
+        </button>
+      `);
     });
     it('should handle all ClassList cases', async () => {
       const Cmp = component$(() => {

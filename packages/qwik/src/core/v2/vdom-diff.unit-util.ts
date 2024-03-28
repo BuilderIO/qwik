@@ -26,9 +26,11 @@ import { createDocument } from '../../testing/document';
 import type { JSXNode, JSXOutput } from '../render/jsx/types/jsx-node';
 import type { VirtualVNode } from './client/types';
 import { isHtmlAttributeAnEventName, isJsxPropertyAnEventName } from './shared/event-names';
+import { format } from 'prettier';
 
 interface CustomMatchers<R = unknown> {
   toMatchVDOM(expectedJSX: JSXOutput): R;
+  toMatchDOM(expectedDOM: string): Promise<R>;
 }
 
 declare module 'vitest' {
@@ -40,6 +42,18 @@ expect.extend({
   toMatchVDOM(this: { isNot: boolean }, received: VNode, expected: JSXNode) {
     const { isNot } = this;
     const diffs = diffJsxVNode(received, expected);
+    return {
+      pass: isNot ? diffs.length !== 0 : diffs.length === 0,
+      message: () => diffs.join('\n'),
+    };
+  },
+});
+
+expect.extend({
+  async toMatchDOM(this: { isNot: boolean }, received: HTMLElement, expected: string) {
+    const { isNot } = this;
+    const receivedString = received?.outerHTML || '';
+    const diffs = await diffNode(receivedString, expected);
     return {
       pass: isNot ? diffs.length !== 0 : diffs.length === 0,
       message: () => diffs.join('\n'),
@@ -289,4 +303,27 @@ function propsAdd(existing: string[], incoming: string[]) {
       }
     }
   }
+}
+
+async function diffNode(received: string, expected: string): Promise<string[]> {
+  const diff: string[] = [];
+
+  received = received
+    .replaceAll(':=""', '')
+    .replaceAll('=""', '')
+    .replaceAll(/on:(.*?)="(.*?)"\s/g, '')
+    .replaceAll(/on-document:(.*?)="(.*?)"\s/g, '')
+    .replaceAll(/on-window:(.*?)="(.*?)"\s/g, '');
+
+  const options = { parser: 'html', htmlWhitespaceSensitivity: 'ignore' as const };
+  const formattedReceivedHTMLString = await format(received, options);
+  const formattedExpectedHTMLString = await format(expected, options);
+  if (formattedReceivedHTMLString.toLowerCase() !== formattedExpectedHTMLString.toLowerCase()) {
+    diff.push('EXPECTED:');
+    diff.push(formattedExpectedHTMLString);
+    diff.push('RECEIVED:');
+    diff.push(formattedReceivedHTMLString);
+  }
+
+  return diff;
 }
