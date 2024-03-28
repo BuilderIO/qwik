@@ -11,7 +11,7 @@ Here are steps to try out the CLI in a local environment.
 1. Build CLI:
 
    ```
-   # yarn build.cli
+   # pnpm build.cli
    ```
 
 1. Run CLI:
