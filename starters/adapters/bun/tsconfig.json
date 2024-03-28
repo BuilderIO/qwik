@@ -1,0 +1,3 @@
+{
+  "compilerOptions": { "types": ["bun-types"] }
+}

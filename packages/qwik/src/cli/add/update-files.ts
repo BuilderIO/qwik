@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import type { FsUpdates, UpdateAppOptions } from '../types';
 import { extname, join } from 'node:path';
 import { getPackageManager } from '../utils/utils';
+import mergeWith from 'lodash/mergeWith';
 
 export async function mergeIntegrationDir(
   fileUpdates: FsUpdates,
@@ -23,7 +24,7 @@ export async function mergeIntegrationDir(
       } else if (s.isFile()) {
         if (destName === 'package.json') {
           await mergePackageJsons(fileUpdates, srcChildPath, destChildPath);
-        } else if (destName === 'settings.json') {
+        } else if (destName === 'settings.json' || destName === 'tsconfig.json') {
           await mergeJsons(fileUpdates, srcChildPath, destChildPath);
         } else if (destName === 'README.md') {
           await mergeReadmes(fileUpdates, srcChildPath, destChildPath);
@@ -86,11 +87,15 @@ async function mergeJsons(fileUpdates: FsUpdates, srcPath: string, destPath: str
   try {
     const srcPkgJson = JSON.parse(srcContent);
     const destPkgJson = JSON.parse(await fs.promises.readFile(destPath, 'utf-8'));
-    Object.assign(srcPkgJson, destPkgJson);
+    const mergedJson = mergeWith(srcPkgJson, destPkgJson, (value, srcValue) => {
+      if (Array.isArray(value)) {
+        return value.concat(srcValue);
+      }
+    });
 
     fileUpdates.files.push({
       path: destPath,
-      content: JSON.stringify(srcPkgJson, null, 2) + '\n',
+      content: JSON.stringify(mergedJson, null, 2) + '\n',
       type: 'modify',
     });
   } catch (e) {
