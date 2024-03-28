@@ -120,6 +120,7 @@
 import { isDev } from '@builder.io/qwik/build';
 import { assertDefined, assertEqual, assertFalse, assertTrue } from '../../error/assert';
 import { isQrl } from '../../qrl/qrl-class';
+import { dangerouslySetInnerHTML } from '../../render/execute-component';
 import { throwErrorAndStop } from '../../util/log';
 import {
   ELEMENT_ID,
@@ -127,6 +128,7 @@ import {
   ELEMENT_PROPS,
   ELEMENT_SEQ,
   OnRenderProp,
+  QContainerAttr,
   QCtxAttr,
   QScopedStyle,
   QSlot,
@@ -371,9 +373,18 @@ export const vnode_ensureElementInflated = (vnode: VNode) => {
         // SVG in Domino does not support ':' so it becomes an empty string.
         // all attributes after the ':' are considered immutable, and so we ignore them.
         break;
+      } else if (key.startsWith(QContainerAttr)) {
+        if (attr.value === 'html') {
+          mapArray_set(
+            elementVNode as string[],
+            dangerouslySetInnerHTML,
+            element.innerHTML,
+            ElementVNodeProps.PROPS_OFFSET
+          );
+        }
       } else if (!key.startsWith('on:')) {
         const value = attr.value;
-        mapArray_set(elementVNode as string[], key, value, vnode_getPropStartIndex(vnode));
+        mapArray_set(elementVNode as string[], key, value, ElementVNodeProps.PROPS_OFFSET);
       }
     }
   }
@@ -679,7 +690,9 @@ export const vnode_applyJournal = (journal: VNodeJournal) => {
         const element = journal[idx++] as Element;
         const key = journal[idx++] as string;
         const value = journal[idx++] as string | null;
-        if (value == null) {
+        if (key === dangerouslySetInnerHTML) {
+          element.innerHTML = value!;
+        } else if (value == null) {
           element.removeAttribute(key);
         } else {
           element.setAttribute(key, value);
@@ -754,7 +767,7 @@ export const mapArray_set = <T>(
       elementVNode[indx + 1] = value;
     }
   } else if (value != null) {
-    elementVNode.splice(indx ^ -1, 0, key as any, value);
+    elementVNode.push(key as any, value);
   }
 };
 
@@ -971,17 +984,33 @@ export const vnode_getFirstChild = (vnode: VNode): VNode | null => {
   return vFirstChild;
 };
 
+export const vnode_forceMaterialize = (vNode: ElementVNode) => {
+  const element = vNode[ElementVNodeProps.element];
+  const firstChild = element.firstChild;
+  const vNodeData = (element.ownerDocument as QDocument)?.qVNodeData?.get(element);
+  const vFirstChild = vNodeData
+    ? materializeFromVNodeData(vNode, vNodeData, firstChild)
+    : materializeFromDOM(vNode, firstChild);
+  return vFirstChild;
+};
+
 const ensureMaterialized = (vnode: ElementVNode): VNode | null => {
   const vParent = ensureElementVNode(vnode);
   let vFirstChild = vParent[ElementVNodeProps.firstChild];
   if (vFirstChild === undefined) {
     // need to materialize the vNode.
     const element = vParent[ElementVNodeProps.element];
-    const firstChild = element.firstChild;
-    const vNodeData = (element.ownerDocument as QDocument)?.qVNodeData?.get(element);
-    vFirstChild = vNodeData
-      ? materializeFromVNodeData(vParent, vNodeData, firstChild)
-      : materializeFromDOM(vParent, firstChild);
+    const containerValue = element.getAttribute(QContainerAttr);
+    if (containerValue === null) {
+      // No container, materialize from DOM
+      vFirstChild = vnode_forceMaterialize(vParent);
+    } else {
+      // We have a container, must ignore the content.
+      vFirstChild =
+        vParent[ElementVNodeProps.firstChild] =
+        vParent[ElementVNodeProps.lastChild] =
+          null;
+    }
   }
   assertTrue(vParent[ElementVNodeProps.firstChild] !== undefined, 'Did not materialize.');
   assertTrue(vParent[ElementVNodeProps.lastChild] !== undefined, 'Did not materialize.');
@@ -1063,6 +1092,7 @@ export const vnode_setAttr = (
   if ((type & VNodeFlags.ELEMENT_OR_VIRTUAL_MASK) !== 0) {
     vnode_ensureElementInflated(vnode);
     const idx = mapApp_findIndx(vnode as string[], key, vnode_getPropStartIndex(vnode));
+
     if (idx >= 0) {
       if (vnode[idx + 1] != value && (type & VNodeFlags.Element) !== 0) {
         // Values are different, update DOM

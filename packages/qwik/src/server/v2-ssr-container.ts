@@ -3,6 +3,8 @@ import { _SharedContainer, _walkJSX, isSignal, type ClassList } from '@builder.i
 import { isDev } from '@builder.io/qwik/build';
 import type { ResolvedManifest } from '@builder.io/qwik/optimizer';
 import { getQwikLoaderScript } from '@builder.io/qwik/server';
+import { dangerouslySetInnerHTML, serializeClass, stringifyStyle } from '../core/render/execute-component';
+import type { SymbolToChunkResolver } from '../core/v2/ssr/ssr-types';
 import { applyPrefetchImplementation2 } from './prefetch-implementation';
 import { getPrefetchResources } from './prefetch-strategy';
 import {
@@ -18,6 +20,7 @@ import {
   QSlotParent,
   QSlotRef,
   QStyle,
+  SubscriptionType,
   VirtualType,
   convertStyleIdsToString,
   getScopedStyleIdsAsPrefix,
@@ -25,24 +28,22 @@ import {
   mapArray_get,
   mapArray_set,
   maybeThen,
-  SubscriptionType,
 } from './qwik-copy';
 import type {
   ContextId,
+  HostElement,
+  SSRContainer as ISSRContainer,
+  ISsrComponentFrame,
   ISsrNode,
   JSXChildren,
   JSXOutput,
   SerializationContext,
-  ValueOrPromise,
-  HostElement,
-  SSRContainer as ISSRContainer,
-  ISsrComponentFrame,
-  SsrAttrs,
-  StreamWriter,
-  SymbolToChunkResolver,
-  fixMeAny,
   SsrAttrKey,
   SsrAttrValue,
+  SsrAttrs,
+  StreamWriter,
+  ValueOrPromise,
+  fixMeAny
 } from './qwik-types';
 import { Q_FUNCS_PREFIX } from './render';
 import type { PrefetchResource, RenderOptions, RenderToStreamResult } from './types';
@@ -61,7 +62,6 @@ import {
   vNodeData_openFragment,
   type VNodeData,
 } from './v2-vnode-data';
-import { serializeClass, stringifyStyle } from '../core/render/execute-component';
 
 export function ssrCreateContainer(
   opts: {
@@ -276,6 +276,7 @@ class SSRContainer extends _SharedContainer implements ISSRContainer {
     this.write('<');
     this.write(tag);
     if (attrs) {
+      attrs = this.attrs_removeByKey(attrs, dangerouslySetInnerHTML);
       this.writeAttrs(attrs, false);
     }
     if (immutableAttrs) {
@@ -284,6 +285,11 @@ class SSRContainer extends _SharedContainer implements ISSRContainer {
     }
     this.write('>');
     this.lastNode = null;
+  }
+
+  private attrs_removeByKey(attrs: SsrAttrs, key: string) {
+    const idx = attrs.indexOf(key);
+    return idx === -1 ? attrs : attrs.filter((_, i) => i !== idx && i !== idx + 1);
   }
 
   closeElement(): ValueOrPromise<void> {
@@ -380,6 +386,12 @@ class SSRContainer extends _SharedContainer implements ISSRContainer {
     }
     this.write(lastIdx === 0 ? text : text.substring(lastIdx));
     vNodeData_addTextSize(this.currentElementFrame!.vNodeData, text.length);
+    this.lastNode = null;
+  }
+
+  htmlNode(rawHtml: string) {
+    this.write(rawHtml);
+    vNodeData_addTextSize(this.currentElementFrame!.vNodeData, rawHtml.length);
     this.lastNode = null;
   }
 

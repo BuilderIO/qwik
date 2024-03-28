@@ -13,6 +13,7 @@ import type {
 } from './types';
 import {
   vnode_applyJournal,
+  vnode_getAttr,
   vnode_getFirstChild,
   vnode_getNextSibling,
   vnode_getProp,
@@ -432,6 +433,31 @@ describe('vnode', () => {
       expect(v2).toMatchVDOM(<>B</>);
       expect(vnode_getProp(v1, '', getVNode)).toBe(v2);
       expect(vnode_getProp(v2, ':', getVNode)).toBe(v1);
+    });
+  });
+  describe('attributes', () => {
+    describe('dangerouslySetInnerHTML', () => {
+      it('should materialize without innerHTML children', () => {
+        parent.innerHTML = '<div q:container="html"><i>content</i></div>';
+        expect(vParent).toMatchVDOM(
+          <test>
+            <div dangerouslySetInnerHTML="<i>content</i>" />
+          </test>
+        );
+      });
+      it('should update innerHTML', () => {
+        parent.innerHTML = '<div q:container="html"><i>content</i></div>';
+        const div = vnode_getFirstChild(vParent) as ElementVNode;
+        vnode_setAttr(journal, div, 'dangerouslySetInnerHTML', '<b>new content</b>');
+        vnode_applyJournal(journal);
+        expect(parent.innerHTML).toBe('<div q:container="html"><b>new content</b></div>');
+        expect(vParent).toMatchVDOM(
+          <test>
+            <div dangerouslySetInnerHTML="<b>new content</b>" />
+          </test>
+        );
+        expect(vnode_getAttr(div, 'dangerouslySetInnerHTML')).toBe('<b>new content</b>');
+      });
     });
   });
   describe('journal', () => {

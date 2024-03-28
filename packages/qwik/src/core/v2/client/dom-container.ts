@@ -31,30 +31,31 @@ import { inflateQRL, parseQRL, wrapDeserializerProxy } from '../shared/shared-se
 import type { HostElement } from '../shared/types';
 import {
   VNodeFlags,
+  VNodeProps,
   type ContainerElement,
   type ElementVNode,
   type ClientContainer as IClientContainer,
   type QDocument,
   type VirtualVNode,
-  VNodeProps,
 } from './types';
 import {
   VNodeJournalOpCode,
   mapArray_get,
   mapArray_set,
   vnode_applyJournal,
+  vnode_forceMaterialize,
   vnode_getDOMChildNodes,
   vnode_getDomParent,
   vnode_getParent,
   vnode_getProp,
+  vnode_getPropStartIndex,
   vnode_insertBefore,
   vnode_isVirtualVNode,
+  vnode_locate,
   vnode_newElement,
   vnode_newUnMaterializedElement,
   vnode_setProp,
   type VNodeJournal,
-  vnode_locate,
-  vnode_getPropStartIndex,
 } from './vnode';
 import { vnode_diff } from './vnode-diff';
 
@@ -120,6 +121,7 @@ export class DomContainer extends _SharedContainer implements IClientContainer, 
     // this.containerState = createContainerState(element, this.qBase);
     this.qManifestHash = element.getAttribute('q:manifest-hash')!;
     this.rootVNode = vnode_newUnMaterializedElement(null, this.element);
+    vnode_forceMaterialize(this.rootVNode);
     // These are here to initialize all properties at once for single class transition
     this.$rawStateData$ = null!;
     this.stateData = null!;

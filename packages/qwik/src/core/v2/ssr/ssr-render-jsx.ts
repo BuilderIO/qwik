@@ -2,7 +2,7 @@ import { isDev } from '@builder.io/qwik/build';
 import { isQwikComponent } from '../../component/component.public';
 import { isQrl } from '../../qrl/qrl-class';
 import type { QRL } from '../../qrl/qrl.public';
-import { serializeClass, stringifyStyle } from '../../render/execute-component';
+import { dangerouslySetInnerHTML, serializeClass, stringifyStyle } from '../../render/execute-component';
 import { Fragment } from '../../render/jsx/jsx-runtime';
 import { Slot } from '../../render/jsx/slot.public';
 import type { JSXNode, JSXOutput } from '../../render/jsx/types/jsx-node';
@@ -12,6 +12,7 @@ import { SignalDerived, isSignal } from '../../state/signal';
 import { trackSignal } from '../../use/use-core';
 import { EMPTY_ARRAY } from '../../util/flyweight';
 import { throwErrorAndStop } from '../../util/log';
+import { ELEMENT_KEY } from '../../util/markers';
 import { isPromise } from '../../util/promises';
 import { type ValueOrPromise } from '../../util/types';
 import {
@@ -24,8 +25,6 @@ import { qrlToString, type SerializationContext } from '../shared/shared-seriali
 import { DEBUG_TYPE, VirtualType, type fixMeAny } from '../shared/types';
 import { applyInlineComponent, applyQwikComponentBody } from './ssr-render-component';
 import type { SSRContainer, SsrAttrs } from './ssr-types';
-import { _CONST_PROPS } from '../../internal';
-import { ELEMENT_KEY } from '../../util/markers';
 
 type StackFn = () => ValueOrPromise<void>;
 type StackValue = JSXOutput | StackFn | Promise<JSXOutput> | typeof Promise;
@@ -133,6 +132,10 @@ function processJSXNode(
           toSsrAttrs(jsx.varProps, ssr.serializationCtx),
           toSsrAttrs(jsx.constProps, ssr.serializationCtx, jsx.key)
         );
+        const rawHTML = jsx.props[dangerouslySetInnerHTML];
+        if (rawHTML) {
+          ssr.htmlNode(rawHTML as string);
+        }
         enqueue(ssr.closeElement);
         if (type === 'head') {
           enqueue(ssr.$appendHeadNodes$);

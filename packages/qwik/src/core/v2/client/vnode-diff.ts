@@ -2,7 +2,6 @@ import { isDev } from '@builder.io/qwik/build';
 import { type OnRenderFn } from '../../component/component.public';
 import { SERIALIZABLE_STATE } from '../../container/serializers';
 import { assertDefined, assertFalse } from '../../error/assert';
-import { _CONST_PROPS } from '../../internal';
 import type { QRLInternal } from '../../qrl/qrl-class';
 import type { QRL } from '../../qrl/qrl.public';
 import { serializeClass, stringifyStyle } from '../../render/execute-component';
@@ -43,13 +42,13 @@ import {
   ElementVNodeProps,
   VNodeFlags,
   VNodeProps,
+  type ClientAttrKey,
+  type ClientAttrs,
   type ClientContainer,
   type ElementVNode,
   type TextVNode,
   type VNode,
   type VirtualVNode,
-  type ClientAttrs,
-  type ClientAttrKey,
 } from './types';
 import {
   mapApp_findIndx,
@@ -541,19 +540,18 @@ export const vnode_diff = (container: ClientContainer, jsxNode: JSXOutput, vStar
     // reconcile attributes
     let jsxAttrs = (jsx as unknown as { attrs: ClientAttrs }).attrs;
     if (jsxAttrs === EMPTY_ARRAY) {
-      const props = jsx.varProps;
-      for (const key in props) {
+      const props = Object.entries((jsx as JSXNode).props);
+      props.map(([key, value]) => {
         if (jsxAttrs === EMPTY_ARRAY) {
           jsxAttrs = (jsx as unknown as { attrs: ClientAttrs }).attrs = [];
         }
-        let value = props[key];
         if (isClassAttr(key)) {
           value = serializeClassWithScopedStyle(value);
         } else if (key === 'style') {
           value = stringifyStyle(value);
         }
         mapArray_set(jsxAttrs, key, value, 0);
-      }
+      });
       const jsxKey = jsx.key;
       if (jsxKey !== null) {
         if (jsxAttrs === EMPTY_ARRAY) {

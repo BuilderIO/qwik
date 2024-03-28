@@ -2,11 +2,11 @@ import { Fragment as Component, Fragment, Fragment as Signal } from '@builder.io
 import { describe, expect, it } from 'vitest';
 import { trigger } from '../../testing/element-fixture';
 import { component$ } from '../component/component.public';
+import type { JSXOutput } from '../render/jsx/types/jsx-node';
 import { useSignal } from '../use/use-signal';
+import type { QDocument } from './client/types';
 import { domRender, ssrRenderToDom } from './rendering.unit-util';
 import './vdom-diff.unit-util';
-import type { JSXOutput } from '../render/jsx/types/jsx-node';
-import type { QDocument } from './client/types';
 
 const debug = false; //true;
 Error.stackTraceLimit = 100;
@@ -231,6 +231,27 @@ Error.stackTraceLimit = 100;
       expect(log).toEqual(['has children']);
     });
 
+    it('should insert dangerouslySetInnerHTML', async () => {
+      const Cmp = component$(() => {
+        return (
+          <div>
+            <div>
+              <span dangerouslySetInnerHTML="vanilla HTML here" />
+            </div>
+            <div>
+              <span id="before" dangerouslySetInnerHTML="<h1>I'm an h1!</h1>" class="after" />
+            </div>
+          </div>
+        );
+      });
+      const { document } = await render(<Cmp />, { debug });
+      const divElement = document.body.children[0];
+      expect(divElement.children[0].innerHTML).toContain('<span>vanilla HTML here</span>');
+      expect(divElement.children[1].innerHTML).toContain(
+        `<span id="before" class="after"><h1>I'm an h1!</h1></span>`
+      );
+    });
+
     describe('svg', () => {
       it('should render svg', async () => {
         const SvgComp = component$(() => {
@@ -406,7 +427,7 @@ Error.stackTraceLimit = 100;
         expect(getCleanupBodyHTML(container.document)).toContain(
           '<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" q:key="hi"><circle cx="15" cy="15" r="50"></circle></svg>'
         );
-      });
+      });      
     });
   });
 

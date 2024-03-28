@@ -1,13 +1,14 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { trigger } from '../../testing/element-fixture';
 import { component$, componentQrl } from '../component/component.public';
+import { _fnSignal, _jsxC, _jsxQ } from '../internal';
 import { inlinedQrl } from '../qrl/qrl';
 import {
   Fragment as Component,
+  Fragment,
   Fragment as InlineComponent,
   Fragment as Projection,
-  Fragment as Signal,
-  Fragment,
+  Fragment as Signal
 } from '../render/jsx/jsx-runtime';
 import { Slot } from '../render/jsx/slot.public';
 import { useLexicalScope } from '../use/use-lexical-scope.public';
@@ -16,7 +17,6 @@ import { useStore } from '../use/use-store.public';
 import { vnode_getNextSibling } from './client/vnode';
 import { domRender, ssrRenderToDom } from './rendering.unit-util';
 import './vdom-diff.unit-util';
-import { _fnSignal, _jsxC, _jsxQ } from '../internal';
 
 const debug = false;
 
@@ -503,6 +503,38 @@ const ChildSlotInline = (props: { children: any }) => {
           </Component>
         );
         expect((globalThis as any).log).toEqual(['click:Child', 'render:Child']);
+      });
+      it('should render projection and insert dangerouslySetInnerHTML', async () => {
+        const htmlString = '<strong>A variable here!</strong>';
+        const Child = component$(() => {
+          return (
+            <div>
+              <Slot name="content-1" />
+              <Slot name="content-2" />
+            </div>
+          );
+        });
+        const Parent = component$(() => {
+          return (
+            <Child>
+              <div q:slot="content-1" dangerouslySetInnerHTML={htmlString} />
+              <div
+                q:slot="content-2"
+                id="before"
+                dangerouslySetInnerHTML="<span>here my raw HTML</span>"
+                class="after"
+              />
+            </Child>
+          );
+        });
+        const { document } = await render(<Parent />, { debug });
+        const divElement = document.body.children[0];
+        expect(divElement.children[0].outerHTML).toContain(
+          '<div q:slot="content-1"><strong>A variable here!</strong></div>'
+        );
+        expect(divElement.children[1].outerHTML).toContain(
+          `<div q:slot="content-2" id="before" class="after"><span>here my raw HTML</span></div>`
+        );
       });
     });
     describe('regression', () => {

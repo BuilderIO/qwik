@@ -60,6 +60,7 @@ export interface SSRContainer extends Container2 {
   closeComponent(): void;
 
   textNode(text: string): void;
+  htmlNode(rawHtml: string): void;
   addRoot(obj: any): number;
   getLastNode(): ISsrNode;
   addUnclaimedProjection(node: ISsrNode, name: string, children: JSXChildren): void;
