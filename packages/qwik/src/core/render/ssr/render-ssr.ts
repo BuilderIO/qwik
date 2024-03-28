@@ -172,7 +172,7 @@ export const _renderSSR = async (node: JSXOutput, opts: RenderSSROptions) => {
 
   const rootNode = _jsxQ(
     root,
-    null,
+    EMPTY_OBJ,
     containerAttributes,
     children,
     HOST_FLAG_DIRTY | HOST_FLAG_NEED_ATTACH_LISTENER,
@@ -429,6 +429,7 @@ const renderSSRComponent = (
         [ELEMENT_ID]: newID,
         children: res.node,
       },
+      null,
       0,
       node.key
     );
@@ -535,7 +536,7 @@ const renderNode = (
   if (typeof tagName === 'string') {
     const key = node.key;
     const props = node.props;
-    const immutable = node.immutableProps || EMPTY_OBJ;
+    const immutable = node.immutableProps;
     const elCtx = createMockQContext(1);
     const elm = elCtx.$element$ as Element;
     const isHead = tagName === 'head';
@@ -550,6 +551,10 @@ const renderNode = (
           setRef(value, elm);
           hasRef = true;
         }
+        return;
+      }
+      if (rawProp === 'children') {
+        // Already passed to the JSXNode
         return;
       }
       if (isOnProp(rawProp)) {
@@ -600,26 +605,11 @@ const renderNode = (
       }
     };
     for (const prop in props) {
-      let isImmutable = false;
-      let value;
-      if (prop in immutable) {
-        isImmutable = true;
-        value = immutable[prop];
-        if (value === _IMMUTABLE) {
-          value = props[prop];
-        }
-      } else {
-        value = props[prop];
-      }
-      handleProp(prop, value, isImmutable);
+      handleProp(prop, props[prop], false);
     }
-    for (const prop in immutable) {
-      if (prop in props) {
-        continue;
-      }
-      const value = immutable[prop];
-      if (value !== _IMMUTABLE) {
-        handleProp(prop, value, true);
+    if (immutable) {
+      for (const prop in immutable) {
+        handleProp(prop, props[prop], true);
       }
     }
     const listeners = elCtx.li;
@@ -848,7 +838,7 @@ This goes against the HTML spec: https://html.spec.whatwg.org/multipage/dom.html
     return processData(res, rCtx, ssrCtx, stream, flags, beforeClose);
   }
   return renderNode(
-    _jsxC(Virtual, { children: res }, 0, node.key),
+    _jsxQ(Virtual, EMPTY_OBJ, null, res, 0, node.key),
     rCtx,
     ssrCtx,
     stream,

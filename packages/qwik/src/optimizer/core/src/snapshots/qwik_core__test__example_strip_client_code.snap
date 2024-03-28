@@ -53,7 +53,6 @@ import { _noopQrl } from "@builder.io/qwik";
 import { useTaskQrl } from "@builder.io/qwik";
 import { inlinedQrl } from "@builder.io/qwik";
 import { _fnSignal } from "@builder.io/qwik";
-import { _IMMUTABLE } from "@builder.io/qwik";
 import { useLexicalScope } from "@builder.io/qwik";
 import { _jsxC } from "@builder.io/qwik";
 import { _jsxQ } from "@builder.io/qwik";
@@ -77,18 +76,14 @@ export const Parent = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(()=>{
             state
         ])
     }, [
-        /*#__PURE__*/ _jsxC(Div, {
+        /*#__PURE__*/ _jsxC(Div, null, {
             onClick$: /*#__PURE__*/ inlinedQrl(()=>console.log('keep'), "Parent_component_div_Div_onClick_kgowuto5dR0"),
             render$: /*#__PURE__*/ inlinedQrl(()=>{
                 const [state] = useLexicalScope();
                 return state.text;
             }, "Parent_component_div_Div_render_CkMybN6xzQk", [
                 state
-            ]),
-            [_IMMUTABLE]: {
-                onClick$: _IMMUTABLE,
-                render$: _IMMUTABLE
-            }
+            ])
         }, 3, "7R_0"),
         _fnSignal((p0)=>p0.text, [
             state
@@ -97,7 +92,7 @@ export const Parent = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(()=>{
 }, "Parent_component_t6Wy3C0Q0XM"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/components/component.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;;;;AACA,SAAsC,QAAQ,QAAkB,mBAAmB;AAQnF,OAAO,MAAM,uBAAS,sCAAW,IAAM;IACnC,MAAM,QAAQ,SAAS;QACnB,MAAM;IACV;IAEA,qBAAqB;IACrB;;;IAKA,oCAAS,IAAM;IACX,OAAO;IACX;IAEA,qBACI,MAAC;QACG,aAAa;;;QACb,QAAQ;;;;sBAER,MAAC;YACG,QAAQ,2BAAE,IAAM,QAAQ,GAAG,CAAC;YAC5B,OAAO,2BAAE;;uBAAM,MAAM,IAAI;;;;;gBADzB,QAAQ;gBACR,OAAO;;;wBAEV,GAAM,IAAI;;;;AAGvB,oCAAG\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/components/component.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;;;AACA,SAAsC,QAAQ,QAAkB,mBAAmB;AAQnF,OAAO,MAAM,uBAAS,sCAAW,IAAM;IACnC,MAAM,QAAQ,SAAS;QACnB,MAAM;IACV;IAEA,qBAAqB;IACrB;;;IAKA,oCAAS,IAAM;IACX,OAAO;IACX;IAEA,qBACI,MAAC;QACG,aAAa;;;QACb,QAAQ;;;;sBAER,MAAC;YACG,QAAQ,2BAAE,IAAM,QAAQ,GAAG,CAAC;YAC5B,OAAO,2BAAE;;uBAAM,MAAM,IAAI;;;;;wBAE5B,GAAM,IAAI;;;;AAGvB,oCAAG\"}")
 == DIAGNOSTICS ==
 
 []

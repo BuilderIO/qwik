@@ -44,7 +44,7 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
 import { _auto_App as App } from "./test";
 import { _jsxC } from "@builder.io/qwik";
 export const Root_component_royhjYaCbYE = (props)=>{
-    return /*#__PURE__*/ _jsxC(App, null, 3, "u6_1");
+    return /*#__PURE__*/ _jsxC(App, null, null, 3, "u6_1");
 };
 
 

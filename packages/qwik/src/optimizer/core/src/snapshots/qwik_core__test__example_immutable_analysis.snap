@@ -121,10 +121,10 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
 ============================= app_component_ckepmxzlub0.js (ENTRY POINT)==
 
 import { Fragment as _Fragment } from "@builder.io/qwik/jsx-runtime";
-import { _IMMUTABLE } from "@builder.io/qwik";
 import { _fnSignal } from "@builder.io/qwik";
 import { _jsxC } from "@builder.io/qwik";
 import { _jsxQ } from "@builder.io/qwik";
+import { _wrapProp } from "@builder.io/qwik";
 import importedValue from "v";
 import { qrl } from "@builder.io/qwik";
 import styles from "./styles.module.css";
@@ -144,21 +144,17 @@ export const App_component_ckEPmXZlub0 = (props)=>{
                 class: "stuff"
             }, "Hello Qwik", 2, null),
             /*#__PURE__*/ _jsxC(Div, {
-                get class () {
-                    return styles.foo;
-                },
-                get document () {
-                    return window.document;
-                },
                 onClick$: props.onClick$,
+                children: /*#__PURE__*/ _jsxQ("p", null, null, "Hello Qwik", 3, null)
+            }, {
+                class: styles.foo,
+                document: _wrapProp(window, "document"),
                 onEvent$: /*#__PURE__*/ qrl(()=>import("./app_component__fragment_div_onevent_p0vwsfvwp1k"), "App_component__Fragment_Div_onEvent_p0vWsfvWP1k"),
                 transparent$: /*#__PURE__*/ qrl(()=>import("./app_component__fragment_div_transparent_jtd8sctndsg"), "App_component__Fragment_Div_transparent_jTD8SCTNDsg"),
                 immutable1: "stuff",
-                get immutable2 () {
-                    return {
-                        foo: 'bar',
-                        baz: importedValue ? true : false
-                    };
+                immutable2: {
+                    foo: 'bar',
+                    baz: importedValue ? true : false
                 },
                 immutable3: 2,
                 immutable4$: /*#__PURE__*/ qrl(()=>import("./app_component__fragment_div_immutable4_qt1dno4izxo"), "App_component__Fragment_Div_immutable4_QT1DNo4IZXo", [
@@ -170,57 +166,35 @@ export const App_component_ckEPmXZlub0 = (props)=>{
                     importedValue,
                     null,
                     {}
-                ],
-                children: /*#__PURE__*/ _jsxQ("p", null, null, "Hello Qwik", 3, null),
-                [_IMMUTABLE]: {
-                    class: _IMMUTABLE,
-                    document: _IMMUTABLE,
-                    onEvent$: _IMMUTABLE,
-                    transparent$: _IMMUTABLE,
-                    immutable1: _IMMUTABLE,
-                    immutable2: _IMMUTABLE,
-                    immutable3: _IMMUTABLE,
-                    immutable4$: _IMMUTABLE,
-                    immutable5: _IMMUTABLE
-                }
+                ]
             }, 2, "u6_0"),
             "[].map(() => (",
             /*#__PURE__*/ _jsxC(props.Model, {
+                mutable2: (()=>console.log(state.count))()
+            }, {
                 class: state,
                 remove$: remove,
-                get mutable1 () {
-                    return {
+                mutable1: _fnSignal((p0)=>({
                         foo: 'bar',
-                        baz: state.count ? true : false
-                    };
-                },
-                mutable2: (()=>console.log(state.count))(),
+                        baz: p0.count ? true : false
+                    }), [
+                    state
+                ], '{foo:"bar",baz:p0.count?true:false}'),
                 mutable3: [
                     1,
                     2,
                     state,
                     null,
                     {}
-                ],
-                [_IMMUTABLE]: {
-                    class: _IMMUTABLE,
-                    remove$: _IMMUTABLE,
-                    mutable1: _fnSignal((p0)=>({
-                            foo: 'bar',
-                            baz: p0.count ? true : false
-                        }), [
-                        state
-                    ], '{foo:"bar",baz:p0.count?true:false}'),
-                    mutable3: _IMMUTABLE
-                }
+                ]
             }, 3, "u6_1"),
             "));"
         ]
-    }, 1, "u6_2");
+    }, null, 1, "u6_2");
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;yCAK8B,CAAC,QAAU;IAErC,MAAM,QAAQ,SAAS;QAAC,OAAO;IAAC;IAChC,MAAM;;;IAON,qBACI;;0BACI,MAAC;gBAAgB,UAAU,MAAM,QAAQ;;gBAAtC,OAAM;eAAkC;0BAC3C,MAAC;oBACG;2BAAO,OAAO,GAAG;;oBACjB;2BAAU,OAAO,QAAQ;;gBACzB,UAAU,MAAM,QAAQ;gBACxB,QAAQ;gBACR,YAAY;gBACZ,YAAW;oBACX;2BAAY;wBACR,KAAK;wBACL,KAAK,gBAAgB,IAAI,GAAG,KAAK;oBACrC;;gBACA,YAAY;gBACZ,WAAW;;;gBACX,YAAY;oBAAC;oBAAG;oBAAG;oBAAe,IAAI;oBAAE,CAAC;iBAAE;0BAE3C,cAAA,MAAC,iBAAE;;oBAdH,KAAK;oBACL,QAAQ;oBAER,QAAQ;oBACR,YAAY;oBACZ,UAAU;oBACV,UAAU;oBAIV,UAAU;oBACV,WAAW;oBACX,UAAU;;;YAGR;0BAEF,MA9BI,MAAT;gBA+BS,OAAO;gBACP,SAAS;oBACT;2BAAU;wBACN,KAAK;wBACL,KAAK,MAAM,KAAK,GAAG,IAAI,GAAG,KAAK;oBACnC;;gBACA,UAAU,AAAC,CAAA,IAAM,QAAQ,GAAG,CAAC,MAAM,KAAK,CAAA;gBACxC,UAAU;oBAAC;oBAAG;oBAAG;oBAAO,IAAI;oBAAE,CAAC;iBAAE;;oBAPjC,KAAK;oBACL,OAAO;oBACP,QAAQ,kBAAE,CAAA;4BACN,KAAK;4BACL,KAAK,GAAM,KAAK,GAAG,IAAI,GAAG,KAAK;wBACnC,CAAA;;;oBAEA,QAAQ;;;YACV;;;AAIlB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;;;yCAK8B,CAAC,QAAU;IAErC,MAAM,QAAQ,SAAS;QAAC,OAAO;IAAC;IAChC,MAAM;;;IAON,qBACI;;0BACI,MAAC;gBAAgB,UAAU,MAAM,QAAQ;;gBAAtC,OAAM;eAAkC;0BAC3C,MAAC;gBAGG,UAAU,MAAM,QAAQ;0BAYxB,cAAA,MAAC,iBAAE;;gBAdH,OAAO,OAAO,GAAG;gBACjB,QAAQ,YAAE;gBAEV,QAAQ;gBACR,YAAY;gBACZ,YAAW;gBACX,YAAY;oBACR,KAAK;oBACL,KAAK,gBAAgB,IAAI,GAAG,KAAK;gBACrC;gBACA,YAAY;gBACZ,WAAW;;;gBACX,YAAY;oBAAC;oBAAG;oBAAG;oBAAe,IAAI;oBAAE,CAAC;iBAAE;;YAGzC;0BAEF,MA9BI,MAAT;gBAqCS,UAAU,AAAC,CAAA,IAAM,QAAQ,GAAG,CAAC,MAAM,KAAK,CAAA;;gBANxC,OAAO;gBACP,SAAS;gBACT,QAAQ,kBAAE,CAAA;wBACN,KAAK;wBACL,KAAK,GAAM,KAAK,GAAG,IAAI,GAAG,KAAK;oBACnC,CAAA;;;gBAEA,UAAU;oBAAC;oBAAG;oBAAG;oBAAO,IAAI;oBAAE,CAAC;iBAAE;;YACnC;;;AAIlB\"}")
 /*
 {
   "origin": "test.tsx",

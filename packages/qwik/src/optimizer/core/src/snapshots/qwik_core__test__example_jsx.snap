@@ -49,7 +49,6 @@ export const Foo = component$((props) => {
 ============================= test.js ==
 
 import { _jsxQ } from "@builder.io/qwik";
-import { _jsxS } from "@builder.io/qwik";
 import { _jsxC } from "@builder.io/qwik";
 import { componentQrl } from "@builder.io/qwik";
 import { qrl } from "@builder.io/qwik";
@@ -58,18 +57,18 @@ export const Lightweight = (props)=>{
     return /*#__PURE__*/ _jsxQ("div", null, null, /*#__PURE__*/ _jsxC(_Fragment, {
         children: [
             /*#__PURE__*/ _jsxQ("div", null, null, null, 3, null),
-            /*#__PURE__*/ _jsxS("button", {
+            /*#__PURE__*/ _jsxC("button", {
                 ...props
             }, null, 0, null)
         ]
-    }, 1, "u6_0"), 1, "u6_1");
+    }, null, 1, "u6_0"), 1, "u6_1");
 };
 export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(()=>import("./foo_component_htdrsvublie"), "Foo_component_HTDRsvUbLiE"), {
     tagName: "my-foo"
 });
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;AAGA,OAAO,MAAM,cAAc,CAAC,QAAU;IAClC,qBACI,MAAC,iCACG;;0BACI,MAAC;0BACD,MAAC;gBAAQ,GAAG,KAAK;;;;AAIjC,EAAE;AAEF,OAAO,MAAM,oBAAM,wGAuBhB;IACC,SAAS;AACb,GAAG\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AAGA,OAAO,MAAM,cAAc,CAAC,QAAU;IAClC,qBACI,MAAC,iCACG;;0BACI,MAAC;0BACD,MAAC;gBAAQ,GAAG,KAAK;;;;AAIjC,EAAE;AAEF,OAAO,MAAM,oBAAM,wGAuBhB;IACC,SAAS;AACb,GAAG\"}")
 ============================= foo_component_htdrsvublie.js (ENTRY POINT)==
 
 import { qrl } from "@builder.io/qwik";
@@ -122,12 +121,12 @@ export const Foo_component_1_DvU6FitWglY = ()=>{
                     class: "class"
                 }, "12", 3, null)
             ]
-        }, 3, "u6_2"),
+        }, null, 3, "u6_2"),
         /*#__PURE__*/ _jsxQ("div", null, {
             class: "class"
         }, /*#__PURE__*/ _jsxC(Lightweight, {
             ...props
-        }, 0, "u6_3"), 1, null),
+        }, null, 0, "u6_3"), 1, null),
         /*#__PURE__*/ _jsxQ("div", null, {
             class: "class"
         }, [
@@ -137,7 +136,7 @@ export const Foo_component_1_DvU6FitWglY = ()=>{
         ], 3, null),
         /*#__PURE__*/ _jsxQ("div", null, {
             class: "class"
-        }, children, 3, null)
+        }, children, 1, null)
     ], 1, "u6_4");
 };
 export { _hW } from "@builder.io/qwik";

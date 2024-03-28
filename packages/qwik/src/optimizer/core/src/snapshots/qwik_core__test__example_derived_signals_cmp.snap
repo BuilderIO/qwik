@@ -50,8 +50,8 @@ export const App = component$(() => {
 ============================= test.js ==
 
 import { componentQrl } from "@builder.io/qwik";
-import { _IMMUTABLE } from "@builder.io/qwik";
 import { _fnSignal } from "@builder.io/qwik";
+import { _wrapProp } from "@builder.io/qwik";
 import { _jsxC } from "@builder.io/qwik";
 import { inlinedQrl } from "@builder.io/qwik";
 import { useStore, mutable } from '@builder.io/qwik';
@@ -61,6 +61,12 @@ const App_component_ckEPmXZlub0 = ()=>{
     const signal = useSignal(0);
     const store = useStore({});
     return /*#__PURE__*/ _jsxC(Cmp, {
+        global: globalThing,
+        globalComputed: globalThing.thing + 'stuff',
+        noInline2: signal.value + unknown(),
+        noInline3: mutable(signal),
+        noInline4: signal.value + dep
+    }, {
         staticText: "text",
         staticText2: `text`,
         staticNumber: 1,
@@ -68,81 +74,31 @@ const App_component_ckEPmXZlub0 = ()=>{
         staticExpr: `text${12}`,
         staticExpr2: typeof `text${12}` === 'string' ? 12 : 43,
         signal: signal,
-        get signalValue () {
-            return signal.value;
-        },
-        get signalComputedValue () {
-            return 12 + signal.value;
-        },
-        get store () {
-            return store.address.city.name;
-        },
-        get storeComputed () {
-            return store.address.city.name ? 'true' : 'false';
-        },
+        signalValue: _fnSignal((p0)=>p0.value, [
+            signal
+        ], "p0.value"),
+        signalComputedValue: _fnSignal((p0)=>12 + p0.value, [
+            signal
+        ], "12+p0.value"),
+        store: _fnSignal((p0)=>p0.address.city.name, [
+            store
+        ], "p0.address.city.name"),
+        storeComputed: _fnSignal((p0)=>p0.address.city.name ? 'true' : 'false', [
+            store
+        ], 'p0.address.city.name?"true":"false"'),
         dep: dep,
-        get depAccess () {
-            return dep.thing;
-        },
-        get depComputed () {
-            return dep.thing + 'stuff';
-        },
-        get global () {
-            return globalThing;
-        },
-        get globalAccess () {
-            return globalThing.thing;
-        },
-        get globalComputed () {
-            return globalThing.thing + 'stuff';
-        },
-        get noInline () {
-            return signal.value();
-        },
-        get noInline2 () {
-            return signal.value + unknown();
-        },
-        noInline3: mutable(signal),
-        noInline4: signal.value + dep,
-        [_IMMUTABLE]: {
-            staticText: _IMMUTABLE,
-            staticText2: _IMMUTABLE,
-            staticNumber: _IMMUTABLE,
-            staticBoolean: _IMMUTABLE,
-            staticExpr: _IMMUTABLE,
-            staticExpr2: _IMMUTABLE,
-            signal: _IMMUTABLE,
-            signalValue: _fnSignal((p0)=>p0.value, [
-                signal
-            ], "p0.value"),
-            signalComputedValue: _fnSignal((p0)=>12 + p0.value, [
-                signal
-            ], "12+p0.value"),
-            store: _fnSignal((p0)=>p0.address.city.name, [
-                store
-            ], "p0.address.city.name"),
-            storeComputed: _fnSignal((p0)=>p0.address.city.name ? 'true' : 'false', [
-                store
-            ], 'p0.address.city.name?"true":"false"'),
-            dep: _IMMUTABLE,
-            depAccess: _IMMUTABLE,
-            depComputed: _IMMUTABLE,
-            global: _IMMUTABLE,
-            globalAccess: _IMMUTABLE,
-            globalComputed: _IMMUTABLE,
-            noInline: _fnSignal((p0)=>p0.value(), [
-                signal
-            ], "p0.value()"),
-            noInline2: _fnSignal((p0)=>p0.value + unknown(), [
-                signal
-            ], "p0.value+unknown()")
-        }
+        depAccess: dep.thing,
+        depComputed: dep.thing + 'stuff',
+        globalAccess: _wrapProp(globalThing, "thing"),
+        noInline: _fnSignal((p0)=>p0.value(), [
+            signal
+        ], "p0.value()")
     }, 3, "u6_0");
 };
 export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(App_component_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AACA,SAAqB,QAAQ,EAAE,OAAO,QAAQ,mBAAmB;AAEjE,SAAQ,GAAG,QAAO,SAAS;AAC3B,SAAQ,GAAG,QAAO,QAAQ;kCAEI,IAAM;IAChC,MAAM,SAAS,UAAU;IACzB,MAAM,QAAQ,SAAS,CAAC;IACxB,qBACI,MAAC;QACG,YAAW;QACX,aAAa,CAAC,IAAI,CAAC;QACnB,cAAc;QACd,eAAe,IAAI;QACnB,YAAY,CAAC,IAAI,EAAE,GAAG,CAAC;QACvB,aAAa,OAAO,CAAC,IAAI,EAAE,GAAG,CAAC,KAAK,WAAW,KAAK,EAAE;QAEtD,QAAQ;YACR;mBAAa,OAAO,KAAK;;YACzB;mBAAqB,KAAK,OAAO,KAAK;;YAEtC;mBAAO,MAAM,OAAO,CAAC,IAAI,CAAC,IAAI;;YAC9B;mBAAe,MAAM,OAAO,CAAC,IAAI,CAAC,IAAI,GAAG,SAAS,OAAO;;QAEzD,KAAK;YACL;mBAAW,IAAI,KAAK;;YACpB;mBAAa,IAAI,KAAK,GAAG;;YAEzB;mBAAQ;;YACR;mBAAc,YAAY,KAAK;;YAC/B;mBAAgB,YAAY,KAAK,GAAG;;YAGpC;mBAAU,OAAO,KAAK;;YACtB;mBAAW,OAAO,KAAK,GAAG;;QAC1B,WAAW,QAAQ;QACnB,WAAW,OAAO,KAAK,GAAG;;YA1B1B,UAAU;YACV,WAAW;YACX,YAAY;YACZ,aAAa;YACb,UAAU;YACV,WAAW;YAEX,MAAM;YACN,WAAW,kBAAE,GAAO,KAAK;;;YACzB,mBAAmB,kBAAE,KAAK,GAAO,KAAK;;;YAEtC,KAAK,kBAAE,GAAM,OAAO,CAAC,IAAI,CAAC,IAAI;;;YAC9B,aAAa,kBAAE,GAAM,OAAO,CAAC,IAAI,CAAC,IAAI,GAAG,SAAS,OAAO;;;YAEzD,GAAG;YACH,SAAS;YACT,WAAW;YAEX,MAAM;YACN,YAAY;YACZ,cAAc;YAGd,QAAQ,kBAAE,GAAO,KAAK;;;YACtB,SAAS,kBAAE,GAAO,KAAK,GAAG;;;;;AAKtC;AAlCA,OAAO,MAAM,oBAAM,+FAkChB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AACA,SAAqB,QAAQ,EAAE,OAAO,QAAQ,mBAAmB;AAEjE,SAAQ,GAAG,QAAO,SAAS;AAC3B,SAAQ,GAAG,QAAO,QAAQ;kCAEI,IAAM;IAChC,MAAM,SAAS,UAAU;IACzB,MAAM,QAAQ,SAAS,CAAC;IACxB,qBACI,MAAC;QAmBG,QAAQ;QAER,gBAAgB,YAAY,KAAK,GAAG;QAIpC,WAAW,OAAO,KAAK,GAAG;QAC1B,WAAW,QAAQ;QACnB,WAAW,OAAO,KAAK,GAAG;;QA1B1B,YAAW;QACX,aAAa,CAAC,IAAI,CAAC;QACnB,cAAc;QACd,eAAe,IAAI;QACnB,YAAY,CAAC,IAAI,EAAE,GAAG,CAAC;QACvB,aAAa,OAAO,CAAC,IAAI,EAAE,GAAG,CAAC,KAAK,WAAW,KAAK,EAAE;QAEtD,QAAQ;QACR,WAAW,kBAAE,GAAO,KAAK;;;QACzB,mBAAmB,kBAAE,KAAK,GAAO,KAAK;;;QAEtC,KAAK,kBAAE,GAAM,OAAO,CAAC,IAAI,CAAC,IAAI;;;QAC9B,aAAa,kBAAE,GAAM,OAAO,CAAC,IAAI,CAAC,IAAI,GAAG,SAAS,OAAO;;;QAEzD,KAAK;QACL,WAAW,IAAI,KAAK;QACpB,aAAa,IAAI,KAAK,GAAG;QAGzB,YAAY,YAAE;QAId,QAAQ,kBAAE,GAAO,KAAK;;;;AAMlC;AAlCA,OAAO,MAAM,oBAAM,+FAkChB\"}")
 == DIAGNOSTICS ==
 
 []

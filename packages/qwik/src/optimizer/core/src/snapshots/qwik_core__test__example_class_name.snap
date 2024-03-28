@@ -37,7 +37,6 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
 ============================= app2_component_3yvemqbq3fs.js (ENTRY POINT)==
 
 import { Fragment as _Fragment } from "@builder.io/qwik/jsx-runtime";
-import { _IMMUTABLE } from "@builder.io/qwik";
 import { _fnSignal } from "@builder.io/qwik";
 import { _jsxC } from "@builder.io/qwik";
 import { _jsxQ } from "@builder.io/qwik";
@@ -60,37 +59,26 @@ export const App2_component_3yveMqbQ3Fs = ()=>{
             /*#__PURE__*/ _jsxQ("div", {
                 className: computed
             }, null, null, 3, null),
-            /*#__PURE__*/ _jsxC(Foo, {
-                className: "hola",
-                [_IMMUTABLE]: {
-                    className: _IMMUTABLE
-                }
+            /*#__PURE__*/ _jsxC(Foo, null, {
+                className: "hola"
             }, 3, "u6_0"),
-            /*#__PURE__*/ _jsxC(Foo, {
-                get className () {
-                    return signal.value;
-                },
-                [_IMMUTABLE]: {
-                    className: _fnSignal((p0)=>p0.value, [
-                        signal
-                    ], "p0.value")
-                }
+            /*#__PURE__*/ _jsxC(Foo, null, {
+                className: _fnSignal((p0)=>p0.value, [
+                    signal
+                ], "p0.value")
             }, 3, "u6_1"),
-            /*#__PURE__*/ _jsxC(Foo, {
-                className: signal,
-                [_IMMUTABLE]: {
-                    className: _IMMUTABLE
-                }
+            /*#__PURE__*/ _jsxC(Foo, null, {
+                className: signal
             }, 3, "u6_2"),
             /*#__PURE__*/ _jsxC(Foo, {
                 className: computed
-            }, 3, "u6_3")
+            }, null, 3, "u6_3")
         ]
-    }, 1, "u6_4");
+    }, null, 1, "u6_4");
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;0CAG+B,IAAM;IACjC,MAAM,SAAS;IACf,MAAM,WAAW,OAAO,KAAK,GAAG;IAChC,qBACI;;0BACI,MAAC;gBAAI,WAAU;;0BACf,MAAC;gBAAI,SAAS,kBAAE,GAAO,KAAK;;;;0BAC5B,MAAC;gBAAI,WAAW;;0BAChB,MAAC;gBAAI,WAAW;;0BAEhB,MAAC;gBAAI,WAAU;;oBAAV,SAAS;;;0BACd,MAAC;oBAAI;2BAAW,OAAO,KAAK;;;oBAAvB,SAAS,kBAAE,GAAO,KAAK;;;;;0BAC5B,MAAC;gBAAI,WAAW;;oBAAX,SAAS;;;0BACd,MAAC;gBAAI,WAAW;;;;AAG5B\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;0CAG+B,IAAM;IACjC,MAAM,SAAS;IACf,MAAM,WAAW,OAAO,KAAK,GAAG;IAChC,qBACI;;0BACI,MAAC;gBAAI,WAAU;;0BACf,MAAC;gBAAI,SAAS,kBAAE,GAAO,KAAK;;;;0BAC5B,MAAC;gBAAI,WAAW;;0BAChB,MAAC;gBAAI,WAAW;;0BAEhB,MAAC;gBAAI,WAAU;;0BACf,MAAC;gBAAI,SAAS,kBAAE,GAAO,KAAK;;;;0BAC5B,MAAC;gBAAI,WAAW;;0BAChB,MAAC;gBAAI,WAAW;;;;AAG5B\"}")
 /*
 {
   "origin": "test.tsx",

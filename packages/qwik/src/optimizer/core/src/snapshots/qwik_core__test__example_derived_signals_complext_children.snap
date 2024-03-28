@@ -1,6 +1,6 @@
 ---
 source: packages/qwik/src/optimizer/core/src/test.rs
-assertion_line: 2830
+assertion_line: 2829
 expression: output
 ---
 ==INPUT==
@@ -45,7 +45,7 @@ const App_component_ckEPmXZlub0 = ()=>{
                 " - ",
                 value
             ], 1, "u6_0")), 1, null)
-    }, 1, "u6_1");
+    }, null, 1, "u6_1");
 };
 export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(App_component_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 

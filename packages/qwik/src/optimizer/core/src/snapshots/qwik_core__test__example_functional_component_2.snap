@@ -123,28 +123,28 @@ export const App_component_ckEPmXZlub0 = (props)=>{
         thing: 0
     });
     const count2 = state.count * 2;
-    return /*#__PURE__*/ _jsxQ("div", {
+    return /*#__PURE__*/ _jsxQ("div", null, {
         onClick$: /*#__PURE__*/ qrl(()=>import("./app_component_div_onclick_1cgetmfzx0g"), "App_component_div_onClick_1CGetmFZx0g", [
             count2,
             state
         ])
-    }, null, [
+    }, [
         /*#__PURE__*/ _jsxQ("span", null, null, _fnSignal((p0)=>p0.count, [
             state
         ], "p0.count"), 3, null),
-        buttons.map((btn)=>/*#__PURE__*/ _jsxQ("button", {
+        buttons.map((btn)=>/*#__PURE__*/ _jsxQ("button", null, {
                 onClick$: /*#__PURE__*/ qrl(()=>import("./app_component_div_button_onclick_f5nww9e63a4"), "App_component_div_button_onClick_f5NwW9e63a4", [
                     btn,
                     props,
                     state,
                     thing
                 ])
-            }, null, _wrapSignal(btn, "name"), 0, "u6_0"))
+            }, _wrapSignal(btn, "name"), 0, "u6_0"))
     ], 0, "u6_1");
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;yCAQ8B,CAAC,QAAU;IACrC,MAAM,QAAQ;IACd,MAAM,QAAQ,SAAS;QAAC,OAAO;IAAC;IAGhC,MAAM,SAAS,MAAM,KAAK,GAAG;IAC7B,qBACI,MAAC;QAAI,QAAQ;;;;;sBACT,MAAC,oCAAM,GAAM,KAAK;;;QACjB,QAAQ,GAAG,CAAC,CAAA,oBACT,MAAC;gBACG,QAAQ;;;;;;iCAEP;;AAOrB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;yCAQ8B,CAAC,QAAU;IACrC,MAAM,QAAQ;IACd,MAAM,QAAQ,SAAS;QAAC,OAAO;IAAC;IAGhC,MAAM,SAAS,MAAM,KAAK,GAAG;IAC7B,qBACI,MAAC;QAAI,QAAQ;;;;;sBACT,MAAC,oCAAM,GAAM,KAAK;;;QACjB,QAAQ,GAAG,CAAC,CAAA,oBACT,MAAC;gBACG,QAAQ;;;;;;2BAEP;;AAOrB\"}")
 /*
 {
   "origin": "test.tsx",

@@ -61,6 +61,7 @@ export const App = component$((props) => {
 ============================= test.js ==
 
 import { componentQrl } from "@builder.io/qwik";
+import { _wrapSignal } from "@builder.io/qwik";
 import { _fnSignal } from "@builder.io/qwik";
 import { _jsxQ } from "@builder.io/qwik";
 import { inlinedQrl } from "@builder.io/qwik";
@@ -78,11 +79,15 @@ const App_component_ckEPmXZlub0 = (props)=>{
             stable0: true,
             hidden: false
         },
+        staticDocument: _wrapSignal(window, "document"),
+        global: globalThing,
+        globalAccess: _wrapSignal(globalThing, "thing"),
+        globalComputed: globalThing.thing + 'stuff',
+        noInline2: signal.value + unknown(),
         noInline3: mutable(signal),
         noInline4: signal.value + dep
     }, {
         staticClass: styles.foo,
-        staticDocument: window.document,
         staticText: "text",
         staticText2: `text`,
         staticNumber: 1,
@@ -105,21 +110,15 @@ const App_component_ckEPmXZlub0 = (props)=>{
         dep: dep,
         depAccess: dep.thing,
         depComputed: dep.thing + 'stuff',
-        global: globalThing,
-        globalAccess: globalThing.thing,
-        globalComputed: globalThing.thing + 'stuff',
         noInline: _fnSignal((p0)=>p0.value(), [
             signal
-        ], "p0.value()"),
-        noInline2: _fnSignal((p0)=>p0.value + unknown(), [
-            signal
-        ], "p0.value+unknown()")
+        ], "p0.value()")
     }, null, 3, "u6_0");
 };
 export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(App_component_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;AACA,SAAqB,QAAQ,EAAE,OAAO,QAAQ,mBAAmB;AAEjE,SAAQ,GAAG,QAAO,SAAS;AAC3B,OAAO,YAAY,sBAAsB;kCAEX,CAAC,QAAU;IACrC,MAAM,SAAS,UAAU;IACzB,MAAM,QAAQ,SAAS,CAAC;IACxB,MAAM,QAAQ,MAAM,OAAO,CAAC,KAAK;IAEjC,qBACI,MAAC;QACG,OAAO;YACH,MAAM,QAAQ,MAAM;YACpB,KAAK,QAAQ,MAAM;YACnB,SAAS,IAAI;YACb,QAAQ,KAAK;QACjB;QA4BA,WAAW,QAAQ;QACnB,WAAW,OAAO,KAAK,GAAG;;QA5B1B,aAAa,OAAO,GAAG;QACvB,gBAAgB,OAAO,QAAQ;QAC/B,YAAW;QACX,aAAa,CAAC,IAAI,CAAC;QACnB,cAAc;QACd,eAAe,IAAI;QACnB,YAAY,CAAC,IAAI,EAAE,GAAG,CAAC;QACvB,aAAa,OAAO,CAAC,IAAI,EAAE,GAAG,CAAC,KAAK,WAAW,KAAK,EAAE;QAEtD,QAAQ;QACR,WAAW,kBAAE,GAAO,KAAK;;;QACzB,mBAAmB,kBAAE,KAAK,GAAO,KAAK;;;QAEtC,KAAK,kBAAE,GAAM,OAAO,CAAC,IAAI,CAAC,IAAI;;;QAC9B,aAAa,kBAAE,GAAM,OAAO,CAAC,IAAI,CAAC,IAAI,GAAG,SAAS,OAAO;;;QAEzD,KAAK;QACL,WAAW,IAAI,KAAK;QACpB,aAAa,IAAI,KAAK,GAAG;QAEzB,QAAQ;QACR,cAAc,YAAY,KAAK;QAC/B,gBAAgB,YAAY,KAAK,GAAG;QAGpC,QAAQ,kBAAE,GAAO,KAAK;;;QACtB,SAAS,kBAAE,GAAO,KAAK,GAAG;;;;AAMtC;AA7CA,OAAO,MAAM,oBAAM,+FA6ChB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AACA,SAAqB,QAAQ,EAAE,OAAO,QAAQ,mBAAmB;AAEjE,SAAQ,GAAG,QAAO,SAAS;AAC3B,OAAO,YAAY,sBAAsB;kCAEX,CAAC,QAAU;IACrC,MAAM,SAAS,UAAU;IACzB,MAAM,QAAQ,SAAS,CAAC;IACxB,MAAM,QAAQ,MAAM,OAAO,CAAC,KAAK;IAEjC,qBACI,MAAC;QACG,OAAO;YACH,MAAM,QAAQ,MAAM;YACpB,KAAK,QAAQ,MAAM;YACnB,SAAS,IAAI;YACb,QAAQ,KAAK;QACjB;QAEA,cAAc,cAAE;QAmBhB,QAAQ;QACR,YAAY,cAAE;QACd,gBAAgB,YAAY,KAAK,GAAG;QAIpC,WAAW,OAAO,KAAK,GAAG;QAC1B,WAAW,QAAQ;QACnB,WAAW,OAAO,KAAK,GAAG;;QA5B1B,aAAa,OAAO,GAAG;QAEvB,YAAW;QACX,aAAa,CAAC,IAAI,CAAC;QACnB,cAAc;QACd,eAAe,IAAI;QACnB,YAAY,CAAC,IAAI,EAAE,GAAG,CAAC;QACvB,aAAa,OAAO,CAAC,IAAI,EAAE,GAAG,CAAC,KAAK,WAAW,KAAK,EAAE;QAEtD,QAAQ;QACR,WAAW,kBAAE,GAAO,KAAK;;;QACzB,mBAAmB,kBAAE,KAAK,GAAO,KAAK;;;QAEtC,KAAK,kBAAE,GAAM,OAAO,CAAC,IAAI,CAAC,IAAI;;;QAC9B,aAAa,kBAAE,GAAM,OAAO,CAAC,IAAI,CAAC,IAAI,GAAG,SAAS,OAAO;;;QAEzD,KAAK;QACL,WAAW,IAAI,KAAK;QACpB,aAAa,IAAI,KAAK,GAAG;QAOzB,QAAQ,kBAAE,GAAO,KAAK;;;;AAOlC;AA7CA,OAAO,MAAM,oBAAM,+FA6ChB\"}")
 == DIAGNOSTICS ==
 
 []

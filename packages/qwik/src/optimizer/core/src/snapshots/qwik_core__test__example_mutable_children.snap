@@ -117,56 +117,56 @@ export function Fn1(props) {
     return /*#__PURE__*/ _jsxC(_Fragment, {
         children: /*#__PURE__*/ _jsxQ("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxQ("p", null, null, "1", 3, "u6_0") : /*#__PURE__*/ _jsxC(Stuff, {
             children: "2"
-        }, 3, "u6_1"), 1, null)
-    }, 1, "u6_2");
+        }, null, 3, "u6_1"), 1, null)
+    }, null, 1, "u6_2");
 }
 export function Fn2(props) {
     _jsxBranch();
     return /*#__PURE__*/ _jsxQ("div", null, null, [
-        prop.value && /*#__PURE__*/ _jsxC(Stuff, null, 3, "u6_3"),
+        prop.value && /*#__PURE__*/ _jsxC(Stuff, null, null, 3, "u6_3"),
         /*#__PURE__*/ _jsxQ("div", null, null, null, 3, null)
     ], 1, "u6_4");
 }
 export function Fn3(props) {
     _jsxBranch();
-    if (prop.value) return /*#__PURE__*/ _jsxC(Stuff, null, 3, "u6_5");
+    if (prop.value) return /*#__PURE__*/ _jsxC(Stuff, null, null, 3, "u6_5");
     return /*#__PURE__*/ _jsxQ("div", null, null, null, 3, "u6_6");
 }
 export function Fn4(props) {
     _jsxBranch();
     if (prop.value) return /*#__PURE__*/ _jsxQ("div", null, null, null, 3, "u6_7");
-    return /*#__PURE__*/ _jsxC(Stuff, null, 3, "u6_8");
+    return /*#__PURE__*/ _jsxC(Stuff, null, null, 3, "u6_8");
 }
 export const Arrow = (props)=>/*#__PURE__*/ _jsxBranch(/*#__PURE__*/ _jsxQ("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxQ("p", null, null, "1", 3, "u6_9") : /*#__PURE__*/ _jsxC(Stuff, {
         children: "2"
-    }, 3, "u6_10"), 1, "u6_11"));
+    }, null, 3, "u6_10"), 1, "u6_11"));
 const AppDynamic1_component_R00UJ05gbes = (props)=>{
     _jsxBranch();
     return /*#__PURE__*/ _jsxC(_Fragment, {
         children: /*#__PURE__*/ _jsxQ("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxQ("p", null, null, "1", 3, "u6_12") : /*#__PURE__*/ _jsxC(Stuff, {
             children: "2"
-        }, 3, "u6_13"), 1, null)
-    }, 1, "u6_14");
+        }, null, 3, "u6_13"), 1, null)
+    }, null, 1, "u6_14");
 };
 export const AppDynamic1 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(AppDynamic1_component_R00UJ05gbes, "AppDynamic1_component_R00UJ05gbes"));
 const AppDynamic2_component_3EY2zm0v00A = (props)=>{
     _jsxBranch();
     return /*#__PURE__*/ _jsxQ("div", null, null, [
-        prop.value && /*#__PURE__*/ _jsxC(Stuff, null, 3, "u6_15"),
+        prop.value && /*#__PURE__*/ _jsxC(Stuff, null, null, 3, "u6_15"),
         /*#__PURE__*/ _jsxQ("div", null, null, null, 3, null)
     ], 1, "u6_16");
 };
 export const AppDynamic2 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(AppDynamic2_component_3EY2zm0v00A, "AppDynamic2_component_3EY2zm0v00A"));
 const AppDynamic3_component_FVq83NlbTDQ = (props)=>{
     _jsxBranch();
-    if (prop.value) return /*#__PURE__*/ _jsxC(Stuff, null, 3, "u6_17");
+    if (prop.value) return /*#__PURE__*/ _jsxC(Stuff, null, null, 3, "u6_17");
     return /*#__PURE__*/ _jsxQ("div", null, null, null, 3, "u6_18");
 };
 export const AppDynamic3 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(AppDynamic3_component_FVq83NlbTDQ, "AppDynamic3_component_FVq83NlbTDQ"));
 const AppDynamic4_component_IO0yr8UvWEI = (props)=>{
     _jsxBranch();
     if (prop.value) return /*#__PURE__*/ _jsxQ("div", null, null, null, 3, "u6_19");
-    return /*#__PURE__*/ _jsxC(Stuff, null, 3, "u6_20");
+    return /*#__PURE__*/ _jsxC(Stuff, null, null, 3, "u6_20");
 };
 export const AppDynamic4 = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(AppDynamic4_component_IO0yr8UvWEI, "AppDynamic4_component_IO0yr8UvWEI"));
 const AppStatic_component_gYRXqF3G5nE = (props)=>{
@@ -176,20 +176,20 @@ const AppStatic_component_gYRXqF3G5nE = (props)=>{
             /*#__PURE__*/ _jsxQ("div", null, null, [
                 "Static ",
                 f ? 1 : 3
-            ], 3, null),
-            /*#__PURE__*/ _jsxQ("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxQ("p", null, null, "1", 3, "u6_21") : /*#__PURE__*/ _jsxQ("p", null, null, "2", 3, null), 3, null),
-            /*#__PURE__*/ _jsxQ("div", null, null, prop.value && /*#__PURE__*/ _jsxQ("div", null, null, null, 3, "u6_22"), 3, null),
+            ], 1, null),
+            /*#__PURE__*/ _jsxQ("div", null, null, prop < 2 ? /*#__PURE__*/ _jsxQ("p", null, null, "1", 3, "u6_21") : /*#__PURE__*/ _jsxQ("p", null, null, "2", 3, null), 1, null),
+            /*#__PURE__*/ _jsxQ("div", null, null, prop.value && /*#__PURE__*/ _jsxQ("div", null, null, null, 3, "u6_22"), 1, null),
             /*#__PURE__*/ _jsxQ("div", null, null, prop.value && /*#__PURE__*/ _jsxC(Fragment, {
-                children: /*#__PURE__*/ _jsxC(Slot, null, 3, "u6_23")
-            }, 1, "u6_24"), 1, null),
+                children: /*#__PURE__*/ _jsxC(Slot, null, null, 3, "u6_23")
+            }, null, 1, "u6_24"), 1, null),
             /*#__PURE__*/ _jsxQ("div", null, null, prop.value && /*#__PURE__*/ _jsxC(_Fragment, {
                 children: /*#__PURE__*/ _jsxQ("div", null, null, null, 3, null)
-            }, 3, "u6_25"), 1, null),
-            /*#__PURE__*/ _jsxQ("div", null, null, prop.value && /*#__PURE__*/ _jsxC(Image, null, 3, "u6_26"), 3, null),
+            }, null, 3, "u6_25"), 1, null),
+            /*#__PURE__*/ _jsxQ("div", null, null, prop.value && /*#__PURE__*/ _jsxC(Image, null, null, 3, "u6_26"), 1, null),
             /*#__PURE__*/ _jsxQ("div", null, null, [
                 "Static ",
                 f ? 1 : 3
-            ], 3, null),
+            ], 1, null),
             /*#__PURE__*/ _jsxQ("div", null, null, "Static", 3, null),
             /*#__PURE__*/ _jsxQ("div", null, null, [
                 "Static ",
@@ -206,12 +206,12 @@ const AppStatic_component_gYRXqF3G5nE = (props)=>{
                 stuff()
             ], 1, null)
         ]
-    }, 1, "u6_27");
+    }, null, 1, "u6_27");
 };
 export const AppStatic = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(AppStatic_component_gYRXqF3G5nE, "AppStatic_component_gYRXqF3G5nE"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;AACA,SAA+B,IAAI,EAAE,QAAQ,QAAQ,mBAAmB;AACxE,OAAO,WAAW,kBAAkB;AAEpC,OAAO,SAAS,IAAI,KAAY,EAAE;;IAC9B,qBACI;kBACI,cAAA,MAAC,mBAAK,OAAO,kBAAI,MAAC,iBAAE,gCAAQ,MAAC;sBAAM;qBAAS;;AAGxD,CAAC;AAED,OAAO,SAAS,IAAI,KAAY,EAAE;;IAC9B,qBACI,MAAC;QAAK,KAAK,KAAK,kBAAI,MAAC;sBAAe,MAAC;;AAE7C,CAAC;AAED,OAAO,SAAS,IAAI,KAAY,EAAE;;IAC9B,IAAI,KAAK,KAAK,EACV,qBACI,MAAC;IAGT,qBACI,MAAC;AAET,CAAC;AAED,OAAO,SAAS,IAAI,KAAY,EAAE;;IAC9B,IAAI,KAAK,KAAK,EACV,qBACI,MAAC;IAGT,qBACI,MAAC;AAET,CAAC;AAED,OAAO,MAAM,QAAQ,CAAC,+CAAiB,MAAC,mBAAK,OAAO,kBAAI,MAAC,iBAAE,gCAAQ,MAAC;kBAAM;kBAAS,eAAQ;0CAErD,CAAC,QAAiB;;IACpD,qBACI;kBACI,cAAA,MAAC,mBAAK,OAAO,kBAAI,MAAC,iBAAE,iCAAQ,MAAC;sBAAM;sBAAS;;AAGxD;AANA,OAAO,MAAM,4BAAc,+GAMxB;0CACmC,CAAC,QAAiB;;IACpD,qBACI,MAAC;QAAK,KAAK,KAAK,kBAAI,MAAC;sBAAe,MAAC;;AAE7C;AAJA,OAAO,MAAM,4BAAc,+GAIxB;0CAEmC,CAAC,QAAiB;;IACpD,IAAI,KAAK,KAAK,EACV,qBACI,MAAC;IAGT,qBACI,MAAC;AAET;AATA,OAAO,MAAM,4BAAc,+GASxB;0CAEmC,CAAC,QAAiB;;IACpD,IAAI,KAAK,KAAK,EACV,qBACI,MAAC;IAGT,qBACI,MAAC;AAET;AATA,OAAO,MAAM,4BAAc,+GASxB;wCAEiC,CAAC,QAAiB;;IAClD,qBACI;;0BACI,MAAC;gBAAI;gBAAQ,IAAI,IAAI,CAAC;;0BACtB,MAAC,mBAAK,OAAO,kBAAI,MAAC,iBAAE,iCAAQ,MAAC,iBAAE,aAAK;0BAEpC,MAAC,mBAAK,KAAK,KAAK,kBAAI,MAAC;0BACrB,MAAC,mBAAK,KAAK,KAAK,kBAAI,MAAC;0BAAS,cAAA,MAAC;;0BAC/B,MAAC,mBAAK,KAAK,KAAK,kBAAI;0BAAE,cAAA,MAAC;;0BACvB,MAAC,mBAAK,KAAK,KAAK,kBAAI,MAAC;0BACrB,MAAC;gBAAI;gBAAQ,IAAI,IAAI,CAAC;;0BACtB,MAAC,mBAAI;0BACL,MAAC;gBAAI;gCAAQ,GAAM,KAAK;;;;0BACxB,MAAC;gBAAI;gBAAQ;;0BACb,MAAC;gBAAI;gBAAQ;;;;AAGzB;AAjBA,OAAO,MAAM,0BAAY,2GAiBtB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;AACA,SAA+B,IAAI,EAAE,QAAQ,QAAQ,mBAAmB;AACxE,OAAO,WAAW,kBAAkB;AAEpC,OAAO,SAAS,IAAI,KAAY,EAAE;;IAC9B,qBACI;kBACI,cAAA,MAAC,mBAAK,OAAO,kBAAI,MAAC,iBAAE,gCAAQ,MAAC;sBAAM;2BAAS;;AAGxD,CAAC;AAED,OAAO,SAAS,IAAI,KAAY,EAAE;;IAC9B,qBACI,MAAC;QAAK,KAAK,KAAK,kBAAI,MAAC;sBAAe,MAAC;;AAE7C,CAAC;AAED,OAAO,SAAS,IAAI,KAAY,EAAE;;IAC9B,IAAI,KAAK,KAAK,EACV,qBACI,MAAC;IAGT,qBACI,MAAC;AAET,CAAC;AAED,OAAO,SAAS,IAAI,KAAY,EAAE;;IAC9B,IAAI,KAAK,KAAK,EACV,qBACI,MAAC;IAGT,qBACI,MAAC;AAET,CAAC;AAED,OAAO,MAAM,QAAQ,CAAC,+CAAiB,MAAC,mBAAK,OAAO,kBAAI,MAAC,iBAAE,gCAAQ,MAAC;kBAAM;wBAAS,eAAQ;0CAErD,CAAC,QAAiB;;IACpD,qBACI;kBACI,cAAA,MAAC,mBAAK,OAAO,kBAAI,MAAC,iBAAE,iCAAQ,MAAC;sBAAM;4BAAS;;AAGxD;AANA,OAAO,MAAM,4BAAc,+GAMxB;0CACmC,CAAC,QAAiB;;IACpD,qBACI,MAAC;QAAK,KAAK,KAAK,kBAAI,MAAC;sBAAe,MAAC;;AAE7C;AAJA,OAAO,MAAM,4BAAc,+GAIxB;0CAEmC,CAAC,QAAiB;;IACpD,IAAI,KAAK,KAAK,EACV,qBACI,MAAC;IAGT,qBACI,MAAC;AAET;AATA,OAAO,MAAM,4BAAc,+GASxB;0CAEmC,CAAC,QAAiB;;IACpD,IAAI,KAAK,KAAK,EACV,qBACI,MAAC;IAGT,qBACI,MAAC;AAET;AATA,OAAO,MAAM,4BAAc,+GASxB;wCAEiC,CAAC,QAAiB;;IAClD,qBACI;;0BACI,MAAC;gBAAI;gBAAQ,IAAI,IAAI,CAAC;;0BACtB,MAAC,mBAAK,OAAO,kBAAI,MAAC,iBAAE,iCAAQ,MAAC,iBAAE,aAAK;0BAEpC,MAAC,mBAAK,KAAK,KAAK,kBAAI,MAAC;0BACrB,MAAC,mBAAK,KAAK,KAAK,kBAAI,MAAC;0BAAS,cAAA,MAAC;;0BAC/B,MAAC,mBAAK,KAAK,KAAK,kBAAI;0BAAE,cAAA,MAAC;;0BACvB,MAAC,mBAAK,KAAK,KAAK,kBAAI,MAAC;0BACrB,MAAC;gBAAI;gBAAQ,IAAI,IAAI,CAAC;;0BACtB,MAAC,mBAAI;0BACL,MAAC;gBAAI;gCAAQ,GAAM,KAAK;;;;0BACxB,MAAC;gBAAI;gBAAQ;;0BACb,MAAC;gBAAI;gBAAQ;;;;AAGzB;AAjBA,OAAO,MAAM,0BAAY,2GAiBtB\"}")
 == DIAGNOSTICS ==
 
 []

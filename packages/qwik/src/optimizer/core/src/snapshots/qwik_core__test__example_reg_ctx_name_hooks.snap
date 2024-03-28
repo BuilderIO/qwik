@@ -39,7 +39,7 @@ export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((props)
                 onClick$: /*#__PURE__*/ _noopQrl("Works_component__Fragment_div_onClick_YhOCqfqU0Rc")
             }, null, 3, null)
         ]
-    }, 1, "u6_0");
+    }, null, 1, "u6_0");
 }, "Works_component_t45qL4vNGv0"));
 
 

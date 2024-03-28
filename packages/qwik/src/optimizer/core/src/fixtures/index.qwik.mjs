@@ -23,7 +23,6 @@ import {
   Slot,
   getLocale,
   untrack,
-  _jsxS,
   _jsxQ,
   _wrapSignal,
   implicit$FirstArg,
@@ -630,12 +629,12 @@ const Link = /* @__PURE__ */ componentQrl(
         'Link_component_event_event_5g4B0Gd1Wck'
       )
     );
-    return /* @__PURE__ */ _jsxS(
+    return /* @__PURE__ */ _jsxC(
       'a',
       {
         ...linkProps,
         'data-prefetch': prefetchDataset,
-        children: /* @__PURE__ */ _jsxC(Slot, null, 3, 'AD_0'),
+        children: /* @__PURE__ */ _jsxC(Slot, null, null, 3, 'AD_0'),
         onClick$: /* @__PURE__ */ inlinedQrl(
           (_, elm) => {
             const [nav2, reload2] = useLexicalScope();
@@ -663,15 +662,13 @@ const prefetchLinkResources = (elm, isOnVisible) => {
 };
 let windowInnerWidth = 0;
 const ServiceWorkerRegister = (props) =>
-  _jsxQ(
+  _jsxC(
     'script',
+    null,
     {
       nonce: _wrapSignal(props, 'nonce'),
-    },
-    {
       dangerouslySetInnerHTML: swRegister,
     },
-    null,
     3,
     '1Z_0'
   );
@@ -965,7 +962,7 @@ async function* streamAsyncIterator(stream, ctxElm) {
 const Form = ({ action, spaReset, reloadDocument, onSubmit$, ...rest }, key) => {
   _jsxBranch();
   if (action)
-    return _jsxS(
+    return _jsxC(
       'form',
       {
         ...rest,
@@ -997,7 +994,7 @@ const GetForm = /* @__PURE__ */ componentQrl(
   /* @__PURE__ */ inlinedQrl((props) => {
     const rest = _restProps(props, ['action', 'spaReset', 'reloadDocument', 'onSubmit$']);
     const nav = useNavigate();
-    return /* @__PURE__ */ _jsxS(
+    return /* @__PURE__ */ _jsxC(
       'form',
       {
         ...rest,

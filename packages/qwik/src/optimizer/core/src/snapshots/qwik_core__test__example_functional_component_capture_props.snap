@@ -116,12 +116,12 @@ import { _jsxQ } from "@builder.io/qwik";
 import { qrl } from "@builder.io/qwik";
 export const App_component_1_w0t0o3QMovU = ()=>{
     const [C2, C3, C4, C5, C6, C7, C8, I2, I3, I4, I5, I6, I7, I8, count, state] = useLexicalScope();
-    return /*#__PURE__*/ _jsxQ("div", {
+    return /*#__PURE__*/ _jsxQ("div", null, {
         onClick$: /*#__PURE__*/ qrl(()=>import("./app_component_div_onclick_1cgetmfzx0g"), "App_component_div_onClick_1CGetmFZx0g", [
             count,
             state
         ])
-    }, null, [
+    }, [
         I2,
         I3,
         I4,

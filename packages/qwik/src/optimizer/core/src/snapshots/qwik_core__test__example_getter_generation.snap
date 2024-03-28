@@ -1,6 +1,6 @@
 ---
 source: packages/qwik/src/optimizer/core/src/test.rs
-assertion_line: 2943
+assertion_line: 2941
 expression: output
 ---
 ==INPUT==
@@ -72,7 +72,7 @@ export const Cmp_component_4ryKJTOKjWE = (props)=>{
                 /*#__PURE__*/ _jsxQ("span", null, null, null, 3, null)
             ], 3, null)
         ]
-    }, 3, "u6_1");
+    }, null, 3, "u6_1");
 };
 
 
@@ -99,7 +99,6 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
 ============================= app_component_ckepmxzlub0.js (ENTRY POINT)==
 
 import { Cmp } from "./test";
-import { _IMMUTABLE } from "@builder.io/qwik";
 import { _fnSignal } from "@builder.io/qwik";
 import { _jsxC } from "@builder.io/qwik";
 import { useStore } from "@builder.io/qwik";
@@ -112,42 +111,26 @@ export const App_component_ckEPmXZlub0 = ()=>{
         }
     });
     const signal = useSignal(0);
-    return /*#__PURE__*/ _jsxC(Cmp, {
+    return /*#__PURE__*/ _jsxC(Cmp, null, {
         prop: 'true',
-        get count () {
-            return store.count;
-        },
-        get nested () {
-            return store.nested.count;
-        },
+        count: _fnSignal((p0)=>p0.count, [
+            store
+        ], "p0.count"),
+        nested: _fnSignal((p0)=>p0.nested.count, [
+            store
+        ], "p0.nested.count"),
         signal: signal,
-        get store () {
-            return store.stuff + 12;
-        },
-        get value () {
-            return signal.formData?.get('username');
-        },
-        [_IMMUTABLE]: {
-            prop: _IMMUTABLE,
-            count: _fnSignal((p0)=>p0.count, [
-                store
-            ], "p0.count"),
-            nested: _fnSignal((p0)=>p0.nested.count, [
-                store
-            ], "p0.nested.count"),
-            signal: _IMMUTABLE,
-            store: _fnSignal((p0)=>p0.stuff + 12, [
-                store
-            ], "p0.stuff+12"),
-            value: _fnSignal((p0)=>p0.formData?.get('username'), [
-                signal
-            ], 'p0.formData?.get("username")')
-        }
+        store: _fnSignal((p0)=>p0.stuff + 12, [
+            store
+        ], "p0.stuff+12"),
+        value: _fnSignal((p0)=>p0.formData?.get('username'), [
+            signal
+        ], 'p0.formData?.get("username")')
     }, 3, "u6_0");
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;yCAG8B,IAAM;IAChC,MAAM,QAAQ,SAAS;QACnB,OAAO;QACP,OAAO;QACP,QAAQ;YACJ,OAAO;QACX;IACJ;IACA,MAAM,SAAS,UAAU;IACzB,qBACI,MAAC;QACG,MAAmB;YACnB;mBAAO,MAAM,KAAK;;YAClB;mBAAQ,MAAM,MAAM,CAAC,KAAK;;QAC1B,QAAQ;YACR;mBAAO,MAAM,KAAK,GAAG;;YACrB;mBAAO,OAAO,QAAQ,EAAE,IAAI;;;YAL5B,IAAI;YACJ,KAAK,kBAAE,GAAM,KAAK;;;YAClB,MAAM,kBAAE,GAAM,MAAM,CAAC,KAAK;;;YAC1B,MAAM;YACN,KAAK,kBAAE,GAAM,KAAK,GAAG;;;YACrB,KAAK,kBAAE,GAAO,QAAQ,EAAE,IAAI;;;;;AAIxC\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;yCAG8B,IAAM;IAChC,MAAM,QAAQ,SAAS;QACnB,OAAO;QACP,OAAO;QACP,QAAQ;YACJ,OAAO;QACX;IACJ;IACA,MAAM,SAAS,UAAU;IACzB,qBACI,MAAC;QACG,MAAmB;QACnB,KAAK,kBAAE,GAAM,KAAK;;;QAClB,MAAM,kBAAE,GAAM,MAAM,CAAC,KAAK;;;QAC1B,QAAQ;QACR,KAAK,kBAAE,GAAM,KAAK,GAAG;;;QACrB,KAAK,kBAAE,GAAO,QAAQ,EAAE,IAAI;;;;AAIxC\"}")
 /*
 {
   "origin": "test.tsx",

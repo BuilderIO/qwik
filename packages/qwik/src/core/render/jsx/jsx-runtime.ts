@@ -7,38 +7,40 @@ import { isQrl, type QRLInternal } from '../../qrl/qrl-class';
 import { invoke, untrack } from '../../use/use-core';
 import { verifySerializable } from '../../state/common';
 import { isQwikComponent, type OnRenderFn } from '../../component/component.public';
-import { isSignal } from '../../state/signal';
+import { SignalDerived, isSignal } from '../../state/signal';
 import { isPromise } from '../../util/promises';
 import { SkipRender } from './utils.public';
 import { EMPTY_OBJ } from '../../util/flyweight';
 import { _IMMUTABLE } from '../../internal';
 import { isBrowser } from '@builder.io/qwik/build';
-import { assertString } from '../../error/assert';
 import { static_subtree } from '../execute-component';
 import type { JsxChild } from 'typescript';
 import { ELEMENT_ID, OnRenderProp, QScopedStyle, QSlot, QSlotS } from '../../util/markers';
 import type { JSXChildren } from './types/jsx-qwik-attributes';
-import { _IMMUTABLE_PREFIX } from '../../state/constants';
 
 /**
- * @internal
+ * Create a JSXNode with children already split
  *
- * Create a JSXNode for a string tag
+ * @param type - The JSX type
+ * @param mutableProps - The properties of the tag
+ * @param immutableProps - The properties of the tag that are known to be static and don't need
+ *   checking for changes on re-render
+ * @param children - JSX children. Any `children` in the props objects are ignored.
+ * @internal
  */
-export const _jsxQ = <T extends string>(
+export const _jsxQ = <T>(
   type: T,
-  mutableProps: Record<any, unknown> | null,
+  mutableProps: Record<any, unknown>,
   immutableProps: Record<any, unknown> | null,
   children: JSXChildren | null,
   flags: number,
   key: string | number | null,
   dev?: DevJSX
 ): JSXNode<T> => {
-  assertString(type, 'jsx type must be a string');
   const processed = key == null ? null : String(key);
-  const node = new JSXNodeImpl<T>(
+  const node = new JSXNodeImpl(
     type,
-    mutableProps || (EMPTY_OBJ as any),
+    mutableProps as any,
     immutableProps,
     children,
     flags,
@@ -56,11 +58,15 @@ export const _jsxQ = <T extends string>(
 };
 
 /**
- * @internal
+ * Create a JSXNode
  *
- * A string tag with dynamic props, possibly containing children
+ * @param type - The tag type
+ * @param mutableProps - The properties of the tag that could change, including children
+ * @param immutableProps - The properties of the tag that are known to be static and don't need
+ *   checking for changes on re-render
+ * @internal
  */
-export const _jsxS = <T extends string>(
+export const _jsxC = <T extends string | FunctionComponent<any>>(
   type: T,
   mutableProps: Record<any, unknown> | null,
   immutableProps: Record<any, unknown> | null,
@@ -68,69 +74,19 @@ export const _jsxS = <T extends string>(
   key: string | number | null,
   dev?: DevJSX
 ): JSXNode<T> => {
-  let children: JSXChildren = null;
-  if (mutableProps && 'children' in mutableProps) {
-    children = mutableProps.children as JSXChildren;
-    delete mutableProps.children;
+  let children;
+  if (mutableProps) {
+    children = mutableProps.children;
+  } else {
+    mutableProps = typeof type === 'string' ? EMPTY_OBJ : {};
   }
-  return _jsxQ(type, mutableProps, immutableProps, children, flags, key, dev);
-};
-
-/**
- * @internal
- *
- * Create a JSXNode for any tag, with possibly immutable props embedded in props
- */
-export const _jsxC = <T extends string | FunctionComponent<Record<any, unknown>>>(
-  type: T,
-  mutableProps: (T extends FunctionComponent<infer PROPS> ? PROPS : Record<any, unknown>) | null,
-  flags: number,
-  key: string | number | null,
-  dev?: JsxDevOpts
-): JSXNode<T> => {
-  const processed = key == null ? null : String(key);
-  const props = mutableProps ?? ({} as NonNullable<typeof mutableProps>);
-  // In dynamic components, type could be a string
-  if (typeof type === 'string' && _IMMUTABLE in props) {
-    const immutableProps = props[_IMMUTABLE] as Record<any, unknown>;
-    delete props[_IMMUTABLE];
-    const children = props.children as JSXChildren;
-    delete props.children;
-    // Immutable handling for string tags is a bit different, merge all and consider immutable
-    for (const [k, v] of Object.entries(immutableProps)) {
-      if (v !== _IMMUTABLE) {
-        delete props[k];
-        (props as any)[k] = v;
-      }
-    }
-    return _jsxQ(type, null, props, children, flags, key, dev);
-  }
-  const node = new JSXNodeImpl<T>(
-    type,
-    props,
-    null,
-    props.children as JSXChildren,
-    flags,
-    processed
-  );
-  if (typeof type === 'string' && mutableProps) {
-    delete mutableProps.children;
-  }
-  if (qDev && dev) {
-    node.dev = {
-      stack: new Error().stack,
-      ...dev,
-    };
-  }
-  validateJSXNode(node);
-  seal(node);
-  return node;
+  return _jsxQ(type, mutableProps, immutableProps, children as JSXChildren, flags, key, dev);
 };
 
 /**
  * @public
  * Used by the JSX transpilers to create a JSXNode.
- * Note that the optimizer will not use this, instead using _jsxQ, _jsxS, and _jsxC directly.
+ * Note that the optimizer will not use this, instead using _jsxC and _jsxQ directly.
  */
 export const jsx = <T extends string | FunctionComponent<any>>(
   type: T,
@@ -140,24 +96,9 @@ export const jsx = <T extends string | FunctionComponent<any>>(
   const processed = key == null ? null : String(key);
   const children = untrack(() => {
     const c = props.children;
-    if (typeof type === 'string') {
-      delete props.children;
-    }
     return c;
   });
-  if (isString(type)) {
-    if ('className' in props) {
-      (props as any).class = props.className;
-      delete props.className;
-      if (qDev) {
-        logOnceWarn('jsx: `className` is deprecated. Use `class` instead.');
-      }
-    }
-  }
-  const node = new JSXNodeImpl<T>(type, props, null, children, 0, processed);
-  validateJSXNode(node);
-  seal(node);
-  return node;
+  return _jsxQ(type, props, null, children, 0, processed);
 };
 
 export const SKIP_RENDER_TYPE = ':skipRender';
@@ -166,22 +107,59 @@ export class JSXNodeImpl<T> implements JSXNode<T> {
   dev?: DevJSX;
   constructor(
     public type: T,
-    public props: T extends FunctionComponent<infer PROPS> ? PROPS : Record<any, unknown>,
+    public mutableProps: T extends FunctionComponent<infer PROPS> ? PROPS : Record<any, unknown>,
     public immutableProps: Record<any, unknown> | null,
     public children: JSXChildren,
     public flags: number,
     public key: string | null = null
   ) {}
+
+  _proxy?: typeof this.mutableProps;
+  get props() {
+    // We use a proxy to merge the immutableProps if they exist and to evaluate derived signals
+    this._proxy ||= new Proxy<any>(this.mutableProps as object, {
+      get: (target, prop) => {
+        // escape hatch to get the separated props from a component
+        if (prop === _IMMUTABLE) {
+          return { mutable: this.mutableProps, immutable: this.immutableProps };
+        }
+        const value =
+          prop in this.immutableProps! ? this.immutableProps![prop as string] : target[prop];
+        // a proxied value that the optimizer made
+        return value instanceof SignalDerived ? value.value : value;
+      },
+      set: (target, prop, value) => {
+        target[prop] = value;
+        return true;
+      },
+      deleteProperty: (target, prop) => {
+        if (typeof prop !== 'string') {
+          return false;
+        }
+        let didDelete = delete target[prop];
+        if (this.immutableProps) {
+          didDelete = delete this.immutableProps[prop as string] || didDelete;
+        }
+        return didDelete;
+      },
+      has: (target, prop) => {
+        return prop in target || prop in this.immutableProps!;
+      },
+      ownKeys: (target) => {
+        return [...Object.keys(target), ...Object.keys(this.immutableProps!)];
+      },
+    });
+    return this._proxy!;
+  }
 }
 
-/** @public */
+/** @private */
 export const Virtual: FunctionComponent<{
   children?: JSXChildren;
   dangerouslySetInnerHTML?: string;
   [OnRenderProp]?: QRLInternal<OnRenderFn<any>>;
   [QSlot]?: string;
   [QSlotS]?: string;
-  [_IMMUTABLE]?: Record<any, unknown>;
   props?: Record<any, unknown>;
   [QScopedStyle]?: string;
   [ELEMENT_ID]?: string;
@@ -195,7 +173,7 @@ export const RenderOnce: FunctionComponent<{
   return new JSXNodeImpl(Virtual, EMPTY_OBJ, null, props.children, static_subtree, key);
 };
 
-const validateJSXNode = (node: JSXNode) => {
+const validateJSXNode = (node: JSXNode<any>) => {
   if (qDev) {
     const { type, props, immutableProps, children } = node;
     invoke(undefined, () => {
@@ -260,7 +238,7 @@ const validateJSXNode = (node: JSXNode) => {
       }
 
       const allProps = [
-        ...Object.entries(props),
+        ...(props ? Object.entries(props) : []),
         ...(immutableProps ? Object.entries(immutableProps) : []),
       ];
       if (!qRuntimeQrl) {

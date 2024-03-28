@@ -63,7 +63,7 @@ export const test_component_LUXeXe0DQrg = ()=>{
                     _wrapSignal(v, "value")
                 ], 1, "arrow_" + idx))
         ]
-    }, 1, "u6_0");
+    }, null, 1, "u6_0");
 };
 
 

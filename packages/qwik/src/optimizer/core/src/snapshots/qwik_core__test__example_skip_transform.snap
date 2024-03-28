@@ -19,15 +19,16 @@ export const App = component$((props) => {
 
 ============================= test.js ==
 
+import { _wrapSignal } from "@builder.io/qwik";
 import { _jsxQ } from "@builder.io/qwik";
 export const handler = $(()=>console.log('hola'));
 export const App = component$((props)=>{
     useStyles$('hola');
-    return $(()=>/*#__PURE__*/ _jsxQ("div", null, null, state.thing, 3, "u6_0"));
+    return $(()=>/*#__PURE__*/ _jsxQ("div", null, null, _wrapSignal(state, "thing"), 1, "u6_0"));
 });
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";AAGA,OAAO,MAAM,UAAU,EAAE,IAAI,QAAQ,GAAG,CAAC,SAAS;AAElD,OAAO,MAAM,MAAM,WAAW,CAAC,QAAU;IACrC,WAAW;IACX,OAAO,EAAE,kBACL,MAAC,mBAAK,MAAM,KAAK;AAEzB,GAAG\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAGA,OAAO,MAAM,UAAU,EAAE,IAAI,QAAQ,GAAG,CAAC,SAAS;AAElD,OAAO,MAAM,MAAM,WAAW,CAAC,QAAU;IACrC,WAAW;IACX,OAAO,EAAE,kBACL,MAAC,+BAAK;AAEd,GAAG\"}")
 == DIAGNOSTICS ==
 
 []

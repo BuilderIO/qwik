@@ -48,7 +48,7 @@ export const App_component_ckEPmXZlub0 = ()=>{
         children: /*#__PURE__*/ _jsxQ("p", null, {
             class: "stuff"
         }, "Hello Qwik", 3, null)
-    }, 3, "u6_0");
+    }, null, 3, "u6_0");
 };
 
 

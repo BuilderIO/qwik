@@ -31,33 +31,26 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
 ============================= app_component_ckepmxzlub0.js (ENTRY POINT)==
 
 import { Fragment as _Fragment } from "@builder.io/qwik/jsx-runtime";
-import { _IMMUTABLE } from "@builder.io/qwik";
 import { _jsxC } from "@builder.io/qwik";
 import { _jsxQ } from "@builder.io/qwik";
 export const App_component_ckEPmXZlub0 = (props)=>{
     return /*#__PURE__*/ _jsxC(_Fragment, {
         children: [
-            /*#__PURE__*/ _jsxC(Cmp, null, 3, "stuff"),
-            /*#__PURE__*/ _jsxC(Cmp, null, 3, "u6_0"),
-            /*#__PURE__*/ _jsxC(Cmp, {
-                prop: "23",
-                [_IMMUTABLE]: {
-                    prop: _IMMUTABLE
-                }
+            /*#__PURE__*/ _jsxC(Cmp, null, null, 3, "stuff"),
+            /*#__PURE__*/ _jsxC(Cmp, null, null, 3, "u6_0"),
+            /*#__PURE__*/ _jsxC(Cmp, null, {
+                prop: "23"
             }, 3, "u6_1"),
-            /*#__PURE__*/ _jsxC(Cmp, {
-                prop: "23",
-                [_IMMUTABLE]: {
-                    prop: _IMMUTABLE
-                }
+            /*#__PURE__*/ _jsxC(Cmp, null, {
+                prop: "23"
             }, 3, props.stuff),
             /*#__PURE__*/ _jsxQ("p", null, null, "Hello Qwik", 3, props.stuff)
         ]
-    }, 1, "u6_2");
+    }, null, 1, "u6_2");
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;yCAG8B,CAAC,QAAiB;IAC5C,qBACI;;0BACI,MAAC,cAAQ;0BACT,MAAC;0BACD,MAAC;gBAAI,MAAK;;oBAAL,IAAI;;;0BACT,MAAC;gBAAI,MAAK;;oBAAL,IAAI;;kBAAW,MAAM,KAAK;0BAC/B,MAAC,iBAAoB,iBAAb,MAAM,KAAK;;;AAG/B\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;yCAG8B,CAAC,QAAiB;IAC5C,qBACI;;0BACI,MAAC,oBAAQ;0BACT,MAAC;0BACD,MAAC;gBAAI,MAAK;;0BACV,MAAC;gBAAI,MAAK;kBAAU,MAAM,KAAK;0BAC/B,MAAC,iBAAoB,iBAAb,MAAM,KAAK;;;AAG/B\"}")
 /*
 {
   "origin": "test.tsx",

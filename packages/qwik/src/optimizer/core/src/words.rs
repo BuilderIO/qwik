@@ -1,7 +1,7 @@
 use lazy_static::lazy_static;
 use swc_atoms::JsWord;
 
-pub const SIGNAL: char = '$';
+pub const QRL_SUFFIX: char = '$';
 pub const LONG_SUFFIX: &str = "Qrl";
 
 lazy_static! {
@@ -40,7 +40,6 @@ lazy_static! {
 	pub static ref _WRAP_PROP: JsWord = JsWord::from("_wrapProp");
 	pub static ref _WRAP_SIGNAL: JsWord = JsWord::from("_wrapSignal");
 	pub static ref _JSX_Q: JsWord = JsWord::from("_jsxQ");
-	pub static ref _JSX_S: JsWord = JsWord::from("_jsxS");
 	pub static ref _JSX_C: JsWord = JsWord::from("_jsxC");
 	pub static ref JSX: JsWord = JsWord::from("jsx");
 	pub static ref JSXS: JsWord = JsWord::from("jsxs");

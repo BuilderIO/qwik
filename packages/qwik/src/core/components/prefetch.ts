@@ -1,5 +1,5 @@
 import { isDev } from '@builder.io/qwik/build';
-import { _jsxC } from '../internal';
+import { _jsxQ } from '../internal';
 
 /**
  * Install a service worker which will prefetch the bundles.
@@ -45,7 +45,7 @@ export const PrefetchServiceWorker = (opts: {
       ');',
     ].join(''),
   };
-  return _jsxC('script', props, 0, 'prefetch-service-worker');
+  return _jsxQ('script', null, props, null, 0, 'prefetch-service-worker');
 };
 
 const PREFETCH_CODE = /*#__PURE__*/ ((
@@ -118,7 +118,7 @@ export const PrefetchGraph = (
       ');',
     ].join(''),
   };
-  return _jsxC('script', props, 0, 'prefetch-graph');
+  return _jsxQ('script', null, props, null, 0, 'prefetch-graph');
 };
 
 const PREFETCH_GRAPH_CODE = /*#__PURE__*/ ((

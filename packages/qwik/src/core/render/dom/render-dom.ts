@@ -102,7 +102,7 @@ export const processNode = (
     if (!shouldWrapFunctional(res, node)) {
       return processData(res, invocationContext);
     }
-    return processNode(_jsxC(Virtual, { children: res }, 0, key), invocationContext);
+    return processNode(_jsxC(Virtual, { children: res }, null, 0, key), invocationContext);
   } else {
     throw qError(QError_invalidJsxNodeType, type);
   }

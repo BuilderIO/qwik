@@ -80,7 +80,7 @@ export async function createMdxTransformer(ctx: BuildContext): Promise<MdxTransf
       const addImport = `import { _jsxC, RenderOnce } from '@builder.io/qwik';\n`;
       const newDefault = `
 const WrappedMdxContent = () => {
-  return _jsxC(RenderOnce, {children: _jsxC(_createMdxContent, {}, 3, null)}, 3, ${JSON.stringify(key)});
+  return _jsxC(RenderOnce, {children: _jsxC(_createMdxContent, {}, undefined, 3, null)}, undefined, 3, ${JSON.stringify(key)});
 };
 export default WrappedMdxContent;
 `;

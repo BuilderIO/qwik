@@ -55,7 +55,7 @@ export const test_component_LUXeXe0DQrg = ()=>{
                 onClick$: _qrlSync((event, target)=>event.preventDefault(), "(event,target)=>event.preventDefault()")
             }, null, null, 2, null)
         ]
-    }, 1, "u6_0");
+    }, null, 1, "u6_0");
 };
 
 

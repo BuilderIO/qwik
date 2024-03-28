@@ -37,7 +37,7 @@ export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrlDEV(()=>{
             lineNumber: 7,
             columnNumber: 13
         })
-    }, 3, "u6_0", {
+    }, null, 3, "u6_0", {
         fileName: "test.tsx",
         lineNumber: 6,
         columnNumber: 9

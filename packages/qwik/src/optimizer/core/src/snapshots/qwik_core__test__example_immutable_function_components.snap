@@ -24,7 +24,7 @@ import { _jsxQ } from "@builder.io/qwik";
 import { inlinedQrl } from "@builder.io/qwik";
 import { Slot } from '@builder.io/qwik';
 const App_component_ckEPmXZlub0 = (props)=>{
-    return /*#__PURE__*/ _jsxQ("div", null, null, /*#__PURE__*/ _jsxC(Slot, null, 3, "u6_0"), 1, "u6_1");
+    return /*#__PURE__*/ _jsxQ("div", null, null, /*#__PURE__*/ _jsxC(Slot, null, null, 3, "u6_0"), 1, "u6_1");
 };
 export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(App_component_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 

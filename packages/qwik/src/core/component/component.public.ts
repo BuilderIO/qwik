@@ -12,7 +12,7 @@ import { Virtual, _jsxC } from '../render/jsx/jsx-runtime';
 import { SERIALIZABLE_STATE } from '../container/serializers';
 import { qTest } from '../util/qdev';
 import { assertQrl } from '../qrl/qrl-class';
-import { _IMMUTABLE } from '../state/constants';
+import { _IMMUTABLE, _jsxQ } from '../internal';
 import { assertNumber } from '../error/assert';
 import type { QwikIntrinsicElements } from '../render/jsx/types/jsx-qwik-elements';
 
@@ -191,15 +191,17 @@ export const componentQrl = <PROPS extends Record<any, any>>(
     assertNumber(flags, 'The Qwik Component was not invoked correctly');
     const hash = qTest ? 'sX' : componentQrl.$hash$.slice(0, 4);
     const finalKey = hash + ':' + (key ? key : '');
-    return _jsxC(
+    // Try to get the original divided props via the JSXNode proxy
+    const bypass = (props as any)[_IMMUTABLE];
+    return _jsxQ(
       Virtual,
       {
         [OnRenderProp]: componentQrl,
         [QSlot]: props[QSlot],
-        [_IMMUTABLE]: (props as any)[_IMMUTABLE],
-        children: props.children,
-        props,
+        props: bypass ? bypass.mutable : props,
       },
+      bypass?.immutable,
+      props.children,
       flags,
       finalKey
     ) as any;

@@ -190,15 +190,15 @@ export const qwikifyQrl_component_zH94hIe0Ick = (props)=>{
                 [_IMMUTABLE]: [
                     "dangerouslySetInnerHTML"
                 ]
-            }, 3, "mR_0");
+            }, null, 3, "mR_0");
         });
         return /*#__PURE__*/ _jsxC(Fragment, {
             children: jsx$1
-        }, 1, "mR_1");
+        }, null, 1, "mR_1");
     }
     return /*#__PURE__*/ _jsxC(Host, {
-        children: /*#__PURE__*/ _jsxC(SkipRerender, null, 3, "mR_2")
-    }, 1, "mR_3");
+        children: /*#__PURE__*/ _jsxC(SkipRerender, null, null, 3, "mR_2")
+    }, null, 1, "mR_3");
 };
 
 

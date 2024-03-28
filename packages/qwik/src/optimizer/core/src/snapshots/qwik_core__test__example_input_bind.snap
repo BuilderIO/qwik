@@ -71,7 +71,7 @@ export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(()=>{
                 value
             ], "p0.value"), 3, null)
         ]
-    }, 3, "u6_0");
+    }, null, 3, "u6_0");
 }, "s_n7HuG2hhU0Q"));
 
 

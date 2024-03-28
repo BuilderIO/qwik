@@ -737,23 +737,11 @@ export const createElm = (
       }
     }
     if (vnode.$immutableProps$) {
-      const immProps =
-        props !== EMPTY_OBJ
-          ? Object.fromEntries(
-              Object.entries(vnode.$immutableProps$).map(([k, v]) => [
-                k,
-                v === _IMMUTABLE ? props[k] : v,
-              ])
-            )
-          : vnode.$immutableProps$;
-      setProperties(staticCtx, elCtx, currentComponent, immProps, isSvg, true);
+      setProperties(staticCtx, elCtx, currentComponent, vnode.$immutableProps$, isSvg, true);
     }
     if (props !== EMPTY_OBJ) {
       elCtx.$vdom$ = vnode;
-      const p = vnode.$immutableProps$
-        ? Object.fromEntries(Object.entries(props).filter(([k]) => !(k in vnode.$immutableProps$!)))
-        : props;
-      vnode.$props$ = setProperties(staticCtx, elCtx, currentComponent, p, isSvg, false);
+      vnode.$props$ = setProperties(staticCtx, elCtx, currentComponent, props, isSvg, false);
     }
     if (isSvg && tag === 'foreignObject') {
       isSvg = false;
@@ -983,6 +971,8 @@ export const PROP_HANDLER_MAP: Record<string, PropHandler | undefined> = {
   download: forceAttribute,
   innerHTML: noop,
   [dangerouslySetInnerHTML]: setInnerHTML,
+  // handled by jsx
+  children: noop,
 };
 
 export const smartSetProperty = (

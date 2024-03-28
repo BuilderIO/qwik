@@ -90,7 +90,7 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
 import { _auto_I10 as I10 } from "./test";
 import { _jsxC } from "@builder.io/qwik";
 export const App_component_1_w0t0o3QMovU = ()=>{
-    return /*#__PURE__*/ _jsxC(I10, null, 3, "u6_0");
+    return /*#__PURE__*/ _jsxC(I10, null, null, 3, "u6_0");
 };
 export { _hW } from "@builder.io/qwik";
 

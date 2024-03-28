@@ -16,6 +16,7 @@ export const Slot: FunctionComponent<{
     {
       [QSlotS]: '',
     },
+    null,
     0,
     props.name ?? ''
   );

@@ -59,7 +59,7 @@ describe('mdx', () => {
       }
 
       const WrappedMdxContent = () => {
-        return _jsxC(RenderOnce, {children: _jsxC(_createMdxContent, {}, 3, null)}, 3, "eB2HIyA1");
+        return _jsxC(RenderOnce, {children: _jsxC(_createMdxContent, {}, undefined, 3, null)}, undefined, 3, "eB2HIyA1");
       };
       export default WrappedMdxContent;
       ",
