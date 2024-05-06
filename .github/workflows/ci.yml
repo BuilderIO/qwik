@@ -186,6 +186,31 @@ jobs:
           path: packages/eslint-plugin-qwik/dist/
           if-no-files-found: error
 
+  ############ BUILD PACKAGE ############
+  build-api:
+    name: Build API
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - uses: pnpm/action-setup@v2.2.4
+      - name: Setup Node
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 18.x
+          cache: 'pnpm'
+          registry-url: https://registry.npmjs.org/
+      - run: corepack enable
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build API
+        run: pnpm run api.update
+
+      - name: Show Diff
+        run: git diff --exit-code
+
   ############ BUILD WASM ############
   build-wasm:
     name: Build wasm
