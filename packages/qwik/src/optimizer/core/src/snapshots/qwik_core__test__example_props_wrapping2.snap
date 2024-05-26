@@ -1,5 +1,6 @@
 ---
 source: packages/qwik/src/optimizer/core/src/test.rs
+assertion_line: 594
 expression: output
 ---
 ==INPUT==
@@ -23,32 +24,38 @@ export const Works = component$((props: { fromProps: number }) => {
 ============================= test.js ==
 
 import { componentQrl } from "@builder.io/qwik";
-import { _wrapProp } from "@builder.io/qwik";
 import { _fnSignal } from "@builder.io/qwik";
+import { _wrapProp } from "@builder.io/qwik";
 import { _jsxQ } from "@builder.io/qwik";
 import { inlinedQrl } from "@builder.io/qwik";
 import { useSignal } from '@builder.io/qwik';
 export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((props)=>{
     let fromLocal = useSignal(0);
     return /*#__PURE__*/ _jsxQ("div", {
-        computed: fromLocal + props.fromProps,
-        local: fromLocal,
-        props: {
-            props: props.fromProps,
-            local: fromLocal
-        }
+        local: fromLocal
     }, {
+        computed: _fnSignal((p0, p1)=>p0 + p1.fromProps, [
+            fromLocal,
+            props
+        ], "p0+p1.fromProps"),
         "props-wrap": _wrapProp(props, "fromProps"),
         "props-only": _fnSignal((p0)=>({
                 props: p0.fromProps
             }), [
             props
-        ], "{props:p0.fromProps}")
+        ], "{props:p0.fromProps}"),
+        props: _fnSignal((p0, p1)=>({
+                props: p1.fromProps,
+                local: p0
+            }), [
+            fromLocal,
+            props
+        ], "{props:p1.fromProps,local:p0}")
     }, null, 3, "u6_0");
 }, "Works_component_t45qL4vNGv0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AACA,SAAwB,SAAS,QAAQ,mBAAmB;AAC5D,OAAO,MAAM,sBAAQ,sCAAW,CAAC,QAAiC;IACjE,IAAI,YAAY,UAAU;IAC1B,qBACC,MAAC;QACA,UAAU,YAAY,MAAM,SAAS;QACrC,OAAO;QAGP,OAAO;YAAC,OAAO,MAAM,SAAS;YAAE,OAAO;QAAS;;QAFhD,YAAU,YAAE;QACZ,YAAU,kBAAE,CAAA;gBAAC,OAAO,GAAM,SAAS;YAAA,CAAA;;;;AAKtC,mCAAG\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AACA,SAAwB,SAAS,QAAQ,mBAAmB;AAC5D,OAAO,MAAM,sBAAQ,sCAAW,CAAC,QAAiC;IACjE,IAAI,YAAY,UAAU;IAC1B,qBACC,MAAC;QAEA,OAAO;;QADP,QAAQ,sBAAE,KAAY,GAAM,SAAS;;;;QAErC,YAAU,YAAE;QACZ,YAAU,kBAAE,CAAA;gBAAC,OAAO,GAAM,SAAS;YAAA,CAAA;;;QACnC,KAAK,sBAAE,CAAA;gBAAC,OAAO,GAAM,SAAS;gBAAE,KAAK;YAAW,CAAA;;;;;AAInD,mCAAG\"}")
 == DIAGNOSTICS ==
 
 []

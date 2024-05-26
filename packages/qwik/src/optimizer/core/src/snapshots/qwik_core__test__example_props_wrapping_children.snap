@@ -1,6 +1,6 @@
 ---
 source: packages/qwik/src/optimizer/core/src/test.rs
-assertion_line: 596
+assertion_line: 621
 expression: output
 ---
 ==INPUT==
@@ -34,7 +34,10 @@ export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((props)
     return /*#__PURE__*/ _jsxQ("div", null, null, [
         fromLocal,
         _wrapProp(props, "fromProps"),
-        fromLocal + props.fromProps,
+        _fnSignal((p0, p1)=>p0 + p1.fromProps, [
+            fromLocal,
+            props
+        ], "p0+p1.fromProps"),
         _fnSignal((p0)=>({
                 props: p0.fromProps
             }), [
@@ -43,15 +46,18 @@ export const Works = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl((props)
         {
             local: fromLocal
         },
-        {
-            props: props.fromProps,
-            local: fromLocal
-        }
+        _fnSignal((p0, p1)=>({
+                props: p1.fromProps,
+                local: p0
+            }), [
+            fromLocal,
+            props
+        ], "{props:p1.fromProps,local:p0}")
     ], 1, "u6_0");
 }, "Works_component_t45qL4vNGv0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AACA,SAAwB,SAAS,QAAQ,mBAAmB;AAC5D,OAAO,MAAM,sBAAQ,sCAAW,SAAiB;IAChD,IAAI,YAAY,UAAU;IAC1B,qBACC,MAAC;QACC;;QAEA,kBAN8B;wBAO9B,CAAA;gBAAC,KAAK,KAPwB;YAOb,CAAA;;;QACjB;YAAC,OAAO;QAAS;QACjB;YAAC,KAAK,QATwB;YASX,OAAO;QAAS;;AAGvC,mCAAG\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;AACA,SAAwB,SAAS,QAAQ,mBAAmB;AAC5D,OAAO,MAAM,sBAAQ,sCAAW,SAAiB;IAChD,IAAI,YAAY,UAAU;IAC1B,qBACC,MAAC;QACC;;4BAEA,QAN8B;;;;wBAO9B,CAAA;gBAAC,KAAK,KAPwB;YAOb,CAAA;;;QACjB;YAAC,OAAO;QAAS;4BACjB,CAAA;gBAAC,KAAK,KATwB;gBASX,KAAK;YAAW,CAAA;;;;;AAGvC,mCAAG\"}")
 == DIAGNOSTICS ==
 
 []

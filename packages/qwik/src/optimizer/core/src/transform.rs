@@ -578,11 +578,12 @@ impl<'a> QwikTransform<'a> {
 		}
 		scoped_idents.sort();
 
-		let (scoped_idents, is_const) = compute_scoped_idents(&descendent_idents, &decl_collect);
+		let (scoped_idents, is_const, has_const) =
+			compute_scoped_idents(&descendent_idents, &decl_collect);
 
-		if !is_const {
-			// if the inputs to the expression are not constant (meaning at least one input is outside of props),
-			//  we can't turn it into `_fnSignal`
+		if !has_const {
+			// if the inputs to the expression don't have at least one constant (meaning something that could be a signal),
+			//  turning it into `_fnSignal` is useless
 			return (None, is_const);
 		}
 
@@ -659,7 +660,7 @@ impl<'a> QwikTransform<'a> {
 		// Collect local idents
 		let local_idents = self.get_local_idents(&folded);
 
-		let (mut scoped_idents, is_const) =
+		let (mut scoped_idents, is_const, _) =
 			compute_scoped_idents(&descendent_idents, &decl_collect);
 		if !can_capture && !scoped_idents.is_empty() {
 			HANDLER.with(|handler| {
@@ -2235,20 +2236,23 @@ fn base64(nu: u64) -> String {
 		.replace(['-', '_'], "0")
 }
 
-fn compute_scoped_idents(all_idents: &[Id], all_decl: &[IdPlusType]) -> (Vec<Id>, bool) {
+fn compute_scoped_idents(all_idents: &[Id], all_decl: &[IdPlusType]) -> (Vec<Id>, bool, bool) {
 	let mut set: HashSet<Id> = HashSet::new();
 	let mut is_const = true;
+	let mut has_const = false;
 	for ident in all_idents {
 		if let Some(item) = all_decl.iter().find(|item| item.0 == *ident) {
 			set.insert(ident.clone());
-			if !matches!(item.1, IdentType::Var(true)) {
+			if matches!(item.1, IdentType::Var(true)) {
+				has_const = true;
+			} else {
 				is_const = false;
 			}
 		}
 	}
 	let mut output: Vec<Id> = set.into_iter().collect();
 	output.sort();
-	(output, is_const)
+	(output, is_const, has_const)
 }
 
 fn get_canonical_filename(symbol_name: &JsWord) -> JsWord {
