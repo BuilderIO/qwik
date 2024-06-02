@@ -321,7 +321,7 @@ export const hostElementPredicate = (aHost: HostElement, bHost: HostElement): nu
       // we are running on the server.
       // On server we can't schedule task for a different host!
       // Server is SSR, and therefore scheduling for anything but the current host
-      // implies that things need to be re-run nad that is not supported because of streaming.
+      // implies that things need to be re-run and that is not supported because of streaming.
       throw new Error(
         'SERVER: during HTML streaming, it is not possible to cause a re-run of tasks on a different host'
       );

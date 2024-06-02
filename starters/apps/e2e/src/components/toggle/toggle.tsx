@@ -2,9 +2,9 @@
 import {
   component$,
   createContextId,
-  useStore,
-  useContextProvider,
   useContext,
+  useContextProvider,
+  useStore,
   useTask$,
 } from "@builder.io/qwik";
 import { isBrowser, isServer } from "@builder.io/qwik/build";
@@ -174,6 +174,7 @@ export const Child = component$(() => {
   useTask$(({ track }) => {
     const count = track(() => rootState.count);
     console.log("Child", count);
+    // TODO: (Shai) this is the problematic line 👇
     logs.logs += `Child(${count})`;
   });
 

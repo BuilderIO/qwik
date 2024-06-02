@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("toggle", () => {
   test.beforeEach(async ({ page }) => {
@@ -12,7 +12,7 @@ test.describe("toggle", () => {
   });
 
   // TODO(v2): fix this
-  test.skip("should load", async ({ page }) => {
+  test("should load", async ({ page }) => {
     const title = page.locator("h1");
     const mount = page.locator("#mount");
     const root = page.locator("#root");
