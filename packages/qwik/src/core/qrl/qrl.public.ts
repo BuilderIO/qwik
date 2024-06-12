@@ -1,4 +1,3 @@
-import { implicit$FirstArg } from '../util/implicit_dollar';
 import { qDev, qRuntimeQrl } from '../util/qdev';
 import type { QRLDev } from './qrl';
 import { SYNC_QRL, createQRL } from './qrl-class';
@@ -271,9 +270,6 @@ export const dollar = $;
 export const eventQrl = <T>(qrl: QRL<T>): QRL<T> => {
   return qrl;
 };
-
-/** @public */
-export const event$ = implicit$FirstArg(eventQrl);
 
 /** @alpha */
 export interface SyncQRL<TYPE extends Function = any> extends QRL<TYPE> {

@@ -109,6 +109,9 @@ export const enum ChoreType {
   /* order of elements (not encoded here) */
   MICRO /* ***************** */ = 0b000_111,
 
+  /** Ensure tha the QRL promise is resolved before processing next chores in the queue */
+  QRL_RESOLVE /* *********** */ = 0b000_000,
+  // TODO(mhevery): COMPUTED should be deleted because it is handled synchronously.
   COMPUTED /* ************** */ = 0b000_001,
   RESOURCE /* ************** */ = 0b000_010,
   TASK /* ****************** */ = 0b000_011,
@@ -150,6 +153,12 @@ export const createScheduler = (
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
+  function schedule(
+    type: ChoreType.QRL_RESOLVE,
+    ignore0: null,
+    ignore1: null,
+    promise: Promise<any>
+  ): ValueOrPromise<void>;
   function schedule(type: ChoreType.JOURNAL_FLUSH): ValueOrPromise<void>;
   function schedule(type: ChoreType.WAIT_FOR_ALL): ValueOrPromise<void>;
   function schedule(type: ChoreType.WAIT_FOR_COMPONENTS): ValueOrPromise<void>;
@@ -186,7 +195,7 @@ export const createScheduler = (
   ///// IMPLEMENTATION /////
   function schedule(
     type: ChoreType,
-    hostOrTask: HostElement | Task = null!,
+    hostOrTask: HostElement | Task | null = null,
     targetOrQrl: HostElement | QRL<(...args: any[]) => any> | null = null,
     payload: any = null
   ): ValueOrPromise<any> {

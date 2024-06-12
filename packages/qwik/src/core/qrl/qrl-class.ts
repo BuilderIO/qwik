@@ -16,6 +16,7 @@ import {
 import { maybeThen } from '../util/promises';
 import { qDev, qSerialize, qTest, seal } from '../util/qdev';
 import { isArray, isFunction, type ValueOrPromise } from '../util/types';
+import { isSignal2 } from '../v2/signal-v2/v2-signal';
 import type { QRLDev } from './qrl';
 import type { QRL, QrlArgs, QrlReturn } from './qrl.public';
 
@@ -116,12 +117,11 @@ export const createQRL = <TYPE>(
       return (symbolRef = symbolFn().then(
         (module) => (qrl.resolved = symbolRef = module[symbol] as TYPE)
       ));
-    } else {
-      const symbol2 = getPlatform().importSymbol(_containerEl, chunk, symbol);
-      return (symbolRef = maybeThen(symbol2, (ref) => {
-        return (qrl.resolved = symbolRef = ref);
-      }));
     }
+    const symbol2 = getPlatform().importSymbol(_containerEl, chunk, symbol);
+    return (symbolRef = maybeThen(symbol2, (ref) => {
+      return (qrl.resolved = symbolRef = ref);
+    }));
   };
 
   const resolveLazy = (containerEl?: Element): ValueOrPromise<TYPE> => {
@@ -218,7 +218,7 @@ export function assertQrl<T>(qrl: QRL<T>): asserts qrl is QRLInternal<T> {
 
 export function assertSignal<T>(obj: unknown): asserts obj is SignalInternal<T> {
   if (qDev) {
-    if (!isSignal(obj)) {
+    if (!isSignal(obj) && !isSignal2(obj)) {
       throw new Error('Not a Signal');
     }
   }

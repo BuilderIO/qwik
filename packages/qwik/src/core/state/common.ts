@@ -28,6 +28,7 @@ import { ElementVNodeProps, type VNode, type VirtualVNode } from '../v2/client/t
 import { VNodeJournalOpCode, vnode_setAttr } from '../v2/client/vnode';
 import { ChoreType } from '../v2/shared/scheduler';
 import { isContainer2, type fixMeAny } from '../v2/shared/types';
+import { isSignal2 } from '../v2/signal-v2/v2-signal';
 import { QObjectFlagsSymbol, QObjectManagerSymbol, QObjectTargetSymbol } from './constants';
 import { tryGetContext } from './context';
 import type { Signal } from './signal';
@@ -66,6 +67,9 @@ const _verifySerializable = <T>(value: T, seen: Set<any>, ctx: string, preMessag
       return value;
     }
     seen.add(unwrapped);
+    if (isSignal2(unwrapped)) {
+      return value;
+    }
     if (canSerialize(unwrapped)) {
       return value;
     }
