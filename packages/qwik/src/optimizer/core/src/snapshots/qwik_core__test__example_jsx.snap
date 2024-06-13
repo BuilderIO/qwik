@@ -69,7 +69,7 @@ export const Foo = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(()=>import("./fo
 });
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;AAGA,OAAO,MAAM,cAAc,CAAC,QAAU;IAClC,qBACI,MAAC,iCACG;;0BACI,MAAC;0BACD,MAAC;gBAAQ,GAAG,KAAK;;;;AAIjC,EAAE;AAEF,OAAO,MAAM,oBAAM,wGAuBhB;IACC,SAAS;AACb,GAAG\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;AAGA,OAAO,MAAM,cAAc,CAAC;IACxB,qBACI,MAAC,iCACG;;0BACI,MAAC;0BACD,MAAC;gBAAQ,GAAG,KAAK;;;;AAIjC,EAAE;AAEF,OAAO,MAAM,oBAAM,wGAuBhB;IACC,SAAS;AACb,GAAG\"}")
 ============================= foo_component_htdrsvublie.js (ENTRY POINT)==
 
 import { qrl } from "@builder.io/qwik";
@@ -80,7 +80,7 @@ export const Foo_component_HTDRsvUbLiE = (props)=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAc8B,CAAC,QAAU;IACrC;;;AAsBJ\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAc8B,CAAC;IAC3B;;;AAsBJ\"}")
 /*
 {
   "origin": "test.tsx",

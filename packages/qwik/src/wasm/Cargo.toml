@@ -21,6 +21,7 @@ wasm-bindgen = "0.2.80"
 parking_lot_core = "=0.9.3"
 console_error_panic_hook = { version = "0.1.1", optional = true }
 wee_alloc = { version = "0.4.2" }
+getrandom = { version = "0.2", features = ["js"] }
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false

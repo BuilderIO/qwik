@@ -64,7 +64,7 @@ export const App_component_ckEPmXZlub0 = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAK8B,IAAM;IAEhC;IAMA;AACJ\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;yCAK8B;IAE1B;IAMA;AACJ\"}")
 /*
 {
   "origin": "test.tsx",

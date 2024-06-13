@@ -30,7 +30,7 @@ export const Header_component_J4uyIhaBNR4 = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";4CAEiC,IAAM;IACnC,SACM;;YACE,CAAC,IAAI,SAAS,CAAC,MAAQ,QAAQ,GAAG,CAAC,OAAO;;YAC1C,CAAC,IAAI,mIAAwC;;QACjD;AAER\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";4CAEiC;IAC7B,SACM;;YACE,CAAC,IAAI,SAAS,CAAC,MAAQ,QAAQ,GAAG,CAAC,OAAO;;YAC1C,CAAC,IAAI,mIAAwC;;QACjD;AAER\"}")
 /*
 {
   "origin": "test.tsx",

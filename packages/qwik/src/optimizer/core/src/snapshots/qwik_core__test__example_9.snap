@@ -21,14 +21,14 @@ const Header = $((decl1, {decl2}, [decl3]) => {
 
 ============================= header_wjuauqn7oxg.tsx (ENTRY POINT)==
 
-export const Header_WjUaUQN7Oxg = (decl1, { decl2  }, [decl3])=>{
-    const { decl4 , key: decl5  } = this;
+export const Header_WjUaUQN7Oxg = (decl1, { decl2 }, [decl3])=>{
+    const { decl4, key: decl5 } = this;
     let [decl6, ...decl7] = stuff;
 };
 export { _hW } from "@builder.io/qwik";
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"kCAEiB,CAAC,OAAO,EAAC,MAAK,EAAC,EAAE,CAAC,MAAM,GAAK;IAC1C,MAAM,EAAC,MAAK,EAAE,KAAK,MAAK,EAAC,GAAG,IAAI;IAChC,IAAI,CAAC,OAAO,GAAG,MAAM,GAAG;AAQ5B\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"kCAEiB,CAAC,OAAO,EAAC,KAAK,EAAC,EAAE,CAAC,MAAM;IACrC,MAAM,EAAC,KAAK,EAAE,KAAK,KAAK,EAAC,GAAG,IAAI;IAChC,IAAI,CAAC,OAAO,GAAG,MAAM,GAAG;AAQ5B\"}")
 /*
 {
   "origin": "test.tsx",

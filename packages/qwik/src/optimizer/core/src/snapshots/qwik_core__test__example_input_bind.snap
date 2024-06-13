@@ -75,7 +75,7 @@ export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(()=>{
 }, "s_n7HuG2hhU0Q"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;AAGA,OAAO,MAAM,wBAAU,sCAAW,IAAM;IACpC,MAAM,QAAQ,UAAU;IACxB,MAAM,UAAU,UAAU,KAAK;IAC/B,MAAM,QAAQ;IACd,qBACI;;0BACI,MAAC;yBAAkB;;;2BAAA;;;;;0BACnB,MAAC;2BAAoB;;;2BAAA;;;;;0BACrB,MAAC;yBAAkB;;;2BAAA;;;;;0BACnB,MAAC,mBAAK;0BACN,MAAC,mCAAK,GAAM,KAAK;;;;;AAI7B,qBAAG\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;;;AAGA,OAAO,MAAM,wBAAU,sCAAW;IAC9B,MAAM,QAAQ,UAAU;IACxB,MAAM,UAAU,UAAU;IAC1B,MAAM,QAAQ;IACd,qBACI;;0BACI,MAAC;yBAAkB;;;2BAAA;;;;;0BACnB,MAAC;2BAAoB;;;2BAAA;;;;;0BACrB,MAAC;yBAAkB;;;2BAAA;;;;;0BACnB,MAAC,mBAAK;0BACN,MAAC,mCAAK,GAAM,KAAK;;;;;AAI7B,qBAAG\"}")
 == DIAGNOSTICS ==
 
 []

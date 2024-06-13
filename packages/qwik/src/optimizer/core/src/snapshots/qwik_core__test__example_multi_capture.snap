@@ -40,7 +40,7 @@ export const Foo_component_HTDRsvUbLiE = (props)=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAG8B,SAAW;IAErC;;;AAQJ\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAG8B;IAE1B;;;AAQJ\"}")
 /*
 {
   "origin": "test.tsx",
@@ -79,7 +79,7 @@ export const Bar_component_L80pS8Hxf1Y = (props)=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAe8B,SAAW;IACrC;;;AAOJ\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";yCAe8B;IAC1B;;;AAOJ\"}")
 /*
 {
   "origin": "test.tsx",
@@ -104,7 +104,7 @@ Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"ma
 import { useLexicalScope } from "@builder.io/qwik";
 export const Foo_component_1_DvU6FitWglY = ()=>{
     const [props] = useLexicalScope();
-    const fn = ({ aaa  })=>aaa;
+    const fn = ({ aaa })=>aaa;
     return <div>
 
               {props.foo}{fn()}{20}
@@ -114,7 +114,7 @@ export const Foo_component_1_DvU6FitWglY = ()=>{
 export { _hW } from "@builder.io/qwik";
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";2CAKa;;IACL,MAAM,KAAK,CAAC,EAAC,IAAG,EAAC,GAAK;IACtB,QACK,IAAI;;cACH,OANkB,KAMZ,MALH,GAKc;;YACnB,EAAE\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";2CAKa;;IACL,MAAM,KAAK,CAAC,EAAC,GAAG,EAAC,GAAK;IACtB,QACK,IAAI;;cACH,OANkB,KAMZ,MALH,GAKc;;YACnB,EAAE\"}")
 /*
 {
   "origin": "test.tsx",

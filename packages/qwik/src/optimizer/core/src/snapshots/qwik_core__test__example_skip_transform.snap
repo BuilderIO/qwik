@@ -27,7 +27,7 @@ export const App = component$((props)=>{
 });
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";AAGA,OAAO,MAAM,UAAU,EAAE,IAAI,QAAQ,GAAG,CAAC,SAAS;AAElD,OAAO,MAAM,MAAM,WAAW,CAAC,QAAU;IACrC,WAAW;IACX,OAAO,EAAE,kBACL,MAAC,mBAAK,MAAM,KAAK;AAEzB,GAAG\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";AAGA,OAAO,MAAM,UAAU,EAAE,IAAI,QAAQ,GAAG,CAAC,SAAS;AAElD,OAAO,MAAM,MAAM,WAAW,CAAC;IAC3B,WAAW;IACX,OAAO,EAAE,kBACL,MAAC,mBAAK,MAAM,KAAK;AAEzB,GAAG\"}")
 == DIAGNOSTICS ==
 
 []

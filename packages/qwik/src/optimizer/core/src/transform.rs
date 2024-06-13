@@ -133,9 +133,9 @@ pub struct QwikTransformOptions<'a> {
 	pub cm: Lrc<SourceMap>,
 }
 
-fn convert_signal_word(id: &JsWord) -> Option<JsWord> {
+fn convert_qrl_word(id: &JsWord) -> Option<JsWord> {
 	let ident_name = id.as_ref();
-	let has_signal = ident_name.ends_with(SIGNAL);
+	let has_signal = ident_name.ends_with(QRL_SUFFIX);
 	if has_signal {
 		let new_specifier = [&ident_name[0..ident_name.len() - 1], LONG_SUFFIX].concat();
 		Some(JsWord::from(new_specifier))
@@ -147,13 +147,13 @@ impl<'a> QwikTransform<'a> {
 	pub fn new(options: QwikTransformOptions<'a>) -> Self {
 		let mut marker_functions = HashMap::new();
 		for (id, import) in options.global_collect.imports.iter() {
-			if import.kind == ImportKind::Named && import.specifier.ends_with(SIGNAL) {
+			if import.kind == ImportKind::Named && import.specifier.ends_with(QRL_SUFFIX) {
 				marker_functions.insert(id.clone(), import.specifier.clone());
 			}
 		}
 
 		for id in options.global_collect.exports.keys() {
-			if id.0.ends_with(SIGNAL) {
+			if id.0.ends_with(QRL_SUFFIX) {
 				marker_functions.insert(id.clone(), id.0.clone());
 			}
 		}
@@ -1100,7 +1100,7 @@ impl<'a> QwikTransform<'a> {
 	}
 
 	fn fix_dynamic_import(&self, node: ast::CallExpr) -> ast::CallExpr {
-		if let Some(expr_spread) = node.args.get(0) {
+		if let Some(expr_spread) = node.args.first() {
 			if let ast::Expr::Lit(ast::Lit::Str(string)) = &*expr_spread.expr {
 				let new_value = fix_path(
 					&self.options.path_data.abs_dir,
@@ -1160,7 +1160,7 @@ impl<'a> QwikTransform<'a> {
 						))),
 					}),
 					value: Box::new(ast::Expr::Object(ast::ObjectLit {
-						props: immutable_props.drain(..).collect(),
+						props: std::mem::take(&mut immutable_props),
 						span: DUMMY_SP,
 					})),
 				},
@@ -1320,18 +1320,20 @@ impl<'a> QwikTransform<'a> {
 										],
 										body: Box::new(ast::BlockStmtOrExpr::Expr(Box::new(
 											ast::Expr::Assign(ast::AssignExpr {
-												left: ast::PatOrExpr::Expr(Box::new(
-													ast::Expr::Member(ast::MemberExpr {
-														obj: folded.clone(),
-														prop: ast::MemberProp::Ident(
-															ast::Ident::new(
-																"value".into(),
-																DUMMY_SP,
+												left: ast::AssignTarget::Simple(
+													ast::SimpleAssignTarget::Member(
+														ast::MemberExpr {
+															obj: folded.clone(),
+															prop: ast::MemberProp::Ident(
+																ast::Ident::new(
+																	"value".into(),
+																	DUMMY_SP,
+																),
 															),
-														),
-														span: DUMMY_SP,
-													}),
-												)),
+															span: DUMMY_SP,
+														},
+													),
+												),
 												op: ast::AssignOp::Assign,
 												right: Box::new(ast::Expr::Member(
 													ast::MemberExpr {
@@ -1378,7 +1380,7 @@ impl<'a> QwikTransform<'a> {
 								} else if !is_fn && (key_word == *REF || key_word == *QSLOT) {
 									// skip
 									mutable_props.push(prop.fold_with(self));
-								} else if convert_signal_word(&key_word).is_some() {
+								} else if convert_qrl_word(&key_word).is_some() {
 									if matches!(*node.value, ast::Expr::Arrow(_) | ast::Expr::Fn(_))
 									{
 										let (converted_expr, immutable) = self
@@ -1528,9 +1530,9 @@ impl<'a> QwikTransform<'a> {
 				let mut flags = 0;
 				if static_listeners {
 					flags |= 1 << 0;
-					immutable_props.extend(event_handlers.into_iter());
+					immutable_props.extend(event_handlers);
 				} else {
-					mutable_props.extend(event_handlers.into_iter());
+					mutable_props.extend(event_handlers);
 				}
 
 				if static_subtree {
@@ -1695,10 +1697,14 @@ impl<'a> QwikTransform<'a> {
 		true
 	}
 
-	fn create_noop_qrl(&mut self, symbol_name: &JsWord, hook_data: HookData) -> ast::CallExpr {
+	fn create_noop_qrl(
+		&mut self,
+		symbol_name: &swc_atoms::JsWord,
+		hook_data: HookData,
+	) -> ast::CallExpr {
 		let mut args = vec![ast::Expr::Lit(ast::Lit::Str(ast::Str {
 			span: DUMMY_SP,
-			value: symbol_name.into(),
+			value: symbol_name.clone(),
 			raw: None,
 		}))];
 		// Injects state
@@ -2079,7 +2085,7 @@ impl<'a> Fold for QwikTransform<'a> {
 	fn fold_jsx_attr(&mut self, node: ast::JSXAttr) -> ast::JSXAttr {
 		let node = match node.name {
 			ast::JSXAttrName::Ident(ref ident) => {
-				let new_word = convert_signal_word(&ident.sym);
+				let new_word = convert_qrl_word(&ident.sym);
 				self.stack_ctxt.push(ident.sym.to_string());
 
 				if new_word.is_some() {
@@ -2092,7 +2098,7 @@ impl<'a> Fold for QwikTransform<'a> {
 				}
 			}
 			ast::JSXAttrName::JSXNamespacedName(ref namespaced) => {
-				let new_word = convert_signal_word(&namespaced.name.sym);
+				let new_word = convert_qrl_word(&namespaced.name.sym);
 				let ident_name = [
 					namespaced.ns.sym.as_ref(),
 					"-",
@@ -2153,12 +2159,12 @@ impl<'a> Fold for QwikTransform<'a> {
 					let global_collect = &mut self.options.global_collect;
 					if let Some(import) = global_collect.imports.get(&id!(ident)).cloned() {
 						let new_specifier =
-							convert_signal_word(&import.specifier).expect("Specifier ends with $");
+							convert_qrl_word(&import.specifier).expect("Specifier ends with $");
 						let new_local = self.ensure_import(&new_specifier, &import.source);
 						replace_callee = Some(new_ident_from_id(&new_local).as_callee());
 					} else {
 						let new_specifier =
-							convert_signal_word(&ident.sym).expect("Specifier ends with $");
+							convert_qrl_word(&ident.sym).expect("Specifier ends with $");
 						global_collect
                             .exports
                             .keys()
@@ -2238,7 +2244,7 @@ pub fn add_handle_watch(body: &mut Vec<ast::ModuleItem>, core_module: &JsWord) {
 				raw: None,
 			})),
 			span: DUMMY_SP,
-			asserts: None,
+			with: None,
 			type_only: false,
 			specifiers: vec![ast::ExportSpecifier::Named(ast::ExportNamedSpecifier {
 				orig: ast::ModuleExportName::Ident(ast::Ident::new(HANDLE_WATCH.clone(), DUMMY_SP)),
@@ -2254,7 +2260,7 @@ pub fn create_synthetic_named_export(local: &Id, exported: Option<JsWord>) -> as
 	ast::ModuleItem::ModuleDecl(ast::ModuleDecl::ExportNamed(ast::NamedExport {
 		span: DUMMY_SP,
 		type_only: false,
-		asserts: None,
+		with: None,
 		specifiers: vec![ast::ExportSpecifier::Named(ast::ExportNamedSpecifier {
 			span: DUMMY_SP,
 			is_type_only: false,
@@ -2268,13 +2274,14 @@ pub fn create_synthetic_named_export(local: &Id, exported: Option<JsWord>) -> as
 
 pub fn create_synthetic_named_import(local: &Id, src: &JsWord) -> ast::ModuleItem {
 	ast::ModuleItem::ModuleDecl(ast::ModuleDecl::Import(ast::ImportDecl {
+		phase: Default::default(),
 		span: DUMMY_SP,
 		src: Box::new(ast::Str {
 			span: DUMMY_SP,
 			value: src.clone(),
 			raw: None,
 		}),
-		asserts: None,
+		with: None,
 		type_only: false,
 		specifiers: vec![ast::ImportSpecifier::Named(ast::ImportNamedSpecifier {
 			is_type_only: false,

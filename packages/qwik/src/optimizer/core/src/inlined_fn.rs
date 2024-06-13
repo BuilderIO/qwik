@@ -182,12 +182,7 @@ pub fn render_expr(expr: &ast::Expr) -> String {
 	let mut buf = Vec::new();
 	let source_map = Lrc::new(SourceMap::default());
 	let writer = Box::new(JsWriter::new(Lrc::clone(&source_map), "\n", &mut buf, None));
-	let config = swc_ecmascript::codegen::Config {
-		minify: true,
-		target: ast::EsVersion::latest(),
-		ascii_only: false,
-		omit_last_semi: false,
-	};
+	let config = swc_ecmascript::codegen::Config::default().with_minify(true);
 	let mut emitter = swc_ecmascript::codegen::Emitter {
 		cfg: config,
 		comments: None,

@@ -23,7 +23,7 @@ export const Greeter = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrl(()=>import("
 Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAIA,OAAO,MAAM,wBAAU,gHAEpB\"}")
 ============================= greeter_component_n7hug2hhu0q.js (ENTRY POINT)==
 
-import json from "./foo.json" assert {
+import json from "./foo.json" with {
     type: "json"
 };
 export const Greeter_component_n7HuG2hhU0Q = ()=>{
@@ -31,7 +31,7 @@ export const Greeter_component_n7HuG2hhU0Q = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"qCAEqC;IAAE,MAAM;AAAO;6CAElB,IAAM;IACpC,OAAO;AACX\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\"mCAEqC;IAAE,MAAM;AAAO;6CAElB;IAC9B,OAAO;AACX\"}")
 /*
 {
   "origin": "test.tsx",

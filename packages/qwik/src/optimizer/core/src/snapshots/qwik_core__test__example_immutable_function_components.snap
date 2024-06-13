@@ -29,7 +29,7 @@ const App_component_ckEPmXZlub0 = (props)=>{
 export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ inlinedQrl(App_component_ckEPmXZlub0, "App_component_ckEPmXZlub0"));
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;AACA,SAA+B,IAAI,QAAQ,mBAAmB;kCAEhC,CAAC,QAAiB;IAC5C,qBACI,MAAC,iCACG,MAAC;AAGb;AANA,OAAO,MAAM,oBAAM,+FAMhB\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;AACA,SAA+B,IAAI,QAAQ,mBAAmB;kCAEhC,CAAC;IAC3B,qBACI,MAAC,iCACG,MAAC;AAGb;AANA,OAAO,MAAM,oBAAM,+FAMhB\"}")
 == DIAGNOSTICS ==
 
 []

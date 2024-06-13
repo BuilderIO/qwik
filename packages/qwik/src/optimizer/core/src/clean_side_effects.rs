@@ -38,22 +38,20 @@ impl VisitMut for CleanMarker {
 
 impl VisitMut for CleanSideEffects {
 	fn visit_mut_module(&mut self, node: &mut ast::Module) {
-		let it = node.body.extract_if(|item| {
+		node.body.retain(|item| {
 			if item.span().has_mark(self.mark) {
-				return false;
+				return true;
 			}
 			match item {
 				ast::ModuleItem::Stmt(ast::Stmt::Expr(expr)) => match *expr.expr {
 					ast::Expr::New(_) | ast::Expr::Call(_) => {
 						self.did_drop = true;
-						true
+						false
 					}
-					_ => false,
+					_ => true,
 				},
-				_ => false,
+				_ => true,
 			}
 		});
-		// Consume the iterator to force the extraction.
-		for _ in it {}
 	}
 }

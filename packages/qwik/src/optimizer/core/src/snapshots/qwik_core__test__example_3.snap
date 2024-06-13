@@ -26,7 +26,7 @@ export const App_Header_component_B9F3YeqcO1w = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";gDAG8B,IAAM;IAC5B,QAAQ,GAAG,CAAC;IACZ,QACK,IAAI;AAEb\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";gDAG8B;IACtB,QAAQ,GAAG,CAAC;IACZ,QACK,IAAI;AAEb\"}")
 /*
 {
   "origin": "test.tsx",
@@ -82,7 +82,7 @@ export const App = ()=>{
 };
 
 
-Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAEA,OAAO,MAAM,MAAM,IAAM;IACrB,MAAM,uBAAS;IAMf,OAAO;AACX,EAAG\"}")
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAEA,OAAO,MAAM,MAAM;IACf,MAAM,uBAAS;IAMf,OAAO;AACX,EAAG\"}")
 == DIAGNOSTICS ==
 
 []
