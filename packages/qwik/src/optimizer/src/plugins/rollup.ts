@@ -174,7 +174,7 @@ export function normalizeRollupOutputOptions(
     Object.assign(outputOpts, rollupOutputOpts);
   }
   if (!outputOpts.assetFileNames) {
-    outputOpts.assetFileNames = 'build/q-[hash].[ext]';
+    outputOpts.assetFileNames = 'assets/[hash]-[name].[ext]';
   }
   if (opts.target === 'client') {
     // client output
@@ -203,7 +203,7 @@ export function normalizeRollupOutputOptions(
       outputOpts.chunkFileNames = 'q-[hash].js';
     }
     if (!outputOpts.assetFileNames) {
-      outputOpts.assetFileNames = 'assets/[hash].[ext]';
+      outputOpts.assetFileNames = 'assets/[hash]-[name].[ext]';
     }
   }
 
