@@ -4,7 +4,7 @@ import { magenta } from 'kleur/colors';
 import type { IncomingMessage, ServerResponse } from 'http';
 
 import type { Connect, ViteDevServer } from 'vite';
-import type { OptimizerSystem, Path, QwikManifest, SymbolMapper } from '../types';
+import type { OptimizerSystem, Path, QwikManifest } from '../types';
 import { type NormalizedQwikPluginOptions, parseId } from './plugin';
 import type { QwikViteDevResponse } from './vite';
 import { formatError } from './vite-utils';
@@ -28,12 +28,14 @@ function getOrigin(req: IncomingMessage) {
 }
 
 export async function configureDevServer(
+  base: string,
   server: ViteDevServer,
   opts: NormalizedQwikPluginOptions,
   sys: OptimizerSystem,
   path: Path,
   isClientDevOnly: boolean,
-  clientDevInput: string | undefined
+  clientDevInput: string | undefined,
+  foundQrls: Map<string, string>
 ) {
   if (typeof fetch !== 'function' && sys.env === 'node') {
     // polyfill fetch() when not available in Node.js
@@ -54,7 +56,7 @@ export async function configureDevServer(
   }
 
   // qwik middleware injected BEFORE vite internal middlewares
-  server.middlewares.use(async (req: any, res: any, next: any) => {
+  server.middlewares.use(async (req, res, next) => {
     try {
       const { ORIGIN } = process.env;
       const domain = ORIGIN ?? getOrigin(req);
@@ -84,12 +86,7 @@ export async function configureDevServer(
           return;
         }
 
-        let firstInput: string;
-        if (Array.isArray(opts.input)) {
-          firstInput = opts.input[0];
-        } else {
-          firstInput = Object.values(opts.input)[0];
-        }
+        const firstInput = Object.values(opts.input)[0];
         const ssrModule = await server.ssrLoadModule(firstInput);
 
         const render: Render = ssrModule.default ?? ssrModule.render;
@@ -136,10 +133,6 @@ export async function configureDevServer(
             });
           });
 
-          const srcBase = opts.srcDir
-            ? path.relative(opts.rootDir, opts.srcDir).replace(/\\/g, '/')
-            : 'src';
-
           const renderOpts: RenderToStreamOptions = {
             debug: true,
             locale: serverData.locale,
@@ -148,26 +141,33 @@ export async function configureDevServer(
             manifest: isClientDevOnly ? undefined : manifest,
             symbolMapper: isClientDevOnly
               ? undefined
-              : (symbolName: string, mapper: SymbolMapper | undefined) => {
+              : (symbolName, mapper, parent) => {
                   if (symbolName === SYNC_QRL) {
                     return [symbolName, ''];
                   }
-                  const defaultChunk = [
-                    symbolName,
-                    `/${srcBase}/${symbolName.toLowerCase()}.js`,
-                  ] as const;
-                  if (mapper) {
-                    const hash = getSymbolHash(symbolName);
-                    return mapper[hash] ?? defaultChunk;
-                  } else {
-                    return defaultChunk;
+                  const chunk = mapper && mapper[getSymbolHash(symbolName)];
+                  if (chunk) {
+                    return chunk;
                   }
+                  parent ||= foundQrls.get(symbolName);
+                  if (!parent) {
+                    console.error(
+                      'qwik vite-dev-server: unknown qrl requested without parent:',
+                      symbolName
+                    );
+                    return [symbolName, `${base}${symbolName.toLowerCase()}.js`];
+                  }
+                  const parentPath = path.dirname(parent);
+                  // support getting files through pnpm link symlinks
+                  const qrlPath = parentPath.startsWith(opts.rootDir)
+                    ? path.relative(opts.rootDir, parentPath)
+                    : parentPath;
+                  const qrlFile = `${qrlPath}/${symbolName.toLowerCase()}.js?_qrl_parent=${parent}`;
+                  return [symbolName, `${base}${qrlFile}`];
                 },
             prefetchStrategy: null,
             serverData,
-            containerAttributes: {
-              ...serverData.containerAttributes,
-            },
+            containerAttributes: { ...serverData.containerAttributes },
           };
 
           res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -206,6 +206,20 @@ export async function configureDevServer(
           next();
         }
       } else {
+        // We didn't ssr, but maybe a qrl was requested
+        const parent = url.searchParams.get('_qrl_parent');
+        if (parent && url.pathname.endsWith('.js')) {
+          console.log('transforming parent', parent);
+          // load the parent so it populates the qrl cache
+          await server.transformRequest(parent);
+          console.log('done transforming parent, now requesting', url.pathname);
+          const result = await server.transformRequest(url.pathname);
+          if (result) {
+            res.setHeader('content-type', 'application/javascript');
+            res.write(result.code);
+            res.end();
+          }
+        }
         next();
       }
     } catch (e: any) {

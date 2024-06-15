@@ -793,6 +793,10 @@ const getTaskHandlerQrl = (task: SubscriberEffect): QRL<(ev: Event) => void> => 
     [task],
     taskQrl.$symbol$
   );
+  // Needed for chunk lookup in dev mode
+  if (taskQrl.dev) {
+    taskHandler.dev = taskQrl.dev;
+  }
   return taskHandler;
 };
 

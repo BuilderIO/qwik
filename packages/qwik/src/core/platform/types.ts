@@ -97,7 +97,8 @@ export interface CorePlatform {
   // </docs>
   chunkForSymbol: (
     symbolName: string,
-    chunk: string | null
+    chunk: string | null,
+    parent?: string
   ) => readonly [symbol: string, chunk: string] | undefined;
 }
 

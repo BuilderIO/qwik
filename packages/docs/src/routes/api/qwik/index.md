@@ -1558,7 +1558,7 @@ Description
 
 </td><td>
 
-(symbolName: string, chunk: string \| null) =&gt; readonly [symbol: string, chunk: string] \| undefined
+(symbolName: string, chunk: string \| null, parent?: string) =&gt; readonly [symbol: string, chunk: string] \| undefined
 
 </td><td>
 

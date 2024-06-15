@@ -102,7 +102,9 @@ export const qwikLoader = (
       for (const qrl of attrValue.split('\n')) {
         const url = new URL(qrl, base);
         const href = url.href;
-        const symbol = url.hash[replace](/^#?([^?[|]*).*$/, '$1') || 'default';
+        const match = /^#?(([^#]+)#)?([^?[|]*).*$/.exec(url.hash);
+        const attr = match![2];
+        const symbol = match![3];
         const reqTime = performance.now();
         let handler: undefined | any;
         let importError: undefined | 'sync' | 'async' | 'no-symbol';
@@ -120,7 +122,11 @@ export const qwikLoader = (
           try {
             const module = import(/* @vite-ignore */ uri);
             resolveContainer(container);
-            handler = (await module)[symbol];
+            handler = await module;
+            if (attr) {
+              handler = handler[attr];
+            }
+            handler = handler[symbol];
             if (!handler) {
               importError = 'no-symbol';
               error = new Error(`${symbol} not in ${uri}`);

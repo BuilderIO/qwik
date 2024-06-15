@@ -212,17 +212,13 @@ export interface QwikBundle {
     symbols?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface QwikManifest {
-    // (undocumented)
     bundles: {
         [fileName: string]: QwikBundle;
     };
-    // (undocumented)
     injections?: GlobalInjections[];
-    // (undocumented)
     manifestHash: string;
-    // (undocumented)
     mapping: {
         [symbolName: string]: string;
     };
@@ -238,7 +234,6 @@ export interface QwikManifest {
     platform?: {
         [name: string]: string;
     };
-    // (undocumented)
     symbols: {
         [symbolName: string]: QwikSymbol;
     };
@@ -382,7 +377,7 @@ export type SourceMapsOption = 'external' | 'inline' | undefined | null;
 export type SymbolMapper = Record<string, readonly [symbol: string, chunk: string]>;
 
 // @public (undocumented)
-export type SymbolMapperFn = (symbolName: string, mapper: SymbolMapper | undefined) => readonly [symbol: string, chunk: string] | undefined;
+export type SymbolMapperFn = (symbolName: string, mapper: SymbolMapper | undefined, parent?: string) => readonly [symbol: string, chunk: string] | undefined;
 
 // @public (undocumented)
 export type SystemEnvironment = 'node' | 'deno' | 'bun' | 'webworker' | 'browsermain' | 'unknown';

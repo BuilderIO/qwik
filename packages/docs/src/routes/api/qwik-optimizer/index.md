@@ -1547,6 +1547,8 @@ _(Optional)_
 
 ## QwikManifest
 
+The metadata of the build. One of its uses is storing where QRL symbols are located.
+
 ```typescript
 export interface QwikManifest
 ```
@@ -1580,6 +1582,8 @@ Description
 
 </td><td>
 
+All code bundles, used to know the import graph
+
 </td></tr>
 <tr><td>
 
@@ -1593,7 +1597,7 @@ Description
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ CSS etc to inject in the document head
 
 </td></tr>
 <tr><td>
@@ -1608,6 +1612,8 @@ string
 
 </td><td>
 
+Content hash of the manifest, if this changes, the code changed
+
 </td></tr>
 <tr><td>
 
@@ -1620,6 +1626,8 @@ string
 { [symbolName: string]: string; }
 
 </td><td>
+
+Where QRLs are located. If there's a `#`, the string after it is the export
 
 </td></tr>
 <tr><td>
@@ -1663,6 +1671,8 @@ _(Optional)_
 { [symbolName: string]: [QwikSymbol](#qwiksymbol); }
 
 </td><td>
+
+QRL symbols
 
 </td></tr>
 <tr><td>
@@ -2758,6 +2768,7 @@ export type SymbolMapper = Record<
 export type SymbolMapperFn = (
   symbolName: string,
   mapper: SymbolMapper | undefined,
+  parent?: string,
 ) => readonly [symbol: string, chunk: string] | undefined;
 ```
 

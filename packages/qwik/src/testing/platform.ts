@@ -22,14 +22,30 @@ function createPlatform() {
       if (!containerEl) {
         throw new Error('Missing Container');
       }
+      let attr: string | undefined;
+      if (typeof url === 'string') {
+        [url, attr] = url.split('#');
+      }
       const urlDoc = toUrl(containerEl.ownerDocument, containerEl, url);
       const importPath = toPath(urlDoc);
-      const mod = moduleCache.get(importPath);
+      let mod = moduleCache.get(importPath);
       if (mod) {
+        if (attr) {
+          mod = mod[attr];
+        }
+        if (!mod || !(symbolName in mod)) {
+          throw new Error(`Q-ERROR: missing symbol '${symbolName}' in module '${url}'.`);
+        }
         return mod[symbolName];
       }
       return import(importPath).then((mod) => {
         moduleCache.set(importPath, mod);
+        if (attr) {
+          mod = mod[attr];
+        }
+        if (!mod || !(symbolName in mod)) {
+          throw new Error(`Q-ERROR: missing symbol '${symbolName}' in module '${url}'.`);
+        }
         return mod[symbolName];
       });
     },

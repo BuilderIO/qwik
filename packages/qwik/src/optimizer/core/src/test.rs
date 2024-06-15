@@ -2204,6 +2204,44 @@ export const App = component$(() => {
 }
 
 #[test]
+fn example_noop_dev_mode() {
+	test_input!(TestInput {
+		code: r#"
+import { component$, useStore, serverStuff$, $ } from '@builder.io/qwik';
+
+export const App = component$(() => {
+    const stuff = useStore();
+    serverStuff$(async () => {
+        // should be removed but keep scope
+        console.log(stuff.count)
+    })
+    serverStuff$(async () => {
+        // should be removed
+    })
+
+    return (
+        <Cmp>
+            <p class="stuff" 
+                shouldRemove$={() => stuff.count}
+                onClick$={() => console.log('warn')}
+            >
+                Hello Qwik
+            </p>
+        </Cmp>
+    );
+});
+"#
+		.to_string(),
+		mode: EmitMode::Dev,
+		transpile_ts: true,
+		transpile_jsx: true,
+		strip_event_handlers: true,
+		strip_ctx_name: Some(vec!["server".into()]),
+		..TestInput::default()
+	});
+}
+
+#[test]
 fn example_dev_mode_inlined() {
 	test_input!(TestInput {
 		code: r#"

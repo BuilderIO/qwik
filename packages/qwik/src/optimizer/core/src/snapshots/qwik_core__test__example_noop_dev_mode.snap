@@ -1,0 +1,122 @@
+---
+source: packages/qwik/src/optimizer/core/src/test.rs
+assertion_line: 2208
+expression: output
+---
+==INPUT==
+
+
+import { component$, useStore, serverStuff$, $ } from '@builder.io/qwik';
+
+export const App = component$(() => {
+    const stuff = useStore();
+    serverStuff$(async () => {
+        // should be removed but keep scope
+        console.log(stuff.count)
+    })
+    serverStuff$(async () => {
+        // should be removed
+    })
+
+    return (
+        <Cmp>
+            <p class="stuff" 
+                shouldRemove$={() => stuff.count}
+                onClick$={() => console.log('warn')}
+            >
+                Hello Qwik
+            </p>
+        </Cmp>
+    );
+});
+
+============================= test.js ==
+
+import { componentQrl } from "@builder.io/qwik";
+import { qrlDEV } from "@builder.io/qwik";
+export const App = /*#__PURE__*/ componentQrl(/*#__PURE__*/ qrlDEV(()=>import("./app_component_ckepmxzlub0"), "App_component_ckEPmXZlub0", {
+    file: "/user/qwik/src/test.tsx",
+    lo: 107,
+    hi: 569,
+    displayName: "App_component"
+}));
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;AAGA,OAAO,MAAM,oBAAM;;;;;IAoBhB\"}")
+============================= app_component_ckepmxzlub0.js (ENTRY POINT)==
+
+import { _jsxC } from "@builder.io/qwik";
+import { _jsxQ } from "@builder.io/qwik";
+import { _noopQrlDEV } from "@builder.io/qwik";
+import { serverStuffQrl } from "@builder.io/qwik";
+import { useStore } from "@builder.io/qwik";
+export const App_component_ckEPmXZlub0 = ()=>{
+    const stuff = useStore();
+    serverStuffQrl(/*#__PURE__*/ _noopQrlDEV("App_component_serverStuff_ebyHaP15ytQ", {
+        file: "/user/qwik/src/test.tsx",
+        lo: 0,
+        hi: 0,
+        displayName: "App_component_serverStuff"
+    }, [
+        stuff
+    ]));
+    serverStuffQrl(/*#__PURE__*/ _noopQrlDEV("App_component_serverStuff_1_PQCqO0ANabY", {
+        file: "/user/qwik/src/test.tsx",
+        lo: 0,
+        hi: 0,
+        displayName: "App_component_serverStuff_1"
+    }));
+    return /*#__PURE__*/ _jsxC(Cmp, {
+        children: /*#__PURE__*/ _jsxQ("p", null, {
+            class: "stuff",
+            shouldRemove$: /*#__PURE__*/ _noopQrlDEV("App_component_Cmp_p_shouldRemove_uU0MG0jvQD4", {
+                file: "/user/qwik/src/test.tsx",
+                lo: 0,
+                hi: 0,
+                displayName: "App_component_Cmp_p_shouldRemove"
+            }, [
+                stuff
+            ]),
+            onClick$: /*#__PURE__*/ _noopQrlDEV("App_component_Cmp_p_onClick_vuXzfUTkpto", {
+                file: "/user/qwik/src/test.tsx",
+                lo: 0,
+                hi: 0,
+                displayName: "App_component_Cmp_p_onClick"
+            })
+        }, "Hello Qwik", 3, null, {
+            fileName: "test.tsx",
+            lineNumber: 16,
+            columnNumber: 13
+        })
+    }, 3, "u6_0", {
+        fileName: "test.tsx",
+        lineNumber: 15,
+        columnNumber: 9
+    });
+};
+
+
+Some("{\"version\":3,\"sources\":[\"/user/qwik/src/test.tsx\"],\"names\":[],\"mappings\":\";;;;;yCAG8B,IAAM;IAChC,MAAM,QAAQ;IACd;;;;;;;;IAIA;;;;;;IAIA,qBACI,MAAC;kBACG,cAAA,MAAC;YAAE,OAAM;YACL,aAAa;;;;;;;;YACb,QAAQ;;;;;;WACX;;;;;;;;;;AAKb\"}")
+/*
+{
+  "origin": "test.tsx",
+  "name": "App_component_ckEPmXZlub0",
+  "entry": null,
+  "displayName": "App_component",
+  "hash": "ckEPmXZlub0",
+  "canonicalFilename": "app_component_ckepmxzlub0",
+  "path": "",
+  "extension": "js",
+  "parent": null,
+  "ctxKind": "function",
+  "ctxName": "component$",
+  "captures": false,
+  "loc": [
+    107,
+    569
+  ]
+}
+*/
+== DIAGNOSTICS ==
+
+[]

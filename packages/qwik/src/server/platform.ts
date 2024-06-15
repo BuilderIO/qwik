@@ -15,7 +15,7 @@ export function createPlatform(
   const mapper = resolvedManifest?.mapper;
   const mapperFn = opts.symbolMapper
     ? opts.symbolMapper
-    : (symbolName: string): readonly [string, string] | undefined => {
+    : (symbolName: string, _chunk: any, parent?: string): readonly [string, string] | undefined => {
         if (mapper) {
           const hash = getSymbolHash(symbolName);
           const result = mapper[hash];
@@ -27,7 +27,11 @@ export function createPlatform(
             if (isRegistered) {
               return [symbolName, '_'] as const;
             }
-            console.error('Cannot resolve symbol', symbolName, 'in', mapper);
+            if (parent) {
+              // In dev mode, SSR may need to refer to a symbol that wasn't built yet on the client
+              return [symbolName, `${parent}?qrl=${symbolName}`] as const;
+            }
+            console.error('Cannot resolve symbol', symbolName, 'in', mapper, parent);
           }
           return result;
         }
@@ -42,13 +46,17 @@ export function createPlatform(
         return regSym;
       }
 
-      let modulePath = String(url);
+      // eslint-disable-next-line prefer-const
+      let [modulePath, attr] = String(url).split('#')[0];
       if (!modulePath.endsWith('.js')) {
         modulePath += '.js';
       }
-      const module = require(modulePath); // eslint-disable-line  @typescript-eslint/no-var-requires
+      let module = require(modulePath); // eslint-disable-line  @typescript-eslint/no-var-requires
+      if (attr) {
+        module = module[attr];
+      }
       if (!(symbolName in module)) {
-        throw new Error(`Q-ERROR: missing symbol '${symbolName}' in module '${modulePath}'.`);
+        throw new Error(`Q-ERROR: missing symbol '${symbolName}' in module '${url}'.`);
       }
       return module[symbolName];
     },
@@ -65,8 +73,8 @@ export function createPlatform(
         });
       });
     },
-    chunkForSymbol(symbolName: string) {
-      return mapperFn(symbolName, mapper);
+    chunkForSymbol(symbolName: string, _chunk, parent) {
+      return mapperFn(symbolName, mapper, parent);
     },
   };
   return serverPlatform;

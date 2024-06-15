@@ -1,12 +1,12 @@
-import type { NormalizedQwikPluginOptions } from './plugins/plugin';
+import type { OutputBundle } from 'rollup';
+import { QWIK_ENTRIES_ID, type NormalizedQwikPluginOptions } from './plugins/plugin';
 import type {
-  GeneratedOutputBundle,
   GlobalInjections,
   HookAnalysis,
   Path,
   QwikBundle,
   QwikManifest,
-  QwikSymbol,
+  TransformModule,
 } from './types';
 
 // This is just the initial prioritization of the symbols and entries
@@ -178,8 +178,8 @@ function sortBundleNames(manifest: QwikManifest) {
 
 function updateSortAndPriorities(manifest: QwikManifest) {
   const prioritizedSymbolNames = prioritizeSymbolNames(manifest);
-  const prioritizedSymbols: { [symbolName: string]: QwikSymbol } = {};
-  const prioritizedMapping: { [symbolName: string]: string } = {};
+  const prioritizedSymbols: QwikManifest['symbols'] = {};
+  const prioritizedMapping: QwikManifest['mapping'] = {};
 
   for (const symbolName of prioritizedSymbolNames) {
     prioritizedSymbols[symbolName] = manifest.symbols[symbolName];
@@ -228,6 +228,21 @@ function sortAlphabetical(a: string, b: string) {
   return 0;
 }
 
+export function generateQwikEntries(transformedOutputs: Map<string, [TransformModule, string]>) {
+  // Capture all hooks
+  return `
+        // Roundabout way to get import info for hooks
+        export default {
+          "begin-imports": true,
+          ${[...transformedOutputs.entries()]
+            .filter(([_, [mod]]) => mod.hook)
+            .map(([sym, [mod]]) => `"${mod.hook!.name}": () => import("${sym}"),`)
+            .join('\n')}
+          "end-imports": true,
+        }
+      `;
+}
+
 export function getValidManifest(manifest: QwikManifest | undefined | null) {
   if (
     manifest != null &&
@@ -247,7 +262,7 @@ export function generateManifestFromBundles(
   path: Path,
   hooks: HookAnalysis[],
   injections: GlobalInjections[],
-  outputBundles: GeneratedOutputBundle[],
+  outputBundles: OutputBundle,
   opts: NormalizedQwikPluginOptions
 ) {
   const manifest: QwikManifest = {
@@ -264,55 +279,87 @@ export function generateManifestFromBundles(
     },
   };
 
-  for (const hook of hooks) {
-    const buildFilePath = `${hook.canonicalFilename}.${hook.extension}`;
-
-    const outputBundle = outputBundles.find((b) => {
-      return Object.keys(b.modules).find((f) => f.endsWith(buildFilePath));
-    });
-
-    if (outputBundle) {
-      const symbolName = hook.name;
-      const bundleFileName = path.basename(outputBundle.fileName);
-
-      manifest.mapping[symbolName] = bundleFileName;
-
-      manifest.symbols[symbolName] = {
-        origin: hook.origin,
-        displayName: hook.displayName,
-        canonicalFilename: hook.canonicalFilename,
-        hash: hook.hash,
-        ctxKind: hook.ctxKind,
-        ctxName: hook.ctxName,
-        captures: hook.captures,
-        parent: hook.parent,
-        loc: hook.loc,
-      };
-
-      addBundleToManifest(path, manifest, outputBundle, bundleFileName);
+  for (const [fileName, outputBundle] of Object.entries(outputBundles)) {
+    if (outputBundle.type !== 'chunk') {
+      continue;
     }
-  }
+    const bundleFileName = path.basename(fileName);
 
-  for (const outputBundle of outputBundles) {
-    const bundleFileName = path.basename(outputBundle.fileName);
-    addBundleToManifest(path, manifest, outputBundle, bundleFileName);
-  }
+    // Rollup doesn't provide the moduleIds in the outputBundle but Vite does
+    outputBundle.moduleIds ||= Object.keys(outputBundle.modules);
 
-  return updateSortAndPriorities(manifest);
-}
+    // Our special @qwik-entries chunk
+    // We need to parse this to get the minified locations of the js packets
+    if (outputBundle.moduleIds.some((id) => id.endsWith(QWIK_ENTRIES_ID))) {
+      const { code } = outputBundle;
+      const match =
+        /^(?<left>.*){\s*['"]begin-imports[^:]*:[^,}]*,?(?<entries>[^}]*)['"]end-imports['"]\s*:[^}]*}(?<right>.*)/m.exec(
+          code
+        );
+      if (!match) {
+        console.error(
+          `Could not parse @qwik-entries chunk ${bundleFileName}, please open an issue and provide this code: `,
+          code
+        );
+        throw new Error(`Could not parse @qwik-entries chunk ${bundleFileName}`);
+      }
+      // the chunk contains a JSON object with the entry points
+      // individual entries look like this:
+      // "s_2y2nxB87G0c": __vitePreload(() => import("./q-Bi49h4Yp.js").then((n) => n.ba), true ? [] : void 0),
+      // or minified:
+      // s_17zcY0gsYE4:t(()=>import("./q-Co_1fcGT.js").then(_=>_.cO),[]),
 
-function addBundleToManifest(
-  path: Path,
-  manifest: QwikManifest,
-  outputBundle: GeneratedOutputBundle,
-  bundleFileName: string
-) {
-  if (!manifest.bundles[bundleFileName]) {
+      // locally embedded qrls look like
+      // o=_=>{},E=Object.freeze(Object.defineProperty({__proto__:null,s_H7LftCVcX8A:o},Symbol.toStringTag,{value:"Module"}));
+      // and then referenced as
+      // s_H7LftCVcX8A:t(()=>Promise.resolve().then(()=>E),void 0)
+      const parts = match.groups!.entries.split(',');
+      for (const part of parts) {
+        const info =
+          /\s*['"]?(?<symbol>[a-zA-Z0-9_]+)['"]?:(.*import\(['"]\.\/(?<path>[^'"]+))?(.*then\(.*=>.*\.(?<attr>\w+))?/.exec(
+            part
+          );
+        if (info) {
+          const { symbol } = info.groups!;
+          let { path, attr } = info.groups!;
+          if (!path) {
+            // Sadly rollup decided to move the chunk into our @qwik-entries chunk, and we have to keep it
+            const match = /Promise.resolve.*then\(.*=>(?<internal>[^)])/.exec(part);
+            if (!match) {
+              console.error(
+                `Could not parse entry ${part} in the following code. Please open an issue.`,
+                code
+              );
+              throw new Error(`Could not parse entry symbol ${symbol}`);
+            }
+            const { internal } = match.groups!;
+            // Now we have to find the export of the internal symbol
+            // ;export{e as _,E as s};
+            const findExport = new RegExp(
+              `\\bexport\\s*{[^}]*\\b${internal}( as (?<exported>[^}]+))?\\b`
+            ).exec(code);
+            if (!findExport) {
+              console.error(
+                `Could not find export for ${symbol} in the following code. Please open an issue.`,
+                code
+              );
+              throw new Error(`Could not find export for ${symbol}`);
+            }
+            attr = findExport.groups?.exported || internal;
+
+            path = bundleFileName;
+          }
+          manifest.mapping[symbol] = `${path}${attr ? `#${attr}` : ''}`;
+        }
+      }
+      // Successfully parsed, remove the entries
+      outputBundle.code = `${match.groups!.left}0;${match.groups!.right}`;
+    }
+
     const buildDirName = path.dirname(outputBundle.fileName);
     const bundle: QwikBundle = {
-      size: outputBundle.size,
+      size: outputBundle.code.length,
     };
-
     const bundleImports = outputBundle.imports
       .filter((i) => path.dirname(i) === buildDirName)
       .map((i) => path.relative(buildDirName, i));
@@ -327,11 +374,35 @@ function addBundleToManifest(
       bundle.dynamicImports = bundleDynamicImports;
     }
 
-    const modulePaths = Object.keys(outputBundle.modules).filter((m) => !m.startsWith(`\u0000`));
+    const modulePaths = outputBundle.moduleIds.filter((m) => !m.startsWith(`\u0000`));
     if (modulePaths.length > 0) {
       bundle.origins = modulePaths;
     }
 
     manifest.bundles[bundleFileName] = bundle;
   }
+
+  for (const hook of hooks) {
+    const symbol = hook.name;
+    const bundle = manifest.mapping[symbol];
+    if (!bundle) {
+      console.error(`Unable to find bundle for hook: ${hook.name}`, manifest);
+      throw new Error(`Unable to find bundle for hook: ${hook.hash}`);
+    }
+    const key = bundle.split('#')[0];
+    (manifest.bundles[key].symbols ||= []).push(symbol);
+    manifest.symbols[symbol] = {
+      origin: hook.origin,
+      displayName: hook.displayName,
+      canonicalFilename: hook.canonicalFilename,
+      hash: hook.hash,
+      ctxKind: hook.ctxKind,
+      ctxName: hook.ctxName,
+      captures: hook.captures,
+      parent: hook.parent,
+      loc: hook.loc,
+    };
+  }
+
+  return updateSortAndPriorities(manifest);
 }

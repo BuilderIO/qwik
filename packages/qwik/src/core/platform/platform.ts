@@ -22,12 +22,19 @@ export const createPlatform = (): CorePlatform => {
       if (!containerEl) {
         throw qError(QError_qrlMissingContainer, url, symbolName);
       }
+      let attr: string | undefined;
+      if (typeof url === 'string') {
+        [url, attr] = url.split('#');
+      }
       const urlDoc = toUrl(containerEl.ownerDocument, containerEl, url).toString();
       const urlCopy = new URL(urlDoc);
       urlCopy.hash = '';
       urlCopy.search = '';
       const importURL = urlCopy.href;
       return import(/* @vite-ignore */ importURL).then((mod) => {
+        if (attr) {
+          mod = mod[attr];
+        }
         return mod[symbolName];
       });
     },

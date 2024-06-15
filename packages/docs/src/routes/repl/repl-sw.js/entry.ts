@@ -11,15 +11,21 @@ import { requestHandler } from '../../../repl/worker/repl-request-handler';
 self.onmessage = receiveMessageFromMain;
 
 self.onfetch = requestHandler;
-
+self.onsync = (ev) => {
+  debugger;
+};
 self.oninstall = (ev) => {
+  debugger;
   self.skipWaiting();
   ev.waitUntil(
     Promise.all([caches.open(QWIK_REPL_DEPS_CACHE), caches.open(QWIK_REPL_RESULT_CACHE)])
   );
 };
 
-self.onactivate = () => self.clients.claim();
+self.onactivate = () => {
+  debugger;
+  self.clients.claim();
+};
 
 export interface ReplGlobalApi {
   qwikCore?: typeof import('@builder.io/qwik');

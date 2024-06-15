@@ -14,6 +14,7 @@ lazy_static! {
 	pub static ref _INLINED_QRL: JsWord = JsWord::from("inlinedQrl");
 	pub static ref _INLINED_QRL_DEV: JsWord = JsWord::from("inlinedQrlDEV");
 	pub static ref _NOOP_QRL: JsWord = JsWord::from("_noopQrl");
+	pub static ref _NOOP_QRL_DEV: JsWord = JsWord::from("_noopQrlDEV");
 	pub static ref _REST_PROPS: JsWord = JsWord::from("_restProps");
 	// TODO rename hooks to qrls
 	pub static ref QHOOK: JsWord = JsWord::from("$");

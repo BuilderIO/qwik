@@ -1661,6 +1661,17 @@ impl<'a> QwikTransform<'a> {
 			value: symbol_name.into(),
 			raw: None,
 		}))];
+
+		let mut fn_name: &JsWord = &_NOOP_QRL;
+		if self.options.mode == EmitMode::Dev {
+			args.push(get_qrl_dev_obj(
+				&self.options.path_data.abs_path,
+				&hook_data,
+				&DUMMY_SP,
+			));
+			fn_name = &_NOOP_QRL_DEV;
+		};
+
 		// Injects state
 		if !hook_data.scoped_idents.is_empty() {
 			args.push(ast::Expr::Array(ast::ArrayLit {
@@ -1677,7 +1688,7 @@ impl<'a> QwikTransform<'a> {
 					.collect(),
 			}))
 		}
-		self.create_internal_call(&_NOOP_QRL, args, true)
+		self.create_internal_call(fn_name, args, true)
 	}
 }
 

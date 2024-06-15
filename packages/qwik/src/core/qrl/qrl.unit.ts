@@ -48,12 +48,17 @@ describe('serialization', () => {
       $symbol$: 'default',
       resolved: undefined,
     });
+    matchProps(parseQRL('./chunk#di#'), {
+      $chunk$: './chunk#di',
+      $symbol$: 'default',
+      resolved: undefined,
+    });
     matchProps(parseQRL('./chunk#mySymbol'), {
       $chunk$: './chunk',
       $symbol$: 'mySymbol',
     });
-    matchProps(parseQRL('./chunk#mySymbol'), {
-      $chunk$: './chunk',
+    matchProps(parseQRL('#mySymbol'), {
+      $chunk$: '',
       $symbol$: 'mySymbol',
     });
     matchProps(parseQRL('./chunk#s1'), {
@@ -76,12 +81,22 @@ describe('serialization', () => {
       $symbol$: 's1',
       $capture$: ['1', 'b'],
     });
+    matchProps(parseQRL('./chunk#a#s1[1 b]'), {
+      $chunk$: './chunk#a',
+      $symbol$: 's1',
+      $capture$: ['1', 'b'],
+    });
     matchProps(parseQRL('./chunk[1 b]'), {
       $chunk$: './chunk',
       $capture$: ['1', 'b'],
     });
     matchProps(parseQRL('./path#symbol[2]'), {
       $chunk$: './path',
+      $symbol$: 'symbol',
+      $capture$: ['2'],
+    });
+    matchProps(parseQRL('src/routes/%5B...index%5D/c#exp#symbol[2]'), {
+      $chunk$: 'src/routes/[...index]/c#exp',
       $symbol$: 'symbol',
       $capture$: ['2'],
     });
@@ -98,6 +113,12 @@ describe('serialization', () => {
     assert.equal(
       serializeQRL(createQRL('c', 's1', null, null, [1 as any, '2'], null, null)),
       'c#s1[1 2]'
+    );
+    assert.equal(
+      serializeQRL(
+        createQRL('src/routes/[...index]/c#exp', 's1', null, null, [1 as any, '2'], null, null)
+      ),
+      'src/routes/%5B...index%5D/c#exp#s1[1 2]'
     );
   });
 

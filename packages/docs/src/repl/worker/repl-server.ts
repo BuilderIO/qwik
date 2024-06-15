@@ -105,7 +105,7 @@ export const initReplServer = (win: Window, doc: Document, nav: Navigator) => {
   } else {
     loadTmr = setTimeout(() => {
       console.error('Qwik REPL server "%s" has not initialized', clientId);
-    }, 15000);
+    }, 60000);
 
     nav.serviceWorker
       .register('/repl/repl-sw.js', {
@@ -113,6 +113,7 @@ export const initReplServer = (win: Window, doc: Document, nav: Navigator) => {
       })
       .then(
         (reg) => {
+          console.trace('Qwik REPL server "%s" service worker registered', clientId, reg);
           swRegistration = reg;
           if (swRegistration.active) {
             console.debug('Qwik REPL server "%s" service worker registration active', clientId);

@@ -125,6 +125,17 @@ export const _noopQrl = <T>(
 };
 
 /** @internal */
+export const _noopQrlDEV = <T>(
+  symbolName: string,
+  opts: QRLDev,
+  lexicalScopeCapture: any[] = EMPTY_ARRAY
+): QRL<T> => {
+  const newQrl = _noopQrl(symbolName, lexicalScopeCapture) as QRLInternal<T>;
+  newQrl.dev = opts;
+  return newQrl;
+};
+
+/** @internal */
 export const qrlDEV = <T = any>(
   chunkOrFn: string | (() => Promise<any>),
   symbol: string,
@@ -163,12 +174,14 @@ export const serializeQRL = (qrl: QRLInternal, opts: QRLSerializeOptions = {}) =
   const platform = getPlatform();
 
   if (platform) {
-    const result = platform.chunkForSymbol(refSymbol, chunk);
+    const result = platform.chunkForSymbol(refSymbol, chunk, qrl.dev?.file);
     if (result) {
       chunk = result[1];
       if (!qrl.$refSymbol$) {
         symbol = result[0];
       }
+    } else {
+      console.error('serializeQRL: Cannot resolve symbol', symbol, 'in', chunk, qrl.dev?.file);
     }
   }
 
@@ -197,7 +210,7 @@ export const serializeQRL = (qrl: QRLInternal, opts: QRLSerializeOptions = {}) =
       throwErrorAndStop('Sync QRL without containerState');
     }
   }
-  let output = `${chunk}#${symbol}`;
+  let output = `${encodeURI(chunk)}#${symbol}`;
   const capture = qrl.$capture$;
   const captureRef = qrl.$captureRef$;
   if (captureRef && captureRef.length) {
@@ -225,38 +238,22 @@ export const serializeQRLs = (
   return mapJoin(existingQRLs, (qrl) => serializeQRL(qrl, opts), '\n');
 };
 
-/** `./chunk#symbol[captures] */
+/** `./chunk#[attr#][symbol][[captures]] */
 export const parseQRL = <T = any>(qrl: string, containerEl?: Element): QRLInternal<T> => {
-  const endIdx = qrl.length;
-  const hashIdx = indexOf(qrl, 0, '#');
-  const captureIdx = indexOf(qrl, hashIdx, '[');
-
-  const chunkEndIdx = Math.min(hashIdx, captureIdx);
-  const chunk = qrl.substring(0, chunkEndIdx);
-
-  const symbolStartIdx = hashIdx == endIdx ? hashIdx : hashIdx + 1;
-  const symbolEndIdx = captureIdx;
-  const symbol =
-    symbolStartIdx == symbolEndIdx ? 'default' : qrl.substring(symbolStartIdx, symbolEndIdx);
-
-  const captureStartIdx = captureIdx;
-  const captureEndIdx = endIdx;
-  const capture =
-    captureStartIdx === captureEndIdx
-      ? EMPTY_ARRAY
-      : qrl.substring(captureStartIdx + 1, captureEndIdx - 1).split(' ');
+  const parse = /^(?<c>[^#[]*)#?((?<a>[^#]+)#)?(?<s>[^[]*)(\[(?<p>[^\]]*)\])?$/.exec(qrl);
+  if (!parse) {
+    throw new Error(`Invalid QRL format "${qrl}"`);
+  }
+  const { c, a, s, p } = parse.groups!;
+  const chunk = `${decodeURI(c)}${a ? `#${a}` : ''}`;
+  const symbol = s || 'default';
+  const capture = p ? p.split(' ') : [];
 
   const iQrl = createQRL<any>(chunk, symbol, null, null, capture, null, null);
   if (containerEl) {
     iQrl.$setContainer$(containerEl);
   }
   return iQrl as QRLInternal<T>;
-};
-
-const indexOf = (text: string, startIdx: number, char: string) => {
-  const endIdx = text.length;
-  const charIdx = text.indexOf(char, startIdx == endIdx ? 0 : startIdx);
-  return charIdx == -1 ? endIdx : charIdx;
 };
 
 const addToArray = (array: any[], obj: any) => {

@@ -3,7 +3,7 @@ import type { ESLint, Linter } from 'eslint';
 import type { OptimizerSystem } from '../types';
 
 export interface QwikLinter {
-  lint(ctx: Rollup.PluginContext, code: string, id: string): void;
+  lint(ctx: Rollup.PluginContext, code: string, id: string): Promise<null | undefined> | void;
 }
 
 export async function createLinter(

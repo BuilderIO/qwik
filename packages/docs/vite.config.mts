@@ -58,6 +58,28 @@ export default defineConfig(async () => {
     },
 
     plugins: [
+      {
+        name: 'spy',
+        enforce: 'pre',
+        resolveId: {
+          order: 'pre',
+          handler(id, importer) {
+            console.log('===================== spy resolveId', id, importer);
+          },
+        },
+        load: {
+          order: 'pre',
+          handler(id, options) {
+            console.log('===================== spy load', id, options);
+          },
+        },
+        transform: {
+          order: 'pre',
+          handler(code, id, options) {
+            console.log('===================== spy transform', id, options);
+          },
+        },
+      },
       qwikCity({
         mdxPlugins: {
           rehypeSyntaxHighlight: false,
@@ -112,7 +134,7 @@ export default defineConfig(async () => {
           ],
         },
       }),
-      qwikVite(),
+      qwikVite({ debug: true }),
       partytownVite({
         dest: resolve('dist', '~partytown'),
       }),

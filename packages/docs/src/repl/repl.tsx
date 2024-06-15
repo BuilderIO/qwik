@@ -90,6 +90,7 @@ export const Repl = component$((props: ReplProps) => {
       input.version = v.version;
 
       window.addEventListener('message', (ev) => receiveMessageFromReplServer(ev, store, input));
+      console.log(await import('../routes/repl/repl-sw.js/entry.ts?raw'));
       store.serverUrl = new URL(`/repl/~repl-server-host.html?${store.clientId}`, origin).href;
 
       // Now get the version from the network

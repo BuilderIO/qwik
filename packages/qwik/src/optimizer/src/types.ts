@@ -201,12 +201,21 @@ export interface SmartEntryStrategy {
   manual?: Record<string, string>;
 }
 
-/** @public */
+/**
+ * The metadata of the build. One of its uses is storing where QRL symbols are located.
+ *
+ * @public
+ */
 export interface QwikManifest {
+  /** Content hash of the manifest, if this changes, the code changed */
   manifestHash: string;
+  /** QRL symbols */
   symbols: { [symbolName: string]: QwikSymbol };
+  /** Where QRLs are located. If there's a `#`, the string after it is the export */
   mapping: { [symbolName: string]: string };
+  /** All code bundles, used to know the import graph */
   bundles: { [fileName: string]: QwikBundle };
+  /** CSS etc to inject in the document head */
   injections?: GlobalInjections[];
   version: string;
   options?: {
@@ -233,7 +242,8 @@ export type SymbolMapper = Record<string, readonly [symbol: string, chunk: strin
 /** @public */
 export type SymbolMapperFn = (
   symbolName: string,
-  mapper: SymbolMapper | undefined
+  mapper: SymbolMapper | undefined,
+  parent?: string
 ) => readonly [symbol: string, chunk: string] | undefined;
 
 /** @public */
@@ -263,16 +273,6 @@ export interface GlobalInjections {
   tag: string;
   attributes?: { [key: string]: string };
   location: 'head' | 'body';
-}
-
-export interface GeneratedOutputBundle {
-  fileName: string;
-  modules: {
-    [id: string]: any;
-  };
-  imports: string[];
-  dynamicImports: string[];
-  size: number;
 }
 
 // PATH UTIL  ***************

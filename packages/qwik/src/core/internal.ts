@@ -1,5 +1,5 @@
 export { _pauseFromContexts, _serializeData } from './container/pause';
-export { _noopQrl, _regSymbol } from './qrl/qrl';
+export { _noopQrl, _noopQrlDEV, _regSymbol } from './qrl/qrl';
 export { _renderSSR } from './render/ssr/render-ssr';
 export { _hW } from './render/dom/notify-render';
 export { _wrapSignal, _wrapProp } from './state/signal';
