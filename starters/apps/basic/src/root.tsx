@@ -8,6 +8,7 @@ import { RouterHead } from "./components/router-head/router-head";
 
 import "./global.css";
 
+const BASE_URL = import.meta.env.BASE_URL;
 export default component$(() => {
   /**
    * The root of a QwikCity site always start with the <QwikCityProvider> component,
@@ -20,7 +21,7 @@ export default component$(() => {
     <QwikCityProvider>
       <head>
         <meta charset="utf-8" />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href={`${BASE_URL}manifest.json`} />
         <RouterHead />
         <ServiceWorkerRegister />
       </head>

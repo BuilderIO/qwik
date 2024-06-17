@@ -95,12 +95,21 @@ export const qwikLoader = (
     const attrValue = element[getAttribute](attrName);
     if (attrValue) {
       const container = element.closest('[q\\:container]')! as QContainerElement;
+      const baseURI = new URL(doc.baseURI);
       const qBase = container[getAttribute]('q:base')!;
       const qVersion = container[getAttribute]('q:version') || 'unknown';
       const qManifest = container[getAttribute]('q:manifest-hash') || 'dev';
-      const base = new URL(qBase, doc.baseURI);
+      const base = new URL(qBase ?? baseURI, baseURI);
       for (const qrl of attrValue.split('\n')) {
-        const url = new URL(qrl, base);
+        const isStartSlash = qrl.toString().startsWith('/');
+        const isEndslash = base.pathname.endsWith('/');
+        const pathUrl =
+          (isEndslash && !isStartSlash
+            ? base.pathname
+            : isEndslash
+              ? base.pathname.slice(0, -1)
+              : base.pathname) + qrl;
+        const url = new URL(pathUrl, !base.origin ? base : base.origin);
         const href = url.href;
         const symbol = url.hash[replace](/^#?([^?[|]*).*$/, '$1') || 'default';
         const reqTime = performance.now();

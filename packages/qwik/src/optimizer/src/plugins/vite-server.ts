@@ -27,6 +27,21 @@ function getOrigin(req: IncomingMessage) {
   return `${protocol}://${host}`;
 }
 
+function validateAndMerge(base: string, url: string) {
+  if (!base || base === '/') {
+    // if base is empty or '/' and url it's safe to just return the url
+    return url;
+  } else if (base && !base.endsWith('/') && !url.startsWith('/')) {
+    // if base doesn't end with '/' and url doesn't start with '/', add a '/' in between
+    base += '/';
+  } else if (base.endsWith('/') && url.startsWith('/')) {
+    // if base ends with '/' and url starts with '/', remove the starting '/' from url
+    url = url.slice(1);
+  }
+  // merge base and url
+  return `${base}${url}`;
+}
+
 export async function configureDevServer(
   server: ViteDevServer,
   opts: NormalizedQwikPluginOptions,
@@ -129,7 +144,7 @@ export async function configureDevServer(
                   location: 'head',
                   attributes: {
                     rel: 'stylesheet',
-                    href: url,
+                    href: `${validateAndMerge(opts.base, url)}`,
                   },
                 });
               }
@@ -141,6 +156,7 @@ export async function configureDevServer(
             : 'src';
 
           const renderOpts: RenderToStreamOptions = {
+            base: opts.base,
             debug: true,
             locale: serverData.locale,
             stream: res,
@@ -189,7 +205,7 @@ export async function configureDevServer(
                   pathId.endsWith(ext)
                 )
               ) {
-                res.write(`<link rel="stylesheet" href="${v.url}">`);
+                res.write(`<link rel="stylesheet" href="${validateAndMerge(opts.base, v.url)}">`);
               }
             });
           });
@@ -380,7 +396,7 @@ const DEV_QWIK_INSPECTOR = (opts: NormalizedQwikPluginOptions['devTools'], srcDi
 
 const END_SSR_SCRIPT = (opts: NormalizedQwikPluginOptions, srcDir: string) => `
 <style>${VITE_ERROR_OVERLAY_STYLES}</style>
-<script type="module" src="/@vite/client"></script>
+<script type="module" src="${validateAndMerge(opts.base, '/@vite/client')}"></script>
 ${errorHost}
 ${perfWarning}
 ${DEV_QWIK_INSPECTOR(opts.devTools, srcDir)}

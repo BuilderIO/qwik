@@ -101,6 +101,7 @@ export function createPlugin(optimizerOptions: OptimizerOptions = {}) {
     },
     inlineStylesUpToBytes: null as any,
     lint: true,
+    base: '',
   };
 
   const init = async () => {
@@ -134,6 +135,8 @@ export function createPlugin(optimizerOptions: OptimizerOptions = {}) {
     const path = optimizer.sys.path;
 
     opts.debug = !!updatedOpts.debug;
+
+    opts.base = normalizeBase(opts.base);
 
     updatedOpts.target === 'test';
     if (
@@ -872,6 +875,18 @@ export const manifest = ${JSON.stringify(manifest)};\n`;
   };
 }
 
+function normalizeBase(base?: string) {
+  if (!base || base === '/') {
+    return '';
+  }
+
+  if (base.endsWith('/')) {
+    return base.slice(0, -1);
+  }
+
+  return base;
+}
+
 const insideRoots = (ext: string, dir: string, srcDir: string | null, vendorRoots: string[]) => {
   if (ext !== '.js') {
     return false;
@@ -980,6 +995,7 @@ export interface QwikPluginOptions {
    * large projects. Defaults to `true`
    */
   lint?: boolean;
+  base?: string;
 }
 
 export interface NormalizedQwikPluginOptions extends Required<QwikPluginOptions> {

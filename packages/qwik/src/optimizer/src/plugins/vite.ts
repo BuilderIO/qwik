@@ -162,6 +162,7 @@ export function qwikVite(qwikViteOpts: QwikVitePluginOptions = {}): any {
         devTools: qwikViteOpts.devTools,
         sourcemap: !!viteConfig.build?.sourcemap,
         lint: qwikViteOpts.lint,
+        base: viteConfig.base,
       };
       if (!qwikViteOpts.csr) {
         if (target === 'ssr') {
