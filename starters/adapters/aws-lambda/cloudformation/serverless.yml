@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: Qwik Example App
+
+Parameters:
+  StaticBucketName:
+    Type: String
+  CdnDomainName:
+    Type: String
+
+Globals:
+  Function:
+    Runtime: nodejs20.x
+    Timeout: 10
+    MemorySize: 256
+
+Resources:
+
+  SSR:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: qwik-ssr
+      Description: Server Side Render
+      CodeUri: ../server
+      Handler: entry_aws-lambda.qwikApp
+      Environment:
+        Variables:
+          ORIGIN: !Join ['', [https://, !GetAtt CdnDomainName]]
+
+  SSRPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunctionUrl
+      FunctionName: !Ref SSR
+      FunctionUrlAuthType: NONE
+      Principal: "*"
+
+  SSRFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      AuthType: NONE
+      TargetFunctionArn: !Ref SSR
+
+  Public:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref StaticBucketName
+    PublicAccessBlockConfiguration:
+      BlockPublicAcls: false
+      BlockPublicPolicy: false
+      IgnorePublicAcls: false
+      RestrictPublicBuckets: false
+    WebsiteConfiguration:
+      IndexDocument: index.html
+      ErrorDocument: 404.html
+
+  PublicPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref Public
+      PolicyDocument:
+        Statement:
+        - Action: s3:GetObject
+          Effect: Allow
+          Principal: '*'
+          Resource: !Join ['', ['arn:aws:s3:::', !Ref Public, /*]]
+
+  CachePolicy:
+    Type: AWS::CloudFront::CachePolicy
+    Properties:
+      CachePolicyConfig:
+        Name: CachePolicy
+        DefaultTTL: 86400
+        MaxTTL: 31536000
+        MinTTL: 0
+        ParametersInCacheKeyAndForwardedToOrigin:
+          CookiesConfig:
+            CookieBehavior: none
+          HeadersConfig:
+            HeaderBehavior: none
+          QueryStringsConfig:
+            QueryStringBehavior: none
+          EnableAcceptEncodingGzip: true
+          EnableAcceptEncodingBrotli: true
+
+  CDN:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: Content Delivery Network
+        Enabled: true
+        Origins:
+        - DomainName: !Select [ 2, !Split [ '/', !GetAtt Public.WebsiteURL ] ]
+          Id: S3WebsiteOrigin
+          CustomOriginConfig:
+            OriginProtocolPolicy: http-only
+        - DomainName: !Select [ 2, !Split [ '/', !GetAtt SSRFunctionUrl.FunctionUrl ] ]
+          Id: SSROrigin
+          CustomOriginConfig:
+            OriginProtocolPolicy: https-only
+        CacheBehaviors:
+        - &OriginBehavior
+          TargetOriginId: S3WebsiteOrigin
+          CachePolicy: !Ref CachePolicy
+          AllowedMethods:
+          - HEAD
+          - GET
+          - OPTIONS
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+          PathPattern: build/*
+        - <<: *OriginBehavior
+          PathPattern: '*manifest.json'
+        - <<: *OriginBehavior
+          PathPattern: service-worker.js
+        - <<: *OriginBehavior
+          PathPattern: favicon.ico
+        DefaultCacheBehavior:
+          <<: *OriginBehavior
+          TargetOriginId: SSROrigin
+          PathPattern: null

@@ -3,7 +3,7 @@
   "scripts": {
     "build.server": "vite build -c adapters/aws-lambda/vite.config.ts",
     "serve": "qwik build && serverless offline",
-    "deploy": "serverless deploy"
+    "deploy": "make deploy"
   },
   "devDependencies": {
     "source-map-support": "^0.5.21",
