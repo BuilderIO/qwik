@@ -1943,6 +1943,24 @@ export const Greeter = component$(() => {
 	});
 }
 
+#[test]
+fn example_import_attributes() {
+	test_input!(TestInput {
+		code: r#"
+import { component$, $ } from '@builder.io/qwik';
+import json from "./foo.json" with { type: "json" };
+
+export const Greeter = component$(() => {
+    return json;
+});
+"#
+		.to_string(),
+		transpile_ts: true,
+		transpile_jsx: true,
+		..TestInput::default()
+	});
+}
+
 #[cfg(target_os = "windows")]
 #[test]
 fn issue_188() {

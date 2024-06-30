@@ -1,0 +1,37 @@
+---
+source: packages/qwik/src/optimizer/core/src/test.rs
+assertion_line: 1946
+expression: output
+---
+==INPUT==
+
+
+import { component$, $ } from '@builder.io/qwik';
+import json from "./foo.json" with { type: "json" };
+
+export const Greeter = component$(() => {
+    return json;
+});
+
+== DIAGNOSTICS ==
+
+[
+  {
+    "category": "error",
+    "code": null,
+    "file": "test.tsx",
+    "message": "Expected ';', got 'with'",
+    "highlights": [
+      {
+        "lo": 82,
+        "hi": 86,
+        "startLine": 3,
+        "startCol": 31,
+        "endLine": 3,
+        "endCol": 34
+      }
+    ],
+    "suggestions": null,
+    "scope": "optimizer"
+  }
+]
