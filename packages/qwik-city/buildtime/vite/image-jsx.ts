@@ -1,4 +1,4 @@
-import type { OutputFormat } from 'vite-imagetools';
+import type { OutputFormat, ImageMetadata } from 'vite-imagetools';
 import type { PluginOption } from 'vite';
 import { optimize } from 'svgo';
 import fs from 'node:fs';
@@ -6,6 +6,14 @@ import path from 'node:path';
 import { parseId } from '../../../qwik/src/optimizer/src/plugins/plugin';
 import type { QwikCityVitePluginOptions } from './types';
 import type { Config as SVGOConfig } from 'svgo';
+
+/** Normalizes the format for use in mime-type */
+const getFormat = (m: ImageMetadata) => {
+  if (!m.format) {
+    throw new Error(`Could not determine image format`);
+  }
+  return m.format.replace('jpg', 'jpeg');
+};
 
 /** @public */
 export function imagePlugin(userOpts?: QwikCityVitePluginOptions): PluginOption[] {
@@ -17,22 +25,51 @@ export function imagePlugin(userOpts?: QwikCityVitePluginOptions): PluginOption[
           exclude: [],
           extendOutputFormats(builtins) {
             const jsx: OutputFormat = () => (metadatas) => {
-              const srcSet = metadatas.map((meta) => `${meta.src} ${meta.width}w`).join(', ');
-              let largestImage: any;
-              let largestImageSize = 0;
+              const fallbackFormat = [...new Set(metadatas.map((m) => getFormat(m)))].pop();
+
+              let largestFallback;
+              let largestFallbackSize = 0;
+              let fallbackFormatCount = 0;
               for (let i = 0; i < metadatas.length; i++) {
-                const m = metadatas[i] as any;
-                if (m.width > largestImageSize) {
-                  largestImage = m;
-                  largestImageSize = m.width;
+                const m = metadatas[i];
+                if (getFormat(m) === fallbackFormat) {
+                  fallbackFormatCount++;
+                  if ((m.width as number) > largestFallbackSize) {
+                    largestFallback = m;
+                    largestFallbackSize = m.width as number;
+                  }
                 }
               }
+
+              const sourceMetadatas: Record<string, ImageMetadata[]> = {};
+              for (let i = 0; i < metadatas.length; i++) {
+                const m = metadatas[i];
+                const f = getFormat(m);
+                // we don't need to create a source tag for the fallback format if there is
+                // only a single image in that format
+                if (f === fallbackFormat && fallbackFormatCount < 2) {
+                  continue;
+                }
+                if (sourceMetadatas[f]) {
+                  sourceMetadatas[f].push(m);
+                } else {
+                  sourceMetadatas[f] = [m];
+                }
+              }
+              const sources: Record<string, string>[] = [];
+              for (const [key, value] of Object.entries(sourceMetadatas)) {
+                sources.push({
+                  srcSet: value.map((meta) => `${meta.src} ${meta.width}w`).join(', '),
+                  type: `image/${key}`,
+                });
+              }
               return {
-                srcSet,
-                width:
-                  largestImage === null || largestImage === void 0 ? void 0 : largestImage.width,
-                height:
-                  largestImage === null || largestImage === void 0 ? void 0 : largestImage.height,
+                sources,
+                img: {
+                  src: largestFallback?.src as string,
+                  width: largestFallback?.width as number,
+                  height: largestFallback?.height as number,
+                },
               };
             };
             return {
@@ -42,13 +79,26 @@ export function imagePlugin(userOpts?: QwikCityVitePluginOptions): PluginOption[
           },
           defaultDirectives: (url) => {
             if (url.searchParams.has('jsx')) {
+              // userOpts format
+              const { format: userOptsImgFormat, ...userOptsImageOptimization } = userOpts?.imageOptimization?.jsxDirectives ?? {};
+              // default format
+              let format = 'webp';
+              // image extname
+              const extname = path.extname(url.pathname).slice(1);
+              if (userOptsImgFormat) {
+                if (typeof userOptsImgFormat === 'function') {
+                  format = userOptsImgFormat(extname);
+                } else {
+                  format = userOptsImgFormat;
+                }
+              }
               const { jsx, ...params } = Object.fromEntries(url.searchParams.entries());
               return new URLSearchParams({
-                format: 'webp',
+                format,
                 quality: '75',
                 w: '200;400;600;800;1200',
                 withoutEnlargement: '',
-                ...userOpts?.imageOptimization?.jsxDirectives,
+                ...userOptsImageOptimization,
                 ...params,
                 as: 'jsx',
               });
@@ -84,7 +134,7 @@ export function imagePlugin(userOpts?: QwikCityVitePluginOptions): PluginOption[
           const extension = path.extname(pathId).toLowerCase();
 
           if (supportedExtensions.includes(extension)) {
-            if (!code.includes('srcSet')) {
+            if (!code.includes('sources')) {
               this.error(`Image '${id}' could not be optimized to JSX`);
             }
             const index = code.indexOf('export default');
@@ -92,9 +142,17 @@ export function imagePlugin(userOpts?: QwikCityVitePluginOptions): PluginOption[
               code.slice(0, index) +
               `
   import { _jsxQ } from '@builder.io/qwik';
-  const PROPS = {srcSet, width, height};
+  const PROPS = {...img};
   export default function (props, key, _, dev) {
-    return _jsxQ('img', {...{decoding: 'async', loading: 'lazy'}, ...props}, PROPS, undefined, 3, key, dev);
+    if(!sources?.length) return null;
+    if(sources.length < 2){
+      // Single format directly returns the <img />
+      return _jsxQ('img', {...{decoding: 'async', loading: 'lazy'}, ...props}, sources[0], undefined, 3, key, dev);
+    }
+    return _jsxQ('picture', null, null,
+      [...sources.map((source) => _jsxQ('source', {...source}, null, undefined, 3, key, dev)),
+      _jsxQ('img', {...{decoding: 'async', loading: 'lazy'}, ...props}, PROPS, undefined, 3, key, dev)]
+    );
   }`
             );
           } else if (extension === '.svg') {

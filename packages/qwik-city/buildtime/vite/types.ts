@@ -8,10 +8,22 @@ import type { BuiltinsWithOptionalParams as SVGOBuiltinPluginsWithOptionalParams
 export interface ImageOptimizationOptions {
   jsxDirectives?: {
     quality?: `${number}`;
-    format?: 'webp' | 'avif' | 'png';
+    /**
+     * Specifies the format(s) of the image. You can set multiple formats by separating them with a semicolon (`;`).
+     * Alternatively, you can pass a function that takes the original format extension name as a parameter and returns the desired format.
+     * 
+     * @example
+     * // Setting multiple formats
+     * format: "avif;webp"
+     * 
+     * @example
+     * // Using a function to determine the format
+     * format: (extname: string) => `avif;webp;${extname}`
+     */
+    format?: string | ((extname: string) => string);
     w?: string;
     h?: string;
-    [key: string]: string | undefined;
+    [key: string]: any;
   };
   svgo?: Pick<SVGOConfig, 'floatPrecision' | 'multipass' | 'plugins'> & {
     defaultPresetOverrides?: SVGOBuiltinPluginsWithOptionalParams['preset-default']['overrides'];
