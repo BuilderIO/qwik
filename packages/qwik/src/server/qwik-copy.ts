@@ -44,8 +44,8 @@ export {
 export { maybeThen } from '../core/util/promises';
 export { mapApp_remove, mapArray_get, mapArray_set } from '../core/v2/client/vnode';
 export {
-  convertStyleIdsToString,
-  getScopedStyleIdsAsPrefix,
+  convertStyleIdsArrayToString,
+  convertStyleIdsStringToArray,
   isClassAttr,
 } from '../core/v2/shared/scoped-styles';
 export { DEBUG_TYPE, VirtualType, QContainerValue } from '../core/v2/shared/types';

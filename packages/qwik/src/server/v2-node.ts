@@ -106,7 +106,6 @@ export type SsrNodeType = 1 | 3 | 9 | 11;
 export class SsrComponentFrame implements ISsrComponentFrame {
   public slots = [];
   public projectionDepth = 0;
-  public scopedStyleIds = new Set<string>();
   public childrenScopedStyle: string | null = null;
   constructor(public componentNode: ISsrNode) {}
 

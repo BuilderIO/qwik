@@ -1210,6 +1210,8 @@ export function cleanup(container: ClientContainer, vNode: VNode) {
             }
           }
         }
+
+        container.$disableStyles$(vCursor as HostElement);
       }
 
       const isSlot =

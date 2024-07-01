@@ -30,8 +30,8 @@ import type { ValueOrPromise } from '../../util/types';
 import { ChoreType } from '../shared/scheduler';
 import {
   addComponentStylePrefix,
-  convertScopedStyleIdsToArray,
-  convertStyleIdsToString,
+  convertStyleIdsStringToArray,
+  convertStyleIdsArrayToString,
 } from '../shared/scoped-styles';
 import { _SharedContainer } from '../shared/shared-container';
 import { inflateQRL, parseQRL, wrapDeserializerProxy } from '../shared/shared-serialization';
@@ -315,11 +315,12 @@ export class DomContainer extends _SharedContainer implements IClientContainer, 
   }
 
   $appendStyle$(content: string, styleId: string, host: VirtualVNode, scoped: boolean): void {
-    if (scoped) {
-      const scopedStyleIdsString = this.getHostProp<string>(host, QScopedStyle);
-      const scopedStyleIds = new Set(convertScopedStyleIdsToArray(scopedStyleIdsString));
-      scopedStyleIds.add(styleId);
-      this.setHostProp(host, QScopedStyle, convertStyleIdsToString(scopedStyleIds));
+    const propName = scoped ? QScopedStyle : QStyle;
+    const styleIdsString = this.getHostProp<string>(host, propName);
+    const styleIds = convertStyleIdsStringToArray(styleIdsString) || [];
+    if (!styleIds.includes(styleId)) {
+      styleIds.push(styleId);
+      this.setHostProp(host, propName, convertStyleIdsArrayToString(styleIds));
     }
 
     if (this.$styleIds$ == null) {
@@ -334,6 +335,22 @@ export class DomContainer extends _SharedContainer implements IClientContainer, 
       styleElement.setAttribute(QStyle, styleId);
       styleElement.textContent = content;
       this.$journal$.push(VNodeJournalOpCode.Insert, this.document.head, null, styleElement);
+    } else if (styleIds.length) {
+      this.$journal$.push(VNodeJournalOpCode.EnableStyles, this.document, ...styleIds);
+    }
+  }
+
+  $disableStyles$(host: HostElement): void {
+    if (this.$styleIds$ == null) {
+      this.$styleIds$ = new Set();
+      this.element.querySelectorAll(QStyleSelector).forEach((style) => {
+        this.$styleIds$!.add(style.getAttribute(QStyle)!);
+      });
+    }
+    const styleIdsString = this.getHostProp<string>(host, QStyle);
+    const styleIds = convertStyleIdsStringToArray(styleIdsString) || [];
+    if (styleIds.length) {
+      this.$journal$.push(VNodeJournalOpCode.DisableStyles, this.document, ...styleIds);
     }
   }
 }

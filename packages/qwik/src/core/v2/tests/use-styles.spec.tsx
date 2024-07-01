@@ -1,4 +1,4 @@
-import { Fragment as Component, Fragment as Signal } from '@builder.io/qwik';
+import { Fragment as Component, Fragment, Fragment as Signal } from '@builder.io/qwik';
 import { createDocument } from '@builder.io/qwik-dom';
 import { afterEach, describe, expect, it } from 'vitest';
 import { renderToString2 } from '../../../server/v2-ssr-render2';
@@ -10,11 +10,14 @@ import { getPlatform, setPlatform } from '../../platform/platform';
 import { inlinedQrl } from '../../qrl/qrl';
 import { Slot } from '../../render/jsx/slot.public';
 import { useSignal } from '../../use/use-signal';
-import { useStylesQrl } from '../../use/use-styles';
-import { QStyleSelector } from '../../util/markers';
+import { useStyles$, useStylesQrl } from '../../use/use-styles';
+import { QStyleSelector, QStyleSelectorPrefix } from '../../util/markers';
 
 const debug = false; //true;
 Error.stackTraceLimit = 100;
+
+const STYLE_RED = `.container {background-color: red;}`;
+const STYLE_BLUE = `.container {background-color: blue;}`;
 
 describe.each([
   { render: ssrRenderToDom }, //
@@ -25,9 +28,6 @@ describe.each([
     (globalThis as any).rawStyleId1 = undefined;
     (globalThis as any).rawStyleId2 = undefined;
   });
-
-  const STYLE_RED = `.container {background-color: red;}`;
-  const STYLE_BLUE = `.container {background-color: blue;}`;
 
   it('should render style', async () => {
     (globalThis as any).rawStyleId = '';
@@ -188,6 +188,119 @@ describe.each([
     );
     const qStyles = container.document.querySelectorAll(QStyleSelector);
     expect(qStyles).toHaveLength(2);
+  });
+
+  it('should toggle styles', async () => {
+    (globalThis as any).rawStyleId1 = '';
+    (globalThis as any).rawStyleId2 = '';
+    const StyledComponent1 = component$(() => {
+      const styleData = useStyles$(STYLE_RED);
+      (globalThis as any).rawStyleId1 = styleData.styleId;
+      return <div class="container">Hello world 1</div>;
+    });
+    const StyledComponent2 = component$(() => {
+      const styleData = useStyles$(STYLE_BLUE);
+      (globalThis as any).rawStyleId2 = styleData.styleId;
+      return <div class="container">Hello world 2</div>;
+    });
+    const Parent = component$(() => {
+      const toggle = useSignal(true);
+      return (
+        <>
+          <button onClick$={() => (toggle.value = !toggle.value)}></button>
+          {toggle.value && <StyledComponent1 />}
+          {!toggle.value && <StyledComponent2 />}
+        </>
+      );
+    });
+    const { vNode, getStyles, document } = await render(<Parent />, { debug });
+    expect(getStyles()).toEqual({
+      [(globalThis as any).rawStyleId1]: STYLE_RED,
+    });
+    expect(vNode).toMatchVDOM(
+      <Component>
+        <Fragment>
+          <button></button>
+          <Component>
+            <div class="container">Hello world 1</div>
+          </Component>
+          {''}
+        </Fragment>
+      </Component>
+    );
+    expect(
+      (
+        document.querySelector(
+          QStyleSelectorPrefix + '="' + (globalThis as any).rawStyleId1 + '"]'
+        ) as HTMLStyleElement
+      ).disabled
+    ).toBeFalsy();
+
+    await trigger(document.body, 'button', 'click');
+    expect(getStyles()).toEqual({
+      [(globalThis as any).rawStyleId2]: STYLE_BLUE,
+      [(globalThis as any).rawStyleId1]: STYLE_RED,
+    });
+    expect(vNode).toMatchVDOM(
+      <Component>
+        <Fragment>
+          <button></button>
+          {''}
+          <Component>
+            <div class="container">Hello world 2</div>
+          </Component>
+        </Fragment>
+      </Component>
+    );
+
+    expect(
+      (
+        document.head.querySelector(
+          QStyleSelectorPrefix + '="' + (globalThis as any).rawStyleId1 + '"]'
+        ) as HTMLStyleElement
+      ).disabled
+    ).toBeTruthy();
+
+    expect(
+      (
+        document.head.querySelector(
+          QStyleSelectorPrefix + '="' + (globalThis as any).rawStyleId2 + '"]'
+        ) as HTMLStyleElement
+      ).disabled
+    ).toBeFalsy();
+
+    await trigger(document.body, 'button', 'click');
+    expect(getStyles()).toEqual({
+      [(globalThis as any).rawStyleId2]: STYLE_BLUE,
+      [(globalThis as any).rawStyleId1]: STYLE_RED,
+    });
+    expect(vNode).toMatchVDOM(
+      <Component>
+        <Fragment>
+          <button></button>
+          <Component>
+            <div class="container">Hello world 1</div>
+          </Component>
+          {''}
+        </Fragment>
+      </Component>
+    );
+
+    expect(
+      (
+        document.head.querySelector(
+          QStyleSelectorPrefix + '="' + (globalThis as any).rawStyleId1 + '"]'
+        ) as HTMLStyleElement
+      ).disabled
+    ).toBeFalsy();
+
+    expect(
+      (
+        document.head.querySelector(
+          QStyleSelectorPrefix + '="' + (globalThis as any).rawStyleId2 + '"]'
+        ) as HTMLStyleElement
+      ).disabled
+    ).toBeTruthy();
   });
 });
 

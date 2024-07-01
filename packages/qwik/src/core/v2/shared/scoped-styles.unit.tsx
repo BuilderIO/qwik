@@ -2,8 +2,8 @@ import { ComponentStylesPrefixContent } from '../../util/markers';
 import { describe, expect, it } from 'vitest';
 import {
   addComponentStylePrefix,
-  convertScopedStyleIdsToArray as convertStyleIdsToArray,
-  convertStyleIdsToString,
+  convertStyleIdsStringToArray as convertStyleIdsToArray,
+  convertStyleIdsArrayToString,
   getScopedStyleIdsAsPrefix,
 } from './scoped-styles';
 
@@ -28,7 +28,7 @@ describe('scoped styles utils', () => {
 
   describe('convertStyleIdsToString', () => {
     it('should convert style ids set to string', () => {
-      expect(convertStyleIdsToString(new Set(['abcd', 'dcba', 'test']))).toEqual('abcd dcba test');
+      expect(convertStyleIdsArrayToString(['abcd', 'dcba', 'test'])).toEqual('abcd dcba test');
     });
   });
 

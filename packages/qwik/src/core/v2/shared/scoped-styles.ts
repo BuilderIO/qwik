@@ -20,12 +20,12 @@ export function getScopedStyleIdsAsPrefix(scopedStyleIds: Set<string>): string {
     .join(' ');
 }
 
-export function convertScopedStyleIdsToArray(scopedStyleIds?: string | null): Array<string> | null {
+export function convertStyleIdsStringToArray(scopedStyleIds?: string | null): Array<string> | null {
   return scopedStyleIds?.split(' ') ?? null;
 }
 
-export function convertStyleIdsToString(scopedStyleIds: Set<string>): string {
-  return Array.from(scopedStyleIds).join(' ');
+export function convertStyleIdsArrayToString(scopedStyleIds: Array<string>): string {
+  return scopedStyleIds.join(' ');
 }
 
 export const addComponentStylePrefix = (styleId?: string | null): string | null => {

@@ -111,6 +111,10 @@ export type ClassList = string | undefined | null | false | Record<string, boole
 //
 // @internal (undocumented)
 export interface ClientContainer extends Container2 {
+    // Warning: (ae-forgotten-export) The symbol "HostElement" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    $disableStyles$(host: HostElement): void;
     // Warning: (ae-forgotten-export) The symbol "VNodeJournal" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -258,6 +262,8 @@ class DomContainer extends _SharedContainer implements ClientContainer, StoreTra
     // (undocumented)
     $appendStyle$(content: string, styleId: string, host: _VirtualVNode, scoped: boolean): void;
     // (undocumented)
+    $disableStyles$(host: HostElement): void;
+    // (undocumented)
     $getObjectById$: (id: number | string) => unknown;
     // (undocumented)
     $journal$: VNodeJournal;
@@ -288,8 +294,6 @@ class DomContainer extends _SharedContainer implements ClientContainer, StoreTra
     handleError(err: any, host: HostElement): void;
     // (undocumented)
     parseQRL<T = unknown>(qrl: string): QRL<T>;
-    // Warning: (ae-forgotten-export) The symbol "HostElement" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     processJsx(host: HostElement, jsx: JSXOutput): ValueOrPromise<void>;
     // (undocumented)

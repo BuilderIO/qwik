@@ -1,7 +1,7 @@
 /** @file Public types for the client deserialization */
 
 import type { QRL } from '../../qrl/qrl.public';
-import type { Container2 } from '../shared/types';
+import type { Container2, HostElement } from '../shared/types';
 import type { VNodeJournal } from './vnode';
 
 export type ClientAttrKey = string;
@@ -21,6 +21,7 @@ export interface ClientContainer extends Container2 {
   renderDone: Promise<void>;
   parseQRL<T = unknown>(qrl: string): QRL<T>;
   $setRawState$(id: number, vParent: ElementVNode | VirtualVNode): void;
+  $disableStyles$(host: HostElement): void;
 }
 
 /** @internal */

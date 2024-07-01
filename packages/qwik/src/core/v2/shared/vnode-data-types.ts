@@ -49,7 +49,7 @@ export const VNodeDataChar = {
   CLOSE: /* ************* */ 125, // `}` is the end of the VNodeData.
   CLOSE_CHAR: /* ***** */ '}',
 
-  SCOPED_STYLE: /* ******* */ 59, // `;` - `q:sstyle` - Style attribute.
+  SCOPED_STYLE: /* ******* */ 59, // `;` - `q:sstyle` - Scoped style attribute.
   SCOPED_STYLE_CHAR: /* */ ';',
   RENDER_FN: /* ********** */ 60, // `<` - `q:renderFn' - Component QRL render function (body)
   RENDER_FN_CHAR: /* ** */ '<',
@@ -69,6 +69,8 @@ export const VNodeDataChar = {
   CONTEXT_CHAR: /* **** */ ']',
   SEQ_IDX: /* ************ */ 94, // `^` - `q:seqIdx' - Sequential scope id
   SEQ_IDX_CHAR: /* **** */ '^',
+  STYLE: /* ************** */ 96, // '`' - `q:style' - Style attribute.
+  STYLE_CHAR: /* ****** */ '`',
   SEPARATOR: /* ********* */ 124, // `|` - Separator char to encode any key/value pairs.
   SEPARATOR_CHAR: /* ** */ '|',
   SLOT: /* ************** */ 126, // `~` - `q:slot' - Slot name

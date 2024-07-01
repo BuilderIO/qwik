@@ -32,7 +32,6 @@ import {
   SubscriptionType,
   VNodeDataChar,
   VirtualType,
-  convertStyleIdsToString,
   mapArray_get,
   mapArray_set,
   maybeThen,
@@ -47,6 +46,8 @@ import {
   QLocaleAttr,
   QManifestHashAttr,
   escapeHTML,
+  convertStyleIdsStringToArray,
+  convertStyleIdsArrayToString,
 } from './qwik-copy';
 import {
   type ContextId,
@@ -513,11 +514,12 @@ class SSRContainer extends _SharedContainer implements ISSRContainer {
   }
 
   $appendStyle$(content: string, styleId: string, host: ISsrNode, scoped: boolean): void {
-    if (scoped) {
-      const componentFrame = this.getComponentFrame(0)!;
-      componentFrame.scopedStyleIds.add(styleId);
-      const scopedStyleIds = convertStyleIdsToString(componentFrame.scopedStyleIds);
-      this.setHostProp(host, QScopedStyle, scopedStyleIds);
+    const propName = scoped ? QScopedStyle : QStyle;
+    const styleIdsString = this.getHostProp<string>(host, propName);
+    const styleIds = convertStyleIdsStringToArray(styleIdsString) || [];
+    if (!styleIds.includes(styleId)) {
+      styleIds.push(styleId);
+      this.setHostProp(host, propName, convertStyleIdsArrayToString(styleIds));
     }
 
     if (!this.styleIds.has(styleId)) {
@@ -676,6 +678,9 @@ class SSRContainer extends _SharedContainer implements ISSRContainer {
         switch (key) {
           case QScopedStyle:
             write(VNodeDataChar.SCOPED_STYLE_CHAR);
+            break;
+          case QStyle:
+            write(VNodeDataChar.STYLE_CHAR);
             break;
           case OnRenderProp:
             write(VNodeDataChar.RENDER_FN_CHAR);

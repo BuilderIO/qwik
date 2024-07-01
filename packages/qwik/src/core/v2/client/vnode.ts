@@ -138,6 +138,7 @@ import {
   QSlotParent,
   QSlotRef,
   QStyle,
+  QStyleSelectorPrefix,
   QStylesAllSelector,
 } from '../../util/markers';
 import { isHtmlElement } from '../../util/types';
@@ -176,11 +177,13 @@ import { escapeHTML } from '../shared/character-escaping';
  * - Set text node value
  */
 export const enum VNodeJournalOpCode {
-  SetText = 1, // ------ [SetAttribute, target, text]
+  SetText = 1, // ------ [SetText, target, text]
   SetAttribute = 2, // - [SetAttribute, target, ...(key, values)]]
   HoistStyles = 3, // -- [HoistStyles, document]
-  Remove = 4, // ------- [Insert, target(parent), ...nodes]
+  Remove = 4, // ------- [Remove, target(parent), ...nodes]
   Insert = 5, // ------- [Insert, target(parent), reference, ...nodes]
+  DisableStyles = 6, //  [DisableStyles, document, ...styleIds]
+  EnableStyles = 7, // - [EnableStyles, document, ...styleIds]
 }
 
 export type VNodeJournal = Array<VNodeJournalOpCode | Document | Element | Text | string | null>;
@@ -803,16 +806,19 @@ export const vnode_journalToString = (journal: VNodeJournal): string => {
   while (idx < length) {
     const op = journal[idx++] as VNodeJournalOpCode;
     switch (op) {
-      case VNodeJournalOpCode.SetText:
+      case VNodeJournalOpCode.SetText: {
         stringify('SetText', journal[idx++], journal[idx++]);
         break;
-      case VNodeJournalOpCode.SetAttribute:
+      }
+      case VNodeJournalOpCode.SetAttribute: {
         stringify('SetAttribute', journal[idx++], journal[idx++], journal[idx++]);
         break;
-      case VNodeJournalOpCode.HoistStyles:
+      }
+      case VNodeJournalOpCode.HoistStyles: {
         stringify('HoistStyles');
         break;
-      case VNodeJournalOpCode.Remove:
+      }
+      case VNodeJournalOpCode.Remove: {
         stringify('Remove', journal[idx++]);
         let nodeToRemove: any;
         while (idx < length && typeof (nodeToRemove = journal[idx]) !== 'number') {
@@ -820,7 +826,8 @@ export const vnode_journalToString = (journal: VNodeJournal): string => {
           idx++;
         }
         break;
-      case VNodeJournalOpCode.Insert:
+      }
+      case VNodeJournalOpCode.Insert: {
         stringify('Insert', journal[idx++], journal[idx++]);
         let newChild: any;
         while (idx < length && typeof (newChild = journal[idx]) !== 'number') {
@@ -828,6 +835,27 @@ export const vnode_journalToString = (journal: VNodeJournal): string => {
           idx++;
         }
         break;
+      }
+      case VNodeJournalOpCode.DisableStyles: {
+        stringify('DisableStyles');
+        journal[idx++];
+        let styleId: any;
+        while (idx < length && typeof (styleId = journal[idx]) !== 'number') {
+          stringify('  ', styleId);
+          idx++;
+        }
+        break;
+      }
+      case VNodeJournalOpCode.EnableStyles: {
+        stringify('EnableStyles');
+        journal[idx++];
+        let styleId: any;
+        while (idx < length && typeof (styleId = journal[idx]) !== 'number') {
+          stringify('  ', styleId);
+          idx++;
+        }
+        break;
+      }
     }
   }
   lines.push('END JOURNAL');
@@ -877,11 +905,12 @@ export const vnode_applyJournal = (journal: VNodeJournal) => {
   while (idx < length) {
     const op = journal[idx++] as VNodeJournalOpCode;
     switch (op) {
-      case VNodeJournalOpCode.SetText:
+      case VNodeJournalOpCode.SetText: {
         const text = journal[idx++] as Text;
         text.nodeValue = journal[idx++] as string;
         break;
-      case VNodeJournalOpCode.SetAttribute:
+      }
+      case VNodeJournalOpCode.SetAttribute: {
         const element = journal[idx++] as Element;
         let key = journal[idx++] as string;
         if (key === 'className') {
@@ -902,7 +931,8 @@ export const vnode_applyJournal = (journal: VNodeJournal) => {
           }
         }
         break;
-      case VNodeJournalOpCode.HoistStyles:
+      }
+      case VNodeJournalOpCode.HoistStyles: {
         const document = journal[idx++] as Document;
         const head = document.head;
         const styles = document.querySelectorAll(QStylesAllSelector);
@@ -910,7 +940,8 @@ export const vnode_applyJournal = (journal: VNodeJournal) => {
           head.appendChild(styles[i]);
         }
         break;
-      case VNodeJournalOpCode.Remove:
+      }
+      case VNodeJournalOpCode.Remove: {
         const removeParent = journal[idx++] as Element;
         let nodeToRemove: any;
         while (idx < length && typeof (nodeToRemove = journal[idx]) !== 'number') {
@@ -918,7 +949,8 @@ export const vnode_applyJournal = (journal: VNodeJournal) => {
           idx++;
         }
         break;
-      case VNodeJournalOpCode.Insert:
+      }
+      case VNodeJournalOpCode.Insert: {
         const insertParent = journal[idx++] as Element;
         const insertBefore = journal[idx++] as Element | Text | null;
         let newChild: any;
@@ -927,6 +959,33 @@ export const vnode_applyJournal = (journal: VNodeJournal) => {
           idx++;
         }
         break;
+      }
+      case VNodeJournalOpCode.DisableStyles: {
+        const document = journal[idx++] as Document;
+        const head = document.head;
+        let styleId: any;
+        while (idx < length && typeof (styleId = journal[idx]) !== 'number') {
+          const style = head.querySelector(
+            QStyleSelectorPrefix + '="' + styleId + '"]'
+          ) as HTMLStyleElement;
+          style.disabled = true;
+          idx++;
+        }
+        break;
+      }
+      case VNodeJournalOpCode.EnableStyles: {
+        const document = journal[idx++] as Document;
+        const head = document.head;
+        let styleId: any;
+        while (idx < length && typeof (styleId = journal[idx]) !== 'number') {
+          const style = head.querySelector(
+            QStyleSelectorPrefix + '="' + styleId + '"]'
+          ) as HTMLStyleElement;
+          style.disabled = false;
+          idx++;
+        }
+        break;
+      }
     }
   }
   journal.length = 0;
@@ -1673,6 +1732,8 @@ function materializeFromVNodeData(
       // collect the elements;
     } else if (peek() === VNodeDataChar.SCOPED_STYLE) {
       vnode_setAttr(null, vParent, QScopedStyle, consumeValue());
+    } else if (peek() === VNodeDataChar.STYLE) {
+      vnode_setAttr(null, vParent, QStyle, consumeValue());
     } else if (peek() === VNodeDataChar.RENDER_FN) {
       vnode_setAttr(null, vParent, OnRenderProp, consumeValue());
     } else if (peek() === VNodeDataChar.ID) {

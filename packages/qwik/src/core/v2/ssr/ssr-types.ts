@@ -28,7 +28,6 @@ export interface ISsrNode {
 
 export interface ISsrComponentFrame {
   componentNode: ISsrNode;
-  scopedStyleIds: Set<string>;
   childrenScopedStyle: string | null;
   projectionDepth: number;
   releaseUnclaimedProjections(
