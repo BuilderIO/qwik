@@ -1,0 +1,24 @@
+---
+title: Nightwatch | Integrations
+keywords: 'e2e, testing'
+contributors:
+  - garg3133
+---
+
+# Nightwatch
+
+[Nightwatch](https://nightwatchjs.org) is an integrated end-to-end testing framework powered by [W3C WebDriver API](https://w3c.github.io/webdriver/), the standard for browser automation.
+This allows Nightwatch to run e2e tests against _real browsers_ (not browser engines) on both desktop and mobile platforms.
+
+## Usage
+
+You can add Nightwatch easily by using the following Qwik starter script:
+
+```shell
+npm run qwik add nightwatch
+```
+
+This command will install `nightwatch` into your project, along with two other dependencies, add a `test.e2e` script to your `package.json`, and create a default configuration file named `nightwatch.conf.cjs`.
+It will also add an example test within a newly created `test` folder which can be run against the Qwik starter application.
+
+For further reference, please check the [Nightwatch documentation](https://nightwatchjs.org/guide/).

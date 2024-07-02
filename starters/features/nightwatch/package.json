@@ -1,0 +1,21 @@
+{
+  "description": "Use Nightwatch to run E2E tests into your Qwik app",
+  "__qwik__": {
+    "displayName": "Integration: Nightwatch (E2E Test)",
+    "priority": -10,
+    "viteConfig": {},
+    "docs": [
+      "https://qwik.dev/docs/integrations/nightwatch/",
+      "https://nightwatchjs.org/guide/",
+      "https://nightwatchjs.org/guide/quickstarts/create-and-run-a-nightwatch-test.html"
+    ]
+  },
+  "devDependencies": {
+    "nightwatch": "^3.6.3",
+    "ts-node": "^10.9.2",
+    "wait-on": "^7.2.0"
+  },
+  "scripts": {
+    "test.e2e": "nightwatch ./test"
+  }
+}
