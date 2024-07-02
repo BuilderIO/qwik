@@ -365,6 +365,24 @@ test.describe("actions", () => {
         520,
       );
     });
+
+    test("redirects, re-runs loaders and changes the url within the same page when search params changed", async ({
+      page,
+    }) => {
+      await page.goto("/qwikcity-test/search-params-redirect/");
+      await page.getByText("Submit").click();
+      await page.waitForURL(
+        "**/qwikcity-test/search-params-redirect/?redirected=true",
+      );
+
+      const url = new URL(page.url());
+
+      expect(url.href.replace(url.origin, "")).toEqual(
+        "/qwikcity-test/search-params-redirect/?redirected=true",
+      );
+
+      await expect(page.locator("#redirected-result")).toHaveText("true");
+    });
   }
 });
 
