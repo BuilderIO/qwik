@@ -164,6 +164,7 @@ import {
   vnode_getElementNamespaceFlags,
 } from './vnode-namespace';
 import { escapeHTML } from '../shared/character-escaping';
+import { SignalImpl } from '../../state/signal';
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1879,8 +1880,15 @@ const stringify = (value: any): any => {
       }
     } else if (Array.isArray(value)) {
       return '[' + value.map(stringify).join(', ') + ']';
+    }
+    if (value instanceof SignalImpl) {
+      return stringify(value.value);
     } else {
-      return String(value);
+      if (value.toString) {
+        return String(value);
+      } else {
+        return JSON.stringify(value);
+      }
     }
   } finally {
     stringifyPath.pop();
