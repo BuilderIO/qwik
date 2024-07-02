@@ -1,16 +1,22 @@
 import type { SWGraph } from './process-message';
 import type { SWState, SWStateBase, SWTask } from './state';
 
-const DIRECT_PRIORITY = Number.MAX_SAFE_INTEGER >>> 1;
+const HIGH_PRIORITY = Number.MAX_SAFE_INTEGER >>> 1;
+const LOW_PRIORITY = 0;
 
-export function directFetch(swState: SWState, url: URL): Promise<Response> | undefined {
+export function directFetch(
+  swState: SWState,
+  url: URL,
+  highPriority = false
+): Promise<Response> | undefined {
   const [basePath, filename] = parseBaseFilename(url);
   const base = swState.$bases$.find((base) => basePath === base.$path$);
   if (base) {
     swState.$log$('intercepting', url.pathname);
     // Check if direct here
     // Ignore any request which we are not aware of through base.
-    return enqueueFileAndDependencies(swState, base, [filename], DIRECT_PRIORITY).then(() =>
+    const priority = highPriority ? HIGH_PRIORITY : LOW_PRIORITY;
+    return enqueueFileAndDependencies(swState, base, [filename], priority).then(() =>
       getResponse(swState, url)
     );
   }
@@ -45,7 +51,7 @@ function getResponse(swState: SWState, url: URL): Promise<Response> {
 
 async function enqueueFetchIfNeeded(swState: SWState, url: URL, priority: number) {
   let task = swState.$queue$.find((task) => task.$url$.pathname === url.pathname);
-  const mode = priority >= DIRECT_PRIORITY ? 'direct' : 'prefetch';
+  const mode = priority > HIGH_PRIORITY ? 'direct' : 'prefetch';
   if (task) {
     const state = task.$isFetching$ ? 'fetching' : 'waiting';
     if (task.$priority$ < priority) {
@@ -80,11 +86,11 @@ function taskTick(swState: SWState) {
       outstandingRequests++;
     } else if (
       swState.$getCache$() &&
-      (outstandingRequests < swState.$maxPrefetchRequests$ || task.$priority$ >= DIRECT_PRIORITY)
+      (outstandingRequests < swState.$maxPrefetchRequests$ || task.$priority$ >= HIGH_PRIORITY)
     ) {
       task.$isFetching$ = true;
       outstandingRequests++;
-      const action = task.$priority$ >= DIRECT_PRIORITY ? 'FETCH (CACHE MISS)' : 'FETCH';
+      const action = task.$priority$ > HIGH_PRIORITY ? 'FETCH (CACHE MISS)' : 'FETCH';
       swState.$log$(action, task.$url$.pathname);
       swState
         .$fetch$(task.$url$)
@@ -98,6 +104,7 @@ function taskTick(swState: SWState) {
         .finally(() => {
           swState.$log$('FETCH DONE', task.$url$.pathname);
           swState.$queue$.splice(swState.$queue$.indexOf(task), 1);
+          outstandingRequests--;
           taskTick(swState);
         });
     }

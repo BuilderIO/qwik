@@ -18,7 +18,7 @@ export const setupServiceWorker = (swScope: ServiceWorkerGlobalScope) => {
   swScope.addEventListener('fetch', (ev) => {
     const request = ev.request;
     if (request.method === 'GET') {
-      const response = directFetch(swState, new URL(request.url));
+      const response = directFetch(swState, new URL(request.url), true);
       if (response) {
         ev.respondWith(response);
       }

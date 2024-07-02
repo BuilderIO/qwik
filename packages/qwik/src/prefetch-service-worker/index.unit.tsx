@@ -1,9 +1,9 @@
-import { setupServiceWorker } from './setup';
-import { expect, describe, it, vi } from 'vitest';
-import { createState, type SWTask } from './state';
-import { processMessage } from './process-message';
-import { addDependencies, directFetch } from './direct-fetch';
+import { describe, expect, it, vi } from 'vitest';
 import { delay } from '../core/util/promises';
+import { addDependencies, directFetch } from './direct-fetch';
+import { processMessage } from './process-message';
+import { setupServiceWorker } from './setup';
+import { createState, type SWTask } from './state';
 
 describe('service-worker', async () => {
   describe('registration', async () => {
@@ -205,7 +205,7 @@ describe('service-worker', async () => {
       await delay(0);
       expect(swState.$queue$.length).toBe(2);
       expect(swState.$queue$.filter((t) => t.$isFetching$).length).toBe(1);
-      const responsePromise = directFetch(swState, new URL('http://server/base/direct.js'));
+      const responsePromise = directFetch(swState, new URL('http://server/base/direct.js'), true);
       await delay(0);
       expect(swState.$queue$.length).toBe(3);
       expect(swState.$queue$.filter((t) => t.$isFetching$).length).toBe(2);
@@ -225,7 +225,7 @@ describe('service-worker', async () => {
     });
     it('should upgrade prefetch request to direct request when dependent request needs it', async () => {
       const swState = mockSwState();
-      swState.$maxPrefetchRequests$ = 1;
+      swState.$maxPrefetchRequests$ = 2;
       await processMessage(swState, [
         'graph',
         '/base/',
@@ -233,7 +233,10 @@ describe('service-worker', async () => {
       ]);
       await processMessage(swState, ['prefetch', '/base/', 'a.js', 'b.js', 'c.js']);
       await delay(0);
-      expect(swState.$queue$.filter(areFetching).map(getPathname)).toEqual(['/base/a.js']);
+      expect(swState.$queue$.filter(areFetching).map(getPathname)).toEqual([
+        '/base/a.js',
+        '/base/b.js',
+      ]);
       directFetch(swState, new URL('http://server/base/a.js'));
       await delay(0);
       // The `b.js` should be upgraded to direct request because it is a dependency of `a.js`.
