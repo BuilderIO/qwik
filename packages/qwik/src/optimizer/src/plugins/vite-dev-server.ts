@@ -126,7 +126,7 @@ export async function configureDevServer(
                   location: 'head',
                   attributes: {
                     rel: 'stylesheet',
-                    href: url,
+                    href: `${base}${url.slice(1)}`,
                   },
                 });
               }
@@ -161,12 +161,13 @@ export async function configureDevServer(
                     return [symbolName, `${base}${symbolName.toLowerCase()}.js`];
                   }
                   const parentPath = path.dirname(parent);
+                  const parentFile = path.basename(parent);
                   // DX: if the file isn't under the source dir (e.g. a symlink from node_modules)
                   // use the full path, otherwise relative to the source
                   const qrlPath = parentPath.startsWith(opts.rootDir)
-                    ? path.relative(opts.rootDir, parentPath)
-                    : `@fs${parentPath}`;
-                  const qrlFile = `${encode(qrlPath)}/${symbolName.toLowerCase()}.js?_qrl_parent=${encode(parent)}`;
+                    ? path.posix.normalize(path.relative(opts.rootDir, parentPath))
+                    : `@fs${path.posix.normalize(parentPath)}`;
+                  const qrlFile = `${encode(qrlPath)}/${symbolName.toLowerCase()}.js?_qrl_parent=${encode(parentFile)}`;
                   return [symbolName, `${base}${qrlFile}`];
                 },
             prefetchStrategy: null,
@@ -193,7 +194,7 @@ export async function configureDevServer(
                   pathId.endsWith(ext)
                 )
               ) {
-                res.write(`<link rel="stylesheet" href="${v.url}">`);
+                res.write(`<link rel="stylesheet" href="${base}${v.url.slice(1)}">`);
               }
             });
           });

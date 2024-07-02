@@ -494,17 +494,28 @@ export function createPlugin(optimizerOptions: OptimizerOptions = {}) {
         }
         return;
       }
-      let isAbsoluteDevFile;
+      importerId = normalizePath(importerId);
+      const parsedImporterId = parseId(importerId);
+      const dir = path.dirname(parsedImporterId.pathId);
       if (opts.target === 'ssr' && !isSSR && importerId.endsWith('.html') && server) {
         // This is a request from a dev-mode browser
         // we uri-encode chunk paths in dev mode, and other imported files don't have % in their paths (hopefully)
         // These will be individual source files and their QRL segments
         id = decodeURIComponent(id);
+        // Support absolute paths for qrl segments, due to e.g. pnpm linking
+        const isAbsoluteFile = id.startsWith('/@fs/');
+        if (isAbsoluteFile) {
+          id = id.slice(4);
+        }
         // Check for parent passed via QRL
         const match = /^([^?]*)\?_qrl_parent=(.*)/.exec(id);
         if (match) {
           id = match[1];
-          const parentId = match[2];
+          const parentId = id.slice(0, id.lastIndexOf('/') + 1) + match[2];
+          if (!isAbsoluteFile) {
+            // We know for sure that the path is relative to the html importer even though it starts with /
+            id = normalizePath(path.join(dir, id));
+          }
           // building here via ctx.load doesn't seem to work (target is always ssr?)
           // instead we use the devserver directly
           if (!clientResults.has(parentId)) {
@@ -513,41 +524,20 @@ export function createPlugin(optimizerOptions: OptimizerOptions = {}) {
             // The QRL segment should exist now
           }
         }
-        // Support absolute paths for qrl segments, due to e.g. pnpm linking
-        isAbsoluteDevFile = id.startsWith('/@fs/');
-        if (isAbsoluteDevFile) {
-          id = id.slice(4);
-        }
       }
       const parsedId = parseId(id);
       let importeePathId = normalizePath(parsedId.pathId);
-      if (isAbsoluteDevFile) {
+      const ext = path.extname(importeePathId).toLowerCase();
+      if (ext in RESOLVE_EXTS) {
+        debug(`resolveId("${importeePathId}", "${importerId}")`);
+        // resolve relative paths
+        importeePathId = normalizePath(path.resolve(dir, importeePathId));
+
         if (transformedOutputs.has(importeePathId)) {
           debug(`resolveId() Resolved ${importeePathId} from transformedOutputs`);
-          return { id: importeePathId + parsedId.query };
-        }
-        // fall through to standard resolve
-      } else {
-        const ext = path.extname(importeePathId).toLowerCase();
-        if (ext in RESOLVE_EXTS) {
-          importerId = normalizePath(importerId);
-          debug(`resolveId("${importeePathId}", "${importerId}")`);
-          const parsedImporterId = parseId(importerId);
-          const dir = path.dirname(parsedImporterId.pathId);
-          if (parsedImporterId.pathId.endsWith('.html') && !importeePathId.endsWith('.html')) {
-            // dev mode browser requests, add rootDir
-            importeePathId = normalizePath(path.join(dir, importeePathId));
-          } else {
-            importeePathId = normalizePath(path.resolve(dir, importeePathId));
-          }
-          const transformedOutput = transformedOutputs.get(importeePathId);
-
-          if (transformedOutput) {
-            debug(`resolveId() Resolved ${importeePathId} from transformedOutputs`);
-            return {
-              id: importeePathId + parsedId.query,
-            };
-          }
+          return {
+            id: importeePathId + parsedId.query,
+          };
         }
       }
     } else if (path.isAbsolute(id)) {
@@ -556,9 +546,8 @@ export function createPlugin(optimizerOptions: OptimizerOptions = {}) {
       const ext = path.extname(importeePathId).toLowerCase();
       if (ext in RESOLVE_EXTS) {
         debug(`resolveId("${importeePathId}", "${importerId}")`);
-        const transformedOutput = transformedOutputs.get(importeePathId);
 
-        if (transformedOutput) {
+        if (transformedOutputs.has(importeePathId)) {
           debug(`resolveId() Resolved ${importeePathId} from transformedOutputs`);
           return {
             id: importeePathId + parsedId.query,
@@ -929,20 +918,20 @@ export function parseId(originalId: string) {
   };
 }
 
-const TRANSFORM_EXTS: { [ext: string]: boolean } = {
+const TRANSFORM_EXTS = {
   '.jsx': true,
   '.ts': true,
   '.tsx': true,
-};
+} as const;
 
-const RESOLVE_EXTS: { [ext: string]: boolean } = {
+const RESOLVE_EXTS = {
   '.tsx': true,
   '.ts': true,
   '.jsx': true,
   '.js': true,
   '.mjs': true,
   '.cjs': true,
-};
+} as const;
 
 const TRANSFORM_REGEX = /\.qwik\.[mc]?js$/;
 
