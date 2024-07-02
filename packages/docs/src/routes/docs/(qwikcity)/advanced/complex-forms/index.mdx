@@ -5,6 +5,7 @@ contributors:
   - ulic75
   - hamatoyogi
   - aendel
+  - tzdesign
 updated_at: '2023-08-21T21:04:20Z'
 created_at: '2023-08-21T21:04:20Z'
 ---
@@ -107,3 +108,129 @@ export const action = routeAction$(
   })
 );
 ```
+
+### Field errors also in dot notation (almost)
+
+If you use dot notation, the error messages are also returned in dot notation in the `fieldErrors` property. This has the advantage that the input name and fieldError key match.
+
+For the this action:
+```tsx
+export const addPersonAction = routeAction$(
+  async person => {
+    return { success: true, person };
+  },
+  // Zod schema is used to validate the FormData
+  zod$({
+    person: z.object({
+      name: z.string(),
+      email: z.string().email(),
+      address: z.object({
+        street: z.string(),
+        city: z.string(),
+        state: z.string(),
+        zip: z.coerce.number(),
+      }),
+      pets: z.array(z.string()),
+    }),
+  })
+);
+```
+
+You would get this kind of `fieldErrors` if all are wrong:
+
+```ts
+{
+  "person.name": "Invalid string",
+  "person.email": "Invalid email",
+  "person.address.street": "Invalid string",
+  "person.address.city": "Invalid string",
+  "person.address.state": "Invalid string",
+  "person.address.zip": "Invalid number",
+  "person.pets[]": ["Required"]
+}
+```
+
+If you make person an array, the error messages will switch to a slightly different notation as:
+
+```ts
+{
+  "person[].name": ["Invalid string"],
+  "person[].email": ["Invalid email"],
+  "person[].address.street": ["Invalid string"],
+  "person[].address.city": ["Invalid string"],
+  "person[].address.state": ["Invalid string"],
+  "person[].address.zip": ["Invalid number"],
+  "person[].pets[]": ["Required"]
+}
+```
+
+> If you completely forget to assign a value to an array type, lets say you completely forget person in the form.
+> The error is then in `fieldErrors["person[]"]`.
+
+This way you can easily match the error messages to the input names like this:
+
+```tsx
+export const useAddPersonAction = routeAction$(
+  async person => {
+    console.log(person);
+    return { success: true, person };
+  },
+  zod$({
+    person: z.object({
+      name: z.string().min(2),
+      email: z.string().email(),
+      address: z.object({
+        street: z.string().min(2),
+        city: z.string().min(2),
+        state: z.string().min(2),
+        zip: z.coerce.number(),
+      }),
+      pets: z.array(z.string().min(2)),
+    }),
+  })
+);
+
+export default component$(() => {
+  const testAction = useAddPersonAction();
+
+  const renderError = (errorMessage: string | undefined) => {
+    if (!errorMessage) return null;
+    return <p class="error">{errorMessage}</p>;
+  };
+
+  return (
+    <Form action={testAction}>
+      <input type="email" name="person.email" placeholder="Email" />
+      {renderError(testAction.value?.fieldErrors?.["person.email"])}
+      <input type="text" name="person.name" placeholder="Name" />
+      {renderError(testAction.value?.fieldErrors?.["person.name"])}
+      <input type="text" name="person.address.street" placeholder="Street" />
+      {renderError(testAction.value?.fieldErrors?.["person.address.street"])}
+      <input type="text" name="person.address.city" placeholder="City" />
+      {renderError(testAction.value?.fieldErrors?.["person.address.city"])}
+      <input type="text" name="person.address.state" placeholder="State" />
+      {renderError(testAction.value?.fieldErrors?.["person.address.state"])}
+      <input type="text" name="person.address.zip" placeholder="Zip" />
+      {renderError(testAction.value?.fieldErrors?.["person.address.zip"])}
+      <input type="text" name="person.pets.0" placeholder="Pet 1" />
+      {renderError(testAction.value?.fieldErrors?.["person.pets[]"]?.[0])}
+      <button>Send</button>
+    </Form>
+  );
+});
+```
+For this example the `fieldErrors` look like this:
+
+```json
+{
+  "person.name": "String must contain at least 2 character(s)",
+  "person.email": "Invalid email",
+  "person.address.street": "String must contain at least 2 character(s)",
+  "person.address.city": "String must contain at least 2 character(s)",
+  "person.address.state": "String must contain at least 2 character(s)",
+  "person.pets[]": [
+    "String must contain at least 2 character(s)"
+  ]
+}
+```
+

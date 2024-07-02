@@ -10,9 +10,10 @@ import type {
   CommonLoaderActionOptions,
   JSONObject,
   RequestEventAction,
+  ValidatorErrorType,
 } from "packages/qwik-city/runtime/src/types";
 
-type TypedDataValidatorError = z.typeToFlattenedError<{
+type TypedDataValidatorError = ValidatorErrorType<{
   category: "bird" | "dog" | "rat";
 }>;
 

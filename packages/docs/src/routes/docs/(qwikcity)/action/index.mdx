@@ -24,6 +24,7 @@ contributors:
   - adamdbradley
   - gioboa
   - jemsco
+  - tzdesign
 updated_at: '2023-12-15T11:00:00Z'
 created_at: '2023-03-20T23:45:13Z'
 ---
@@ -339,6 +340,8 @@ export const useAddUser = routeAction$(
 ```
 
 Failures are stored in the `action.value` property, just like the success value. However, the `action.value.failed` property is set to `true` when the action fails. Futhermore, failure messages can be found in the `fieldErrors` object according to properties defined in your Zod schema.
+
+The `fieldErrors` become a dot notation object. See [Complex forms](/docs/advanced/complex-forms) for more information. 
 
 ```tsx
 import { component$ } from '@builder.io/qwik';

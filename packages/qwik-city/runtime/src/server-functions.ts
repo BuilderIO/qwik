@@ -255,10 +255,15 @@ export const zodQrl = ((
               result.error.issues
             );
           }
+          const zodErrorsFlatten = result.error.flatten();
+          const fieldErrors = flattenZodIssues(result.error.issues);
           return {
             success: false,
             status: 400,
-            error: result.error.flatten(),
+            error: {
+              formErrors: zodErrorsFlatten.formErrors,
+              fieldErrors: fieldErrors,
+            },
           };
         }
       },
@@ -266,6 +271,31 @@ export const zodQrl = ((
   }
   return undefined as any;
 }) as ZodConstructorQRL;
+
+const flattenZodIssues = (issues: z.ZodIssue | z.ZodIssue[]) => {
+  issues = Array.isArray(issues) ? issues : [issues];
+  return issues.reduce<Record<string, string | string[]>>((acc, issue) => {
+    const isExpectingArray = 'expected' in issue && issue.expected === 'array';
+    const hasArrayType = issue.path.some((path) => typeof path === 'number') || isExpectingArray;
+    if (hasArrayType) {
+      const keySuffix = 'expected' in issue && issue.expected === 'array' ? '[]' : '';
+      const key =
+        issue.path
+          .map((path) => (typeof path === 'number' ? '*' : path))
+          .join('.')
+          .replace(/\.\*/g, '[]') + keySuffix;
+
+      acc[key] = acc[key] || [];
+      if (Array.isArray(acc[key])) {
+        (acc[key] as string[]).push(issue.message);
+      }
+      return acc;
+    } else {
+      acc[issue.path.join('.')] = issue.message;
+    }
+    return acc;
+  }, {});
+};
 
 /** @public */
 export const zod$ = /*#__PURE__*/ implicit$FirstArg(zodQrl) as ZodConstructor;

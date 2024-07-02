@@ -40,6 +40,8 @@ export type {
   RequestEventBase,
   JSONObject,
   JSONValue,
+  ValidatorErrorType,
+  ValidatorErrorKeyDotNotation,
 } from './types';
 
 export { RouterOutlet } from './router-outlet-component';

@@ -1,5 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { routeAction$, zod$, z } from "@builder.io/qwik-city";
+import type { ValidatorErrorType } from "packages/qwik-city/runtime/src/types";
 
 // This is a TypeScript type validation test only.
 
@@ -25,7 +26,7 @@ export default component$(() => {
   const zodAction = useZodObjectAction();
   const zodValue = zodAction.value!;
   if (zodValue.failed) {
-    zodValue satisfies { failed: true } & z.typeToFlattenedError<{
+    zodValue satisfies { failed: true } & ValidatorErrorType<{
       name: string;
     }>;
   } else {
