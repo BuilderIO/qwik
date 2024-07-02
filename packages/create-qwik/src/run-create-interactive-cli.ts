@@ -43,7 +43,10 @@ export async function runCreateInteractiveCli(): Promise<CreateAppResult> {
     throw new Error('Base app not found');
   }
 
-  const starterApps = templateManager.templates.filter((a) => a.id !== baseApp.id);
+  // sorted alphabetically
+  const starterApps = templateManager.templates
+    .filter((a) => a.id !== baseApp.id)
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const outDir: string = resolveRelativeDir(projectNameAnswer.trim());
   baseApp.target = outDir;

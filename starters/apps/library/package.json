@@ -1,6 +1,6 @@
 {
   "name": "qwik-library-name",
-  "description": "Create a reusable Qwik component library",
+  "description": "Create a Qwik library",
   "version": "0.0.1",
   "private": false,
   "main": "./lib/index.qwik.mjs",
@@ -48,7 +48,7 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "__qwik__": {
-    "displayName": "Component library (Qwik)",
+    "displayName": "Library (Qwik)",
     "priority": -1,
     "docs": [
       "https://qwik.dev/docs/getting-started/"

@@ -1,6 +1,6 @@
 {
   "name": "qwik-empty-starter",
-  "description": "App with Routing built-in ready to create your app",
+  "description": "Blank project with routing included",
   "type": "module",
   "__qwik__": {
     "priority": 1,
