@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
   "extends": "../../../api-extractor.json",
-  "mainEntryPointFilePath": "<projectFolder>/../../dist-dev/dts-out/packages/qwik-city/adapters/vercel-edge/vite/index.d.ts",
+  "mainEntryPointFilePath": "<projectFolder>/../../dist-dev/dts-out/packages/qwik-city/adapters/vercel/edge/index.d.ts",
   "apiReport": {
     "enabled": true,
     "reportFileName": "api.md",
-    "reportFolder": "<projectFolder>/adapters/vercel-edge/",
-    "reportTempFolder": "<projectFolder>/../../dist-dev/api-extractor/qwik-city/adapters/vercel-edge"
+    "reportFolder": "<projectFolder>/adapters/vercel/edge",
+    "reportTempFolder": "<projectFolder>/../../dist-dev/api-extractor/qwik-city/adapters/vercel/edge"
   },
   "dtsRollup": {
     "enabled": true,
-    "untrimmedFilePath": "<projectFolder>/lib/adapters/vercel-edge/vite/index.d.ts"
+    "untrimmedFilePath": "<projectFolder>/lib/adapters/vercel/edge/index.d.ts"
   },
   "docModel": {
     "enabled": true,

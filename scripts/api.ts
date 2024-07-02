@@ -137,8 +137,13 @@ export async function apiExtractorQwikCity(config: BuildConfig) {
   );
   createTypesApi(
     config,
-    join(config.packagesDir, 'qwik-city', 'adapters', 'vercel-edge', 'vite'),
-    join(config.packagesDir, 'qwik-city', 'lib', 'adapters', 'vercel-edge', 'vite', 'index.d.ts')
+    join(config.packagesDir, 'qwik-city', 'adapters', 'vercel', 'edge'),
+    join(config.packagesDir, 'qwik-city', 'lib', 'adapters', 'vercel', 'edge', 'index.d.ts')
+  );
+  createTypesApi(
+    config,
+    join(config.packagesDir, 'qwik-city', 'adapters', 'vercel', 'serverless'),
+    join(config.packagesDir, 'qwik-city', 'lib', 'adapters', 'vercel', 'serverless', 'index.d.ts')
   );
   createTypesApi(
     config,
@@ -192,8 +197,13 @@ export async function apiExtractorQwikCity(config: BuildConfig) {
   );
   createTypesApi(
     config,
-    join(config.packagesDir, 'qwik-city', 'middleware', 'vercel-edge'),
-    join(config.packagesDir, 'qwik-city', 'lib', 'middleware', 'vercel-edge', 'index.d.ts')
+    join(config.packagesDir, 'qwik-city', 'middleware', 'vercel', 'edge'),
+    join(config.packagesDir, 'qwik-city', 'lib', 'middleware', 'vercel', 'edge', 'index.d.ts')
+  );
+  createTypesApi(
+    config,
+    join(config.packagesDir, 'qwik-city', 'middleware', 'vercel', 'serverless'),
+    join(config.packagesDir, 'qwik-city', 'lib', 'middleware', 'vercel', 'serverless', 'index.d.ts')
   );
   generateQwikCityReferenceModules(config);
 

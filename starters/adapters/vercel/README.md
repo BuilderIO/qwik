@@ -1,6 +1,6 @@
-## Vercel Edge
+## Vercel Edge & Serverless
 
-This starter site is configured to deploy to [Vercel Edge Functions](https://vercel.com/docs/concepts/functions/edge-functions), which means it will be rendered at an edge location near to your users. Vercel supports two runtimes: Edge and Serverless. The Edge runtime is lightweight and web-compatible, while the Serverless runtime is based on Node.js.
+This starter site is set up to deploy to [Vercel Functions](https://vercel.com/docs/functions), so it will be rendered at an edge location close to your users. Vercel supports two runtimes: Edge and Serverless. The Edge runtime is lightweight and web-compatible, while the Serverless runtime is based on Node.js.
 
 ## Installation
 
@@ -10,11 +10,14 @@ The adaptor will add a new `vite.config.ts` within the `adapters/` directory, an
 └── adapters/
     └── vercel-edge/
         └── vite.config.ts
+    └── vercel-serverless/
+        └── vite.config.ts
 └── src/
     └── entry.vercel-edge.tsx
+    └── entry.vercel-serverless.tsx
 ```
 
-Additionally, within the `package.json`, the `build.server` script will be updated with the Vercel Edge build.
+Additionally, within the `package.json`, the `build.server` script will be updated with the Vercel Edge & Serverless build.
 
 ## Production build
 
@@ -24,7 +27,7 @@ To build the application for production, use the `build` command, this command w
 npm run build
 ```
 
-[Read the full guide here](https://github.com/QwikDev/qwik/blob/main/starters/adapters/vercel-edge/README.md)
+[Read the full guide here](https://github.com/QwikDev/qwik/blob/main/starters/adapters/vercel/README.md)
 
 ## Dev deploy
 

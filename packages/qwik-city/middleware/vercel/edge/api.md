@@ -14,6 +14,10 @@ export interface PlatformVercel {
 }
 
 // @public (undocumented)
+export interface PlatformVercelEdge {
+}
+
+// @public (undocumented)
 export interface QwikCityVercelEdgeOptions extends ServerRenderOptions {
 }
 

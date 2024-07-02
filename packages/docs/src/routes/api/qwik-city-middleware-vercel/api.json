@@ -1,0 +1,48 @@
+{
+  "id": "qwik-city-middleware-vercel",
+  "package": "@builder.io/qwik-city/middleware/vercel",
+  "members": [
+    {
+      "name": "createQwikCity",
+      "id": "createqwikcity",
+      "hierarchy": [
+        {
+          "name": "createQwikCity",
+          "id": "createqwikcity"
+        }
+      ],
+      "kind": "Function",
+      "content": "```typescript\nexport declare function createQwikCity(opts: QwikCityVercelServerlessOptions): (req: IncomingMessage | Http2ServerRequest, res: ServerResponse, next: (err?: any) => void) => void;\n```\n\n\n<table><thead><tr><th>\n\nParameter\n\n\n</th><th>\n\nType\n\n\n</th><th>\n\nDescription\n\n\n</th></tr></thead>\n<tbody><tr><td>\n\nopts\n\n\n</td><td>\n\n[QwikCityVercelServerlessOptions](#qwikcityvercelserverlessoptions)\n\n\n</td><td>\n\n\n</td></tr>\n</tbody></table>\n**Returns:**\n\n(req: IncomingMessage \\| Http2ServerRequest, res: ServerResponse, next: (err?: any) =&gt; void) =&gt; void",
+      "editUrl": "https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/middleware/vercel/serverless/index.ts",
+      "mdFile": "qwik-city.createqwikcity.md"
+    },
+    {
+      "name": "PlatformVercelServerless",
+      "id": "platformvercelserverless",
+      "hierarchy": [
+        {
+          "name": "PlatformVercelServerless",
+          "id": "platformvercelserverless"
+        }
+      ],
+      "kind": "Interface",
+      "content": "```typescript\nexport interface PlatformVercelServerless \n```",
+      "editUrl": "https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/middleware/vercel/serverless/index.ts",
+      "mdFile": "qwik-city.platformvercelserverless.md"
+    },
+    {
+      "name": "QwikCityVercelServerlessOptions",
+      "id": "qwikcityvercelserverlessoptions",
+      "hierarchy": [
+        {
+          "name": "QwikCityVercelServerlessOptions",
+          "id": "qwikcityvercelserverlessoptions"
+        }
+      ],
+      "kind": "Interface",
+      "content": "```typescript\nexport interface QwikCityVercelServerlessOptions extends ServerRenderOptions \n```\n**Extends:** ServerRenderOptions",
+      "editUrl": "https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/middleware/vercel/serverless/index.ts",
+      "mdFile": "qwik-city.qwikcityvercelserverlessoptions.md"
+    }
+  ]
+}

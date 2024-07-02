@@ -24,6 +24,24 @@
       "@builder.io/qwik-city/adapters/static/vite": [
         "packages/qwik-city/adapters/static/vite/index.ts"
       ],
+      "@builder.io/qwik-city/adapters/vercel-edge/vite": [
+        "packages/qwik-city/adapters/vercel/edge/index.ts"
+      ],
+      "@builder.io/qwik-city/adapters/vercel/edge": [
+        "packages/qwik-city/adapters/vercel/edge/index.ts"
+      ],
+      "@builder.io/qwik-city/adapters/vercel/serverless": [
+        "packages/qwik-city/adapters/vercel/serverless/index.ts"
+      ],
+      "@builder.io/qwik-city/middleware/vercel-edge": [
+        "packages/qwik-city/middleware/vercel/edge/index.ts"
+      ],
+      "@builder.io/qwik-city/middleware/vercel/edge": [
+        "packages/qwik-city/middleware/vercel/edge/index.ts"
+      ],
+      "@builder.io/qwik-city/middleware/vercel/serverless": [
+        "packages/qwik-city/middleware/vercel/serverless/index.ts"
+      ],
       "@builder.io/qwik-city/middleware/azure-swa": ["packages/qwik-city/middleware/azure-swa"],
       "@builder.io/qwik-city/middleware/aws-lambda": ["packages/qwik-city/middleware/aws-lambda"],
       "@builder.io/qwik-city/middleware/cloudflare-pages": [

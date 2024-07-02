@@ -4,6 +4,9 @@ import fs from 'node:fs';
 import { dirname, join } from 'node:path';
 
 /** @public */
+export const FUNCTION_DIRECTORY = '_qwik-city-edge';
+
+/** @public */
 export function vercelEdgeAdapter(opts: VercelEdgeAdapterOptions = {}): any {
   return viteAdapter({
     name: 'vercel-edge',
@@ -14,7 +17,8 @@ export function vercelEdgeAdapter(opts: VercelEdgeAdapterOptions = {}): any {
 
     config(config) {
       const outDir =
-        config.build?.outDir || join('.vercel', 'output', 'functions', '_qwik-city.func');
+        config.build?.outDir ||
+        join('.vercel', 'output', 'functions', `${FUNCTION_DIRECTORY}.func`);
       return {
         resolve: {
           conditions:
@@ -50,7 +54,7 @@ export function vercelEdgeAdapter(opts: VercelEdgeAdapterOptions = {}): any {
             { handle: 'filesystem' },
             {
               src: basePathname + '.*',
-              dest: '/_qwik-city',
+              dest: `/${FUNCTION_DIRECTORY}`,
             },
           ],
           version: 3,

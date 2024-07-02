@@ -4,10 +4,183 @@ title: \@builder.io/qwik-city/vite/vercel API Reference
 
 # [API](/api) &rsaquo; @builder.io/qwik-city/vite/vercel
 
-## vercelEdgeAdapter
+## FUNCTION_DIRECTORY
 
 ```typescript
-export declare function vercelEdgeAdapter(opts?: VercelEdgeAdapterOptions): any;
+FUNCTION_DIRECTORY = "_qwik-city-serverless";
+```
+
+[Edit this section](https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/adapters/vercel/serverless/index.ts)
+
+## ServerlessFunctionConfig
+
+```typescript
+export interface ServerlessFunctionConfig
+```
+
+<table><thead><tr><th>
+
+Property
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[environment?](#)
+
+</td><td>
+
+</td><td>
+
+Record&lt;string, string&gt;[]
+
+</td><td>
+
+_(Optional)_ Map of additional environment variables that will be available to the Serverless Function, in addition to the env vars specified in the Project Settings.
+
+Required: No
+
+</td></tr>
+<tr><td>
+
+[handler](#)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+Indicates the initial file where code will be executed for the Serverless Function.
+
+Required: Yes
+
+</td></tr>
+<tr><td>
+
+[maxDuration?](#)
+
+</td><td>
+
+</td><td>
+
+number
+
+</td><td>
+
+_(Optional)_ Maximum duration (in seconds) that will be allowed for the Serverless Function.
+
+Required: No
+
+</td></tr>
+<tr><td>
+
+[memory?](#)
+
+</td><td>
+
+</td><td>
+
+number
+
+</td><td>
+
+_(Optional)_ Amount of memory (RAM in MB) that will be allocated to the Serverless Function.
+
+Required: No
+
+</td></tr>
+<tr><td>
+
+[regions?](#)
+
+</td><td>
+
+</td><td>
+
+string[]
+
+</td><td>
+
+_(Optional)_ List of Vercel Regions where the Serverless Function will be deployed to.
+
+Required: No
+
+</td></tr>
+<tr><td>
+
+[runtime](#)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+Specifies which "runtime" will be used to execute the Serverless Function.
+
+Required: Yes
+
+</td></tr>
+<tr><td>
+
+[supportsResponseStreaming?](#)
+
+</td><td>
+
+</td><td>
+
+boolean
+
+</td><td>
+
+_(Optional)_ When true, the Serverless Function will stream the response to the client.
+
+Required: No
+
+</td></tr>
+<tr><td>
+
+[supportsWrapper?](#)
+
+</td><td>
+
+</td><td>
+
+boolean
+
+</td><td>
+
+_(Optional)_ True if a custom runtime has support for Lambda runtime wrappers.
+
+Required: No
+
+</td></tr>
+</tbody></table>
+
+[Edit this section](https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/adapters/vercel/serverless/index.ts)
+
+## vercelServerlessAdapter
+
+```typescript
+export declare function vercelServerlessAdapter(
+  opts?: VercelServerlessAdapterOptions,
+): any;
 ```
 
 <table><thead><tr><th>
@@ -29,7 +202,7 @@ opts
 
 </td><td>
 
-[VercelEdgeAdapterOptions](#verceledgeadapteroptions)
+[VercelServerlessAdapterOptions](#vercelserverlessadapteroptions)
 
 </td><td>
 
@@ -41,12 +214,12 @@ _(Optional)_
 
 any
 
-[Edit this section](https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/adapters/vercel-edge/vite/index.ts)
+[Edit this section](https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/adapters/vercel/serverless/index.ts)
 
-## VercelEdgeAdapterOptions
+## VercelServerlessAdapterOptions
 
 ```typescript
-export interface VercelEdgeAdapterOptions extends ServerAdapterOptions
+export interface VercelServerlessAdapterOptions extends ServerAdapterOptions
 ```
 
 **Extends:** ServerAdapterOptions
@@ -70,6 +243,74 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
+[awsLambdaHandler?](#)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ AWS Handler Value for when the serverless function uses AWS Lambda syntax.
+
+Required: No
+
+</td></tr>
+<tr><td>
+
+[environment?](#)
+
+</td><td>
+
+</td><td>
+
+{ [key: string]: string; }
+
+</td><td>
+
+_(Optional)_ Specifies environment variables for the serverless function.
+
+Required: No
+
+</td></tr>
+<tr><td>
+
+[maxDuration?](#)
+
+</td><td>
+
+</td><td>
+
+number
+
+</td><td>
+
+_(Optional)_ Specifies the maximum duration that the serverless function can run.
+
+Required: No
+
+</td></tr>
+<tr><td>
+
+[memory?](#)
+
+</td><td>
+
+</td><td>
+
+number
+
+</td><td>
+
+_(Optional)_ Specifies the memory allocation for the serverless function.
+
+Required: No
+
+</td></tr>
+<tr><td>
+
 [outputConfig?](#)
 
 </td><td>
@@ -83,6 +324,74 @@ boolean
 _(Optional)_ Determines if the build should auto-generate the `.vercel/output/config.json` config.
 
 Defaults to `true`.
+
+</td></tr>
+<tr><td>
+
+[regions?](#)
+
+</td><td>
+
+</td><td>
+
+string[]
+
+</td><td>
+
+_(Optional)_ Specifies the regions in which the serverless function should run.
+
+Required: No
+
+</td></tr>
+<tr><td>
+
+[runtime?](#)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ Specifies the runtime environment for the function, for example, Node.js, Deno, etc.
+
+Required: No
+
+</td></tr>
+<tr><td>
+
+[shouldAddHelpers?](#)
+
+</td><td>
+
+</td><td>
+
+boolean
+
+</td><td>
+
+_(Optional)_ Enables request and response helpers methods.
+
+Required: No Default: false
+
+</td></tr>
+<tr><td>
+
+[shouldAddSourceMapSupport?](#)
+
+</td><td>
+
+</td><td>
+
+boolean
+
+</td><td>
+
+_(Optional)_ Enables source map generation.
+
+Required: No Default: false
 
 </td></tr>
 <tr><td>
@@ -108,13 +417,13 @@ _(Optional)_ Manually add pathnames that should be treated as static paths and n
 
 </td><td>
 
-'webworker' \| 'node'
+string
 
 </td><td>
 
-_(Optional)_ Define the `target` property in the `ssr` object in the `vite.config.ts` file.
+_(Optional)_ Specifies the target platform for the deployment, such as Vercel, AWS, etc.
 
-Defaults to `webworker`.
+Required: No
 
 </td></tr>
 <tr><td>
@@ -134,23 +443,6 @@ _(Optional)_ The `entrypoint` property in the `.vc-config.json` file. Indicates 
 Defaults to `entry.vercel-edge.js`.
 
 </td></tr>
-<tr><td>
-
-[vcConfigEnvVarsInUse?](#)
-
-</td><td>
-
-</td><td>
-
-string[]
-
-</td><td>
-
-_(Optional)_ The `envVarsInUse` property in the `.vc-config.json` file. List of environment variable names that will be available for the Edge Function to utilize.
-
-Defaults to `undefined`.
-
-</td></tr>
 </tbody></table>
 
-[Edit this section](https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/adapters/vercel-edge/vite/index.ts)
+[Edit this section](https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/adapters/vercel/serverless/index.ts)

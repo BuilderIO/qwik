@@ -11,7 +11,7 @@ import { isStaticPath } from '@qwik-city-static-paths';
 import { _deserializeData, _serializeData, _verifySerializable } from '@builder.io/qwik';
 import { setServerPlatform } from '@builder.io/qwik/server';
 
-// @builder.io/qwik-city/middleware/vercel-edge
+// @builder.io/qwik-city/middleware/vercel/edge
 const COUNTRY_HEADER_NAME = 'x-vercel-ip-country';
 const IP_HEADER_NAME = 'x-real-ip';
 const VERCEL_COOKIE = '__vdpl';
@@ -128,5 +128,9 @@ export function createQwikCity(opts: QwikCityVercelEdgeOptions) {
 /** @public */
 export interface QwikCityVercelEdgeOptions extends ServerRenderOptions {}
 
+/** @public */
+export interface PlatformVercelEdge {}
+
+/** For backward compatibility */
 /** @public */
 export interface PlatformVercel {}

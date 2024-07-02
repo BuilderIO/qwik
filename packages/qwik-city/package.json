@@ -97,9 +97,19 @@
       "require": "./lib/adapters/static/vite/index.cjs"
     },
     "./adapters/vercel-edge/vite": {
-      "types": "./lib/adapters/vercel-edge/vite/index.d.ts",
-      "import": "./lib/adapters/vercel-edge/vite/index.mjs",
-      "require": "./lib/adapters/vercel-edge/vite/index.cjs"
+      "types": "./lib/adapters/vercel/edge/index.d.ts",
+      "import": "./lib/adapters/vercel/edge/index.mjs",
+      "require": "./lib/adapters/vercel/edge/index.cjs"
+    },
+    "./adapters/vercel/edge": {
+      "types": "./lib/adapters/vercel/edge/index.d.ts",
+      "import": "./lib/adapters/vercel/edge/index.mjs",
+      "require": "./lib/adapters/vercel/edge/index.cjs"
+    },
+    "./adapters/vercel/serverless": {
+      "types": "./lib/adapters/vercel/serverless/index.d.ts",
+      "import": "./lib/adapters/vercel/serverless/index.mjs",
+      "require": "./lib/adapters/vercel/serverless/index.cjs"
     },
     "./middleware/azure-swa": {
       "types": "./lib/middleware/azure-swa/index.d.ts",
@@ -140,8 +150,17 @@
       "require": "./lib/middleware/request-handler/index.cjs"
     },
     "./middleware/vercel-edge": {
-      "types": "./lib/middleware/vercel-edge/index.d.ts",
-      "import": "./lib/middleware/vercel-edge/index.mjs"
+      "types": "./lib/middleware/vercel/edge/index.d.ts",
+      "import": "./lib/middleware/vercel/edge/index.mjs"
+    },
+    "./middleware/vercel/edge": {
+      "types": "./lib/middleware/vercel/edge/index.d.ts",
+      "import": "./lib/middleware/vercel/edge/index.mjs"
+    },
+    "./middleware/vercel/serverless": {
+      "types": "./lib/middleware/vercel/edge/index.d.ts",
+      "import": "./lib/middleware/vercel/edge/index.mjs",
+      "require": "./lib/middleware/vercel/edge/index.cjs"
     },
     "./static": {
       "types": "./lib/static/index.d.ts",

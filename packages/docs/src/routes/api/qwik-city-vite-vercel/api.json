@@ -3,32 +3,60 @@
   "package": "@builder.io/qwik-city/vite/vercel",
   "members": [
     {
-      "name": "vercelEdgeAdapter",
-      "id": "verceledgeadapter",
+      "name": "FUNCTION_DIRECTORY",
+      "id": "function_directory",
       "hierarchy": [
         {
-          "name": "vercelEdgeAdapter",
-          "id": "verceledgeadapter"
+          "name": "FUNCTION_DIRECTORY",
+          "id": "function_directory"
         }
       ],
-      "kind": "Function",
-      "content": "```typescript\nexport declare function vercelEdgeAdapter(opts?: VercelEdgeAdapterOptions): any;\n```\n\n\n<table><thead><tr><th>\n\nParameter\n\n\n</th><th>\n\nType\n\n\n</th><th>\n\nDescription\n\n\n</th></tr></thead>\n<tbody><tr><td>\n\nopts\n\n\n</td><td>\n\n[VercelEdgeAdapterOptions](#verceledgeadapteroptions)\n\n\n</td><td>\n\n_(Optional)_\n\n\n</td></tr>\n</tbody></table>\n**Returns:**\n\nany",
-      "editUrl": "https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/adapters/vercel-edge/vite/index.ts",
-      "mdFile": "qwik-city.verceledgeadapter.md"
+      "kind": "Variable",
+      "content": "```typescript\nFUNCTION_DIRECTORY = \"_qwik-city-serverless\"\n```",
+      "editUrl": "https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/adapters/vercel/serverless/index.ts",
+      "mdFile": "qwik-city.function_directory.md"
     },
     {
-      "name": "VercelEdgeAdapterOptions",
-      "id": "verceledgeadapteroptions",
+      "name": "ServerlessFunctionConfig",
+      "id": "serverlessfunctionconfig",
       "hierarchy": [
         {
-          "name": "VercelEdgeAdapterOptions",
-          "id": "verceledgeadapteroptions"
+          "name": "ServerlessFunctionConfig",
+          "id": "serverlessfunctionconfig"
         }
       ],
       "kind": "Interface",
-      "content": "```typescript\nexport interface VercelEdgeAdapterOptions extends ServerAdapterOptions \n```\n**Extends:** ServerAdapterOptions\n\n\n<table><thead><tr><th>\n\nProperty\n\n\n</th><th>\n\nModifiers\n\n\n</th><th>\n\nType\n\n\n</th><th>\n\nDescription\n\n\n</th></tr></thead>\n<tbody><tr><td>\n\n[outputConfig?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nboolean\n\n\n</td><td>\n\n_(Optional)_ Determines if the build should auto-generate the `.vercel/output/config.json` config.\n\nDefaults to `true`<!-- -->.\n\n\n</td></tr>\n<tr><td>\n\n[staticPaths?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nstring\\[\\]\n\n\n</td><td>\n\n_(Optional)_ Manually add pathnames that should be treated as static paths and not SSR. For example, when these pathnames are requested, their response should come from a static file, rather than a server-side rendered response.\n\n\n</td></tr>\n<tr><td>\n\n[target?](#)\n\n\n</td><td>\n\n\n</td><td>\n\n'webworker' \\| 'node'\n\n\n</td><td>\n\n_(Optional)_ Define the `target` property in the `ssr` object in the `vite.config.ts` file.\n\nDefaults to `webworker`<!-- -->.\n\n\n</td></tr>\n<tr><td>\n\n[vcConfigEntryPoint?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nstring\n\n\n</td><td>\n\n_(Optional)_ The `entrypoint` property in the `.vc-config.json` file. Indicates the initial file where code will be executed for the Edge Function.\n\nDefaults to `entry.vercel-edge.js`<!-- -->.\n\n\n</td></tr>\n<tr><td>\n\n[vcConfigEnvVarsInUse?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nstring\\[\\]\n\n\n</td><td>\n\n_(Optional)_ The `envVarsInUse` property in the `.vc-config.json` file. List of environment variable names that will be available for the Edge Function to utilize.\n\nDefaults to `undefined`<!-- -->.\n\n\n</td></tr>\n</tbody></table>",
-      "editUrl": "https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/adapters/vercel-edge/vite/index.ts",
-      "mdFile": "qwik-city.verceledgeadapteroptions.md"
+      "content": "```typescript\nexport interface ServerlessFunctionConfig \n```\n\n\n<table><thead><tr><th>\n\nProperty\n\n\n</th><th>\n\nModifiers\n\n\n</th><th>\n\nType\n\n\n</th><th>\n\nDescription\n\n\n</th></tr></thead>\n<tbody><tr><td>\n\n[environment?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nRecord&lt;string, string&gt;\\[\\]\n\n\n</td><td>\n\n_(Optional)_ Map of additional environment variables that will be available to the Serverless Function, in addition to the env vars specified in the Project Settings.\n\nRequired: No\n\n\n</td></tr>\n<tr><td>\n\n[handler](#)\n\n\n</td><td>\n\n\n</td><td>\n\nstring\n\n\n</td><td>\n\nIndicates the initial file where code will be executed for the Serverless Function.\n\nRequired: Yes\n\n\n</td></tr>\n<tr><td>\n\n[maxDuration?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nnumber\n\n\n</td><td>\n\n_(Optional)_ Maximum duration (in seconds) that will be allowed for the Serverless Function.\n\nRequired: No\n\n\n</td></tr>\n<tr><td>\n\n[memory?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nnumber\n\n\n</td><td>\n\n_(Optional)_ Amount of memory (RAM in MB) that will be allocated to the Serverless Function.\n\nRequired: No\n\n\n</td></tr>\n<tr><td>\n\n[regions?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nstring\\[\\]\n\n\n</td><td>\n\n_(Optional)_ List of Vercel Regions where the Serverless Function will be deployed to.\n\nRequired: No\n\n\n</td></tr>\n<tr><td>\n\n[runtime](#)\n\n\n</td><td>\n\n\n</td><td>\n\nstring\n\n\n</td><td>\n\nSpecifies which \"runtime\" will be used to execute the Serverless Function.\n\nRequired: Yes\n\n\n</td></tr>\n<tr><td>\n\n[supportsResponseStreaming?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nboolean\n\n\n</td><td>\n\n_(Optional)_ When true, the Serverless Function will stream the response to the client.\n\nRequired: No\n\n\n</td></tr>\n<tr><td>\n\n[supportsWrapper?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nboolean\n\n\n</td><td>\n\n_(Optional)_ True if a custom runtime has support for Lambda runtime wrappers.\n\nRequired: No\n\n\n</td></tr>\n</tbody></table>",
+      "editUrl": "https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/adapters/vercel/serverless/index.ts",
+      "mdFile": "qwik-city.serverlessfunctionconfig.md"
+    },
+    {
+      "name": "vercelServerlessAdapter",
+      "id": "vercelserverlessadapter",
+      "hierarchy": [
+        {
+          "name": "vercelServerlessAdapter",
+          "id": "vercelserverlessadapter"
+        }
+      ],
+      "kind": "Function",
+      "content": "```typescript\nexport declare function vercelServerlessAdapter(opts?: VercelServerlessAdapterOptions): any;\n```\n\n\n<table><thead><tr><th>\n\nParameter\n\n\n</th><th>\n\nType\n\n\n</th><th>\n\nDescription\n\n\n</th></tr></thead>\n<tbody><tr><td>\n\nopts\n\n\n</td><td>\n\n[VercelServerlessAdapterOptions](#vercelserverlessadapteroptions)\n\n\n</td><td>\n\n_(Optional)_\n\n\n</td></tr>\n</tbody></table>\n**Returns:**\n\nany",
+      "editUrl": "https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/adapters/vercel/serverless/index.ts",
+      "mdFile": "qwik-city.vercelserverlessadapter.md"
+    },
+    {
+      "name": "VercelServerlessAdapterOptions",
+      "id": "vercelserverlessadapteroptions",
+      "hierarchy": [
+        {
+          "name": "VercelServerlessAdapterOptions",
+          "id": "vercelserverlessadapteroptions"
+        }
+      ],
+      "kind": "Interface",
+      "content": "```typescript\nexport interface VercelServerlessAdapterOptions extends ServerAdapterOptions \n```\n**Extends:** ServerAdapterOptions\n\n\n<table><thead><tr><th>\n\nProperty\n\n\n</th><th>\n\nModifiers\n\n\n</th><th>\n\nType\n\n\n</th><th>\n\nDescription\n\n\n</th></tr></thead>\n<tbody><tr><td>\n\n[awsLambdaHandler?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nstring\n\n\n</td><td>\n\n_(Optional)_ AWS Handler Value for when the serverless function uses AWS Lambda syntax.\n\nRequired: No\n\n\n</td></tr>\n<tr><td>\n\n[environment?](#)\n\n\n</td><td>\n\n\n</td><td>\n\n{ \\[key: string\\]: string; }\n\n\n</td><td>\n\n_(Optional)_ Specifies environment variables for the serverless function.\n\nRequired: No\n\n\n</td></tr>\n<tr><td>\n\n[maxDuration?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nnumber\n\n\n</td><td>\n\n_(Optional)_ Specifies the maximum duration that the serverless function can run.\n\nRequired: No\n\n\n</td></tr>\n<tr><td>\n\n[memory?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nnumber\n\n\n</td><td>\n\n_(Optional)_ Specifies the memory allocation for the serverless function.\n\nRequired: No\n\n\n</td></tr>\n<tr><td>\n\n[outputConfig?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nboolean\n\n\n</td><td>\n\n_(Optional)_ Determines if the build should auto-generate the `.vercel/output/config.json` config.\n\nDefaults to `true`<!-- -->.\n\n\n</td></tr>\n<tr><td>\n\n[regions?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nstring\\[\\]\n\n\n</td><td>\n\n_(Optional)_ Specifies the regions in which the serverless function should run.\n\nRequired: No\n\n\n</td></tr>\n<tr><td>\n\n[runtime?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nstring\n\n\n</td><td>\n\n_(Optional)_ Specifies the runtime environment for the function, for example, Node.js, Deno, etc.\n\nRequired: No\n\n\n</td></tr>\n<tr><td>\n\n[shouldAddHelpers?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nboolean\n\n\n</td><td>\n\n_(Optional)_ Enables request and response helpers methods.\n\nRequired: No Default: false\n\n\n</td></tr>\n<tr><td>\n\n[shouldAddSourceMapSupport?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nboolean\n\n\n</td><td>\n\n_(Optional)_ Enables source map generation.\n\nRequired: No Default: false\n\n\n</td></tr>\n<tr><td>\n\n[staticPaths?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nstring\\[\\]\n\n\n</td><td>\n\n_(Optional)_ Manually add pathnames that should be treated as static paths and not SSR. For example, when these pathnames are requested, their response should come from a static file, rather than a server-side rendered response.\n\n\n</td></tr>\n<tr><td>\n\n[target?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nstring\n\n\n</td><td>\n\n_(Optional)_ Specifies the target platform for the deployment, such as Vercel, AWS, etc.\n\nRequired: No\n\n\n</td></tr>\n<tr><td>\n\n[vcConfigEntryPoint?](#)\n\n\n</td><td>\n\n\n</td><td>\n\nstring\n\n\n</td><td>\n\n_(Optional)_ The `entrypoint` property in the `.vc-config.json` file. Indicates the initial file where code will be executed for the Edge Function.\n\nDefaults to `entry.vercel-edge.js`<!-- -->.\n\n\n</td></tr>\n</tbody></table>",
+      "editUrl": "https://github.com/QwikDev/qwik/tree/main/packages/qwik-city/adapters/vercel/serverless/index.ts",
+      "mdFile": "qwik-city.vercelserverlessadapteroptions.md"
     }
   ]
 }

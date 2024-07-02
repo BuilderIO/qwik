@@ -49,3 +49,5 @@ test-results
 # Local Netlify folder
 .netlify
 sandbox
+
+.gitpod.yml
