@@ -22,6 +22,7 @@ export const rules = {
   'jsx-img': jsxImg,
   'jsx-a': jsxAtag,
   'no-use-visible-task': noUseVisibleTask,
+  'invalid-sync-closure':noSyncClosure,
 };
 
 export const configs = {
@@ -39,6 +40,7 @@ export const configs = {
       'qwik/jsx-img': 'warn',
       'qwik/jsx-a': 'warn',
       'qwik/no-use-visible-task': 'warn',
+      'qwik/invalid-sync-closure': 'warn',
     },
   },
   strict: {
@@ -55,6 +57,7 @@ export const configs = {
       'qwik/jsx-img': 'error',
       'qwik/jsx-a': 'error',
       'qwik/no-use-visible-task': 'warn',
+      'qwik/invalid-sync-closure': 'warn',
     },
   },
 };
